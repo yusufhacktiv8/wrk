@@ -1,0 +1,48 @@
+{
+  "name": "ceu",
+  "version": "0.0.1",
+  "description": "WRK Dashboard",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "dev": "nodemon ./bin/www",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yusufhacktiv8/wrk.git"
+  },
+  "author": "Yusuf",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yusufhacktiv8/wrk/issues"
+  },
+  "homepage": "https://github.com/yusufhacktiv8/wrk#readme",
+  "dependencies": {
+    "axios": "^0.16.2",
+    "bcrypt": "^1.0.3",
+    "body-parser": "~1.17.1",
+    "cookie-parser": "~1.4.3",
+    "cors": "^2.8.3",
+    "debug": "~2.6.3",
+    "ejs": "^2.5.6",
+    "exceljs": "^0.5.1",
+    "express": "~4.15.2",
+    "express-fileupload": "^0.2.0",
+    "jsonwebtoken": "^7.4.1",
+    "lodash": "^4.17.4",
+    "mathjs": "^3.16.3",
+    "moment": "^2.18.1",
+    "morgan": "~1.8.1",
+    "password-generator": "^2.1.0",
+    "pg": "^6.2.4",
+    "sequelize": "^4.3.51",
+    "serve-favicon": "~2.4.2",
+  },
+  "devDependencies": {
+    "chai": "^4.0.2",
+    "chai-http": "^3.0.0",
+    "mocha": "^3.4.2"
+  }
+}
