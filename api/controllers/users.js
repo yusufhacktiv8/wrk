@@ -70,7 +70,12 @@ exports.create = function create(req, res) {
   })
   .then((role) => {
     bcrypt.hash(userForm.password, saltRounds, (err, hash) => {
-      models.User.create({ ...userForm, password: hash })
+      models.User.create({
+        username: userForm.username,
+        name: userForm.name,
+        password: hash,
+        email: userForm.email,
+      })
       .then((user) => {
         user.setRole(role)
         .then((result) => {
