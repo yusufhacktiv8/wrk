@@ -47,7 +47,7 @@ class NormalLoginForm extends React.Component {
       <Form onSubmit={this.handleSubmit} className="login-form">
         <div style={{ width: 215, marginLeft: 'auto', marginRight: 'auto', marginBottom: 30 }}>
           <span style={{ fontSize: 14, fontWeight: 'bold', color: '#5093E1', border: '1px dotted silver', borderRadius: 50, padding: 7 }}>
-            <span style={{ color: '#5093E1' }}>Clinical Education Unit &trade;</span>
+            <span style={{ color: '#5093E1' }}>WRK Dashboard &trade;</span>
           </span>
         </div>
         <FormItem>
@@ -58,7 +58,7 @@ class NormalLoginForm extends React.Component {
               prefix={<Icon type="user"style={{ color: 'rgba(0,0,0,.25)' }} />}
               placeholder="Username"
               maxLength={30}
-            />
+            />,
           )}
         </FormItem>
         <FormItem>
@@ -69,7 +69,7 @@ class NormalLoginForm extends React.Component {
               prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
               type="password" placeholder="Password"
               maxLength={30}
-            />
+            />,
           )}
         </FormItem>
         <FormItem>
@@ -77,7 +77,7 @@ class NormalLoginForm extends React.Component {
             valuePropName: 'checked',
             initialValue: true,
           })(
-            <Checkbox>Remember me</Checkbox>
+            <Checkbox>Remember me</Checkbox>,
           )}
           <a className="login-form-forgot" href="">Forgot password?</a>
           <Button type="primary" htmlType="submit" className="login-form-button">
@@ -86,7 +86,7 @@ class NormalLoginForm extends React.Component {
           Or <a href="">register now!</a>
         </FormItem>
         <div style={{ color: 'silver', fontSize: 12 }}>
-          Clinical Education Unit Universitas Muslim Indonesia. © UMI 2018. All rights reserved.
+          WIKA Rekon Dashboard. © WRK 2018. All rights reserved.
         </div>
       </Form>
     );
