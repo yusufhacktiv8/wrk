@@ -5,6 +5,7 @@ import { Route, Link } from 'react-router-dom';
 import RolePage from '../role/RolePage';
 import UserPage from '../user/UserPage';
 import DashboardPage from '../dashboard/DashboardPage';
+import RevenuePage from '../revenue/RevenuePage';
 
 const { Header, Content } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -55,6 +56,8 @@ class Workspace extends Component {
       selectedKeys = ['roles'];
     } else if (location.includes('users')) {
       selectedKeys = ['users'];
+    } else if (location.includes('revenues')) {
+      selectedKeys = ['revenues'];
     }
     return (
       <Layout style={{ height: '100%' }}>
@@ -95,6 +98,16 @@ class Workspace extends Component {
                     }}
                   ><Icon type="pie-chart" />Dashboard</Link>
                 </Menu.Item>
+                <Menu.Item key="revenues">
+                  <Link
+                    to="/revenues"
+                    onClick={() => {
+                      this.setState({
+                        selectedKeys: ['revenues'],
+                      });
+                    }}
+                  ><Icon type="profile" />Hasil Usaha</Link>
+                </Menu.Item>
 
                 <SubMenu title={<span><Icon type="setting" />Settings</span>}>
                   <MenuItemGroup title="Security">
@@ -114,6 +127,7 @@ class Workspace extends Component {
             <Route exact path="/" component={DashboardPage} />
             <Route path="/roles" component={RolePage} />
             <Route path="/users" component={UserPage} />
+            <Route path="/revenues" component={RevenuePage} />
           </div>
         </Content>
       </Layout>
