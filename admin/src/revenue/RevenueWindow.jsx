@@ -51,7 +51,7 @@ class RevenueWindow extends Component {
     return (
       <Modal
         wrapClassName="vertical-center-modal"
-        width={700}
+        width={900}
         visible={visible}
         title="Hasil Usaha"
         okText="Save"

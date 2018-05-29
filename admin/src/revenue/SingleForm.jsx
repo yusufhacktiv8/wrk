@@ -7,13 +7,13 @@ const SingleForm = ({ form, revenue = {} }) => {
   const { getFieldDecorator } = form;
   return (
     <Form layout="vertical">
-      <Row>
+      <Row gutter={20}>
         <Col span={6}>
           <FormItem label="RKAP">
             {getFieldDecorator('rkap1', {
               initialValue: revenue.rkap1,
             })(
-              <InputNumber min={0} max={10000} step={0.1} />,
+              <InputNumber min={0} max={10000} step={0.1} style={{ width: '100%' }} />,
             )}
           </FormItem>
         </Col>
@@ -22,7 +22,7 @@ const SingleForm = ({ form, revenue = {} }) => {
             {getFieldDecorator('ra1', {
               initialValue: revenue.ra1,
             })(
-              <InputNumber min={0} max={10000} step={0.1} />,
+              <InputNumber min={0} max={10000} step={0.1} style={{ width: '100%' }} />,
             )}
           </FormItem>
         </Col>
@@ -31,7 +31,7 @@ const SingleForm = ({ form, revenue = {} }) => {
             {getFieldDecorator('ri1', {
               initialValue: revenue.ri1,
             })(
-              <InputNumber min={0} max={10000} step={0.1} />,
+              <InputNumber min={0} max={10000} step={0.1} style={{ width: '100%' }} />,
             )}
           </FormItem>
         </Col>
@@ -40,7 +40,7 @@ const SingleForm = ({ form, revenue = {} }) => {
             {getFieldDecorator('prognosa1', {
               initialValue: revenue.prognosa1,
             })(
-              <InputNumber min={0} max={10000} step={0.1} />,
+              <InputNumber min={0} max={10000} step={0.1} style={{ width: '100%' }} />,
             )}
           </FormItem>
         </Col>
