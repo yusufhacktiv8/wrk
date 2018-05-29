@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
-import { Modal, Form, Input, Button, message } from 'antd';
+import { Modal, Button, Tabs, message } from 'antd';
 import axios from 'axios';
 import showError from '../utils/ShowError';
+import './RevenueWindow.css';
+
+import ContractForm from './ContractForm';
+import SingleForm from './SingleForm';
 
 const REVENUES_URL = `${process.env.REACT_APP_SERVER_URL}/api/revenues`;
 
-const FormItem = Form.Item;
+const TabPane = Tabs.TabPane;
 
 class RevenueWindow extends Component {
   state = {
@@ -43,12 +47,13 @@ class RevenueWindow extends Component {
 
   render() {
     const { saving } = this.state;
-    const { visible, onCancel, form, revenue } = this.props;
-    const { getFieldDecorator } = form;
+    const { visible, onCancel, revenue } = this.props;
     return (
       <Modal
+        wrapClassName="vertical-center-modal"
+        width={700}
         visible={visible}
-        title="Revenue"
+        title="Hasil Usaha"
         okText="Save"
         footer={[
           <Button key="cancel" onClick={onCancel}>Cancel</Button>,
@@ -57,31 +62,50 @@ class RevenueWindow extends Component {
           </Button>,
         ]}
       >
-        <Form layout="vertical">
-          <FormItem label="Code">
-            {getFieldDecorator('code', {
-              initialValue: revenue.code,
-              rules: [
-                { required: true, message: 'Please input code' },
-              ],
-            })(
-              <Input maxLength="30" />,
-            )}
-          </FormItem>
-          <FormItem label="Name">
-            {getFieldDecorator('name', {
-              initialValue: revenue.name,
-              rules: [
-                { required: true, message: 'Please input name' },
-              ],
-            })(
-              <Input maxLength="50" />,
-            )}
-          </FormItem>
-        </Form>
+        <Tabs defaultActiveKey="1" style={{ minHeight: 445, marginTop: -20 }}>
+          <TabPane tab="Kontrak Dihadapi" key="1">
+            <Tabs defaultActiveKey="1" type="card">
+              <TabPane tab="Sisa Kontrak / Pesanan Tahun Lalu" key="1">
+                <ContractForm revenue={revenue} />
+              </TabPane>
+              <TabPane tab="Kontrak / Pesanan Baru" key="2">
+                <ContractForm revenue={revenue} />
+              </TabPane>
+            </Tabs>
+          </TabPane>
+          <TabPane tab="Penjualan" key="2">
+            <Tabs defaultActiveKey="1" type="card">
+              <TabPane tab="Sisa Kontrak / Pesanan Tahun Lalu" key="1">
+                <ContractForm revenue={revenue} />
+              </TabPane>
+              <TabPane tab="Kontrak / Pesanan Baru" key="2">
+                <ContractForm revenue={revenue} />
+              </TabPane>
+            </Tabs>
+          </TabPane>
+          <TabPane tab="Laba Kotor" key="3">
+            <Tabs defaultActiveKey="1" type="card">
+              <TabPane tab="Sisa Kontrak / Pesanan Tahun Lalu" key="1">
+                <ContractForm revenue={revenue} />
+              </TabPane>
+              <TabPane tab="Kontrak / Pesanan Baru" key="2">
+                <ContractForm revenue={revenue} />
+              </TabPane>
+            </Tabs>
+          </TabPane>
+          <TabPane tab="Biaya Usaha" key="4">
+            <SingleForm />
+          </TabPane>
+          <TabPane tab="Bunga" key="5">
+            <SingleForm />
+          </TabPane>
+          <TabPane tab="Laba Rugi Lain-lain" key="6">
+            <SingleForm />
+          </TabPane>
+        </Tabs>
       </Modal>
     );
   }
 }
 
-export default Form.create()(RevenueWindow);
+export default RevenueWindow;
