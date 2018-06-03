@@ -9,6 +9,23 @@ import ContractForm from './ContractForm';
 import SimpleForm from './SimpleForm';
 import MonthYearForm from '../common/MonthYearForm';
 
+const getUnitValues = (hasilUsaha, type1, type2) => (
+  {
+    rkap1: hasilUsaha[type1][type2].extern.rkap,
+    ra1: hasilUsaha[type1][type2].extern.ra,
+    ri1: hasilUsaha[type1][type2].extern.ri,
+    prognosa1: hasilUsaha[type1][type2].extern.prognosa,
+    rkap2: hasilUsaha[type1][type2].jo.rkap,
+    ra2: hasilUsaha[type1][type2].jo.ra,
+    ri2: hasilUsaha[type1][type2].jo.ri,
+    prognosa2: hasilUsaha[type1][type2].jo.prognosa,
+    rkap3: hasilUsaha[type1][type2].intern.rkap,
+    ra3: hasilUsaha[type1][type2].intern.ra,
+    ri3: hasilUsaha[type1][type2].intern.ri,
+    prognosa3: hasilUsaha[type1][type2].intern.prognosa,
+  }
+);
+
 const REVENUES_URL = `${process.env.REACT_APP_SERVER_URL}/api/revenues`;
 
 const TabPane = Tabs.TabPane;
@@ -77,6 +94,8 @@ class RevenueWindow extends Component {
   render() {
     const { saving } = this.state;
     const { visible, onCancel, revenue } = this.props;
+    const hasilUsaha = revenue.data ? JSON.parse(revenue.data) : null;
+
     return (
       <Modal
         wrapClassName="vertical-center-modal"
@@ -93,17 +112,21 @@ class RevenueWindow extends Component {
       >
         <Row style={{ mrginTop: -15, marginBottom: 15 }}>
           <Col>
-            <MonthYearForm ref={form => (this.monthYearForm = form)} />
+            <MonthYearForm
+              month={revenue.month}
+              year={revenue.year}
+              ref={form => (this.monthYearForm = form)}
+            />
           </Col>
         </Row>
         <Row>
           <Col>
-            <Tabs defaultActiveKey="1" style={{ minHeight: 400, marginTop: -20 }}>
+            <Tabs defaultActiveKey="1" style={{ minHeight: 410, marginTop: -20 }}>
               <TabPane forceRender tab="Kontrak Dihadapi" key="1">
                 <Tabs defaultActiveKey="1" type="card">
                   <TabPane forceRender tab="Sisa Kontrak / Pesanan Tahun Lalu" key="1">
                     <ContractForm
-                      revenue={revenue}
+                      obj={ hasilUsaha ? getUnitValues(hasilUsaha, 'kontrakDihadapi', 'pesananTahunLalu') : undefined}
                       ref={form => (this.contractForm1 = form)}
                     />
                   </TabPane>
