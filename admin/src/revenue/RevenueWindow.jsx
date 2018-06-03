@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Button, Tabs, message } from 'antd';
+import { Modal, Button, Tabs, Row, Col } from 'antd';
 import axios from 'axios';
 import showError from '../utils/ShowError';
 import './RevenueWindow.css';
@@ -7,6 +7,7 @@ import FormConverter from './FormConverter';
 
 import ContractForm from './ContractForm';
 import SimpleForm from './SimpleForm';
+import MonthYearForm from '../common/MonthYearForm';
 
 const REVENUES_URL = `${process.env.REACT_APP_SERVER_URL}/api/revenues`;
 
@@ -59,6 +60,20 @@ class RevenueWindow extends Component {
     // });
   }
 
+  resetFields() {
+    if (!this.contractForm1) return;
+
+    this.contractForm1.resetFields();
+    this.contractForm2.resetFields();
+    this.contractForm3.resetFields();
+    this.contractForm4.resetFields();
+    this.contractForm5.resetFields();
+    this.contractForm6.resetFields();
+    this.simpleForm1.resetFields();
+    this.simpleForm2.resetFields();
+    this.simpleForm3.resetFields();
+  }
+
   render() {
     const { saving } = this.state;
     const { visible, onCancel, revenue } = this.props;
@@ -76,65 +91,74 @@ class RevenueWindow extends Component {
           </Button>,
         ]}
       >
-        <Tabs defaultActiveKey="1" style={{ minHeight: 445, marginTop: -20 }}>
-          <TabPane forceRender tab="Kontrak Dihadapi" key="1">
-            <Tabs defaultActiveKey="1" type="card">
-              <TabPane forceRender tab="Sisa Kontrak / Pesanan Tahun Lalu" key="1">
-                <ContractForm
-                  revenue={revenue}
-                  ref={form => (this.contractForm1 = form)}
-                />
+        <Row style={{ mrginTop: -15, marginBottom: 15 }}>
+          <Col>
+            <MonthYearForm />
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Tabs defaultActiveKey="1" style={{ minHeight: 445, marginTop: -20 }}>
+              <TabPane forceRender tab="Kontrak Dihadapi" key="1">
+                <Tabs defaultActiveKey="1" type="card">
+                  <TabPane forceRender tab="Sisa Kontrak / Pesanan Tahun Lalu" key="1">
+                    <ContractForm
+                      revenue={revenue}
+                      ref={form => (this.contractForm1 = form)}
+                    />
+                  </TabPane>
+                  <TabPane forceRender tab="Kontrak / Pesanan Baru" key="2">
+                    <ContractForm
+                      revenue={revenue}
+                      ref={form => (this.contractForm2 = form)}
+                    />
+                  </TabPane>
+                </Tabs>
               </TabPane>
-              <TabPane forceRender tab="Kontrak / Pesanan Baru" key="2">
-                <ContractForm
-                  revenue={revenue}
-                  ref={form => (this.contractForm2 = form)}
-                />
+              <TabPane forceRender tab="Penjualan" key="2">
+                <Tabs defaultActiveKey="1" type="card">
+                  <TabPane forceRender tab="Sisa Kontrak / Pesanan Tahun Lalu" key="1">
+                    <ContractForm
+                      revenue={revenue}
+                      ref={form => (this.contractForm3 = form)}
+                    />
+                  </TabPane>
+                  <TabPane forceRender tab="Kontrak / Pesanan Baru" key="2">
+                    <ContractForm
+                      revenue={revenue}
+                      ref={form => (this.contractForm4 = form)}
+                    />
+                  </TabPane>
+                </Tabs>
+              </TabPane>
+              <TabPane forceRender tab="Laba Kotor" key="3">
+                <Tabs defaultActiveKey="1" type="card">
+                  <TabPane forceRender tab="Sisa Kontrak / Pesanan Tahun Lalu" key="1">
+                    <ContractForm
+                      revenue={revenue}
+                      ref={form => (this.contractForm5 = form)}
+                    />
+                  </TabPane>
+                  <TabPane forceRender tab="Kontrak / Pesanan Baru" key="2">
+                    <ContractForm
+                      revenue={revenue}
+                      ref={form => (this.contractForm6 = form)}
+                    />
+                  </TabPane>
+                </Tabs>
+              </TabPane>
+              <TabPane forceRender tab="Biaya Usaha" key="4">
+                <SimpleForm ref={form => (this.simpleForm1 = form)} />
+              </TabPane>
+              <TabPane forceRender tab="Bunga" key="5">
+                <SimpleForm ref={form => (this.simpleForm2 = form)} />
+              </TabPane>
+              <TabPane forceRender tab="Laba Rugi Lain-lain" key="6">
+                <SimpleForm ref={form => (this.simpleForm3 = form)} />
               </TabPane>
             </Tabs>
-          </TabPane>
-          <TabPane forceRender tab="Penjualan" key="2">
-            <Tabs defaultActiveKey="1" type="card">
-              <TabPane forceRender tab="Sisa Kontrak / Pesanan Tahun Lalu" key="1">
-                <ContractForm
-                  revenue={revenue}
-                  ref={form => (this.contractForm3 = form)}
-                />
-              </TabPane>
-              <TabPane forceRender tab="Kontrak / Pesanan Baru" key="2">
-                <ContractForm
-                  revenue={revenue}
-                  ref={form => (this.contractForm4 = form)}
-                />
-              </TabPane>
-            </Tabs>
-          </TabPane>
-          <TabPane forceRender tab="Laba Kotor" key="3">
-            <Tabs defaultActiveKey="1" type="card">
-              <TabPane forceRender tab="Sisa Kontrak / Pesanan Tahun Lalu" key="1">
-                <ContractForm
-                  revenue={revenue}
-                  ref={form => (this.contractForm5 = form)}
-                />
-              </TabPane>
-              <TabPane forceRender tab="Kontrak / Pesanan Baru" key="2">
-                <ContractForm
-                  revenue={revenue}
-                  ref={form => (this.contractForm6 = form)}
-                />
-              </TabPane>
-            </Tabs>
-          </TabPane>
-          <TabPane forceRender tab="Biaya Usaha" key="4">
-            <SimpleForm ref={form => (this.simpleForm1 = form)} />
-          </TabPane>
-          <TabPane forceRender tab="Bunga" key="5">
-            <SimpleForm ref={form => (this.simpleForm2 = form)} />
-          </TabPane>
-          <TabPane forceRender tab="Laba Rugi Lain-lain" key="6">
-            <SimpleForm ref={form => (this.simpleForm3 = form)} />
-          </TabPane>
-        </Tabs>
+          </Col>
+        </Row>
       </Modal>
     );
   }

@@ -80,7 +80,7 @@ class RevenueList extends Component {
       revenue: record,
       revenueWindowVisible: true,
     }, () => {
-      // this.revenueWindow.resetFields();
+      this.revenueWindow.resetFields();
     });
   }
 
