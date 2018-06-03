@@ -6,7 +6,7 @@ import './RevenueWindow.css';
 import FormConverter from './FormConverter';
 
 import ContractForm from './ContractForm';
-import SingleForm from './SingleForm';
+import SimpleForm from './SimpleForm';
 
 const REVENUES_URL = `${process.env.REACT_APP_SERVER_URL}/api/revenues`;
 
@@ -24,6 +24,11 @@ class RevenueWindow extends Component {
       contractForm2: this.contractForm2.getFieldsValue(),
       contractForm3: this.contractForm3.getFieldsValue(),
       contractForm4: this.contractForm4.getFieldsValue(),
+      contractForm5: this.contractForm5.getFieldsValue(),
+      contractForm6: this.contractForm6.getFieldsValue(),
+      simpleForm1: this.simpleForm1.getFieldsValue(),
+      simpleForm2: this.simpleForm2.getFieldsValue(),
+      simpleForm3: this.simpleForm3.getFieldsValue(),
     };
     const result = FormConverter(forms);
     console.log(result);
@@ -121,13 +126,13 @@ class RevenueWindow extends Component {
             </Tabs>
           </TabPane>
           <TabPane forceRender tab="Biaya Usaha" key="4">
-            <SingleForm />
+            <SimpleForm ref={form => (this.simpleForm1 = form)} />
           </TabPane>
           <TabPane forceRender tab="Bunga" key="5">
-            <SingleForm />
+            <SimpleForm ref={form => (this.simpleForm2 = form)} />
           </TabPane>
           <TabPane forceRender tab="Laba Rugi Lain-lain" key="6">
-            <SingleForm />
+            <SimpleForm ref={form => (this.simpleForm3 = form)} />
           </TabPane>
         </Tabs>
       </Modal>
