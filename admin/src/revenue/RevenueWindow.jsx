@@ -3,6 +3,7 @@ import { Modal, Button, Tabs, message } from 'antd';
 import axios from 'axios';
 import showError from '../utils/ShowError';
 import './RevenueWindow.css';
+import FormConverter from './FormConverter';
 
 import ContractForm from './ContractForm';
 import SingleForm from './SingleForm';
@@ -17,32 +18,40 @@ class RevenueWindow extends Component {
   }
 
   onSave = () => {
-    const { revenue, onSaveSuccess, form } = this.props;
-    form.validateFields((err, values) => {
-      if (err) {
-        return;
-      }
-      this.setState({
-        saving: true,
-      }, () => {
-        const revenueId = revenue.id;
-        const axiosObj = revenueId ? axios.put(`${REVENUES_URL}/${revenueId}`, values) : axios.post(REVENUES_URL, values);
-        axiosObj.then(() => {
-          message.success('Saving revenue success');
-          this.setState({
-            saving: false,
-          }, () => {
-            onSaveSuccess();
-          });
-        })
-          .catch((error) => {
-            this.setState({
-              saving: false,
-            });
-            showError(error);
-          });
-      });
-    });
+    const { revenue, onSaveSuccess } = this.props;
+    const forms = {
+      contractForm1: this.contractForm1.getFieldsValue(),
+      contractForm2: this.contractForm2.getFieldsValue(),
+      contractForm3: this.contractForm3.getFieldsValue(),
+      contractForm4: this.contractForm4.getFieldsValue(),
+    };
+    const result = FormConverter(forms);
+    console.log(result);
+    // form.validateFields((err, values) => {
+    //   if (err) {
+    //     return;
+    //   }
+    //   this.setState({
+    //     saving: true,
+    //   }, () => {
+    //     const revenueId = revenue.id;
+    //     const axiosObj = revenueId ? axios.put(`${REVENUES_URL}/${revenueId}`, values) : axios.post(REVENUES_URL, values);
+    //     axiosObj.then(() => {
+    //       message.success('Saving revenue success');
+    //       this.setState({
+    //         saving: false,
+    //       }, () => {
+    //         onSaveSuccess();
+    //       });
+    //     })
+    //       .catch((error) => {
+    //         this.setState({
+    //           saving: false,
+    //         });
+    //         showError(error);
+    //       });
+    //   });
+    // });
   }
 
   render() {
@@ -63,43 +72,61 @@ class RevenueWindow extends Component {
         ]}
       >
         <Tabs defaultActiveKey="1" style={{ minHeight: 445, marginTop: -20 }}>
-          <TabPane tab="Kontrak Dihadapi" key="1">
+          <TabPane forceRender tab="Kontrak Dihadapi" key="1">
             <Tabs defaultActiveKey="1" type="card">
-              <TabPane tab="Sisa Kontrak / Pesanan Tahun Lalu" key="1">
-                <ContractForm revenue={revenue} />
+              <TabPane forceRender tab="Sisa Kontrak / Pesanan Tahun Lalu" key="1">
+                <ContractForm
+                  revenue={revenue}
+                  ref={form => (this.contractForm1 = form)}
+                />
               </TabPane>
-              <TabPane tab="Kontrak / Pesanan Baru" key="2">
-                <ContractForm revenue={revenue} />
+              <TabPane forceRender tab="Kontrak / Pesanan Baru" key="2">
+                <ContractForm
+                  revenue={revenue}
+                  ref={form => (this.contractForm2 = form)}
+                />
               </TabPane>
             </Tabs>
           </TabPane>
-          <TabPane tab="Penjualan" key="2">
+          <TabPane forceRender tab="Penjualan" key="2">
             <Tabs defaultActiveKey="1" type="card">
-              <TabPane tab="Sisa Kontrak / Pesanan Tahun Lalu" key="1">
-                <ContractForm revenue={revenue} />
+              <TabPane forceRender tab="Sisa Kontrak / Pesanan Tahun Lalu" key="1">
+                <ContractForm
+                  revenue={revenue}
+                  ref={form => (this.contractForm3 = form)}
+                />
               </TabPane>
-              <TabPane tab="Kontrak / Pesanan Baru" key="2">
-                <ContractForm revenue={revenue} />
+              <TabPane forceRender tab="Kontrak / Pesanan Baru" key="2">
+                <ContractForm
+                  revenue={revenue}
+                  ref={form => (this.contractForm4 = form)}
+                />
               </TabPane>
             </Tabs>
           </TabPane>
-          <TabPane tab="Laba Kotor" key="3">
+          <TabPane forceRender tab="Laba Kotor" key="3">
             <Tabs defaultActiveKey="1" type="card">
-              <TabPane tab="Sisa Kontrak / Pesanan Tahun Lalu" key="1">
-                <ContractForm revenue={revenue} />
+              <TabPane forceRender tab="Sisa Kontrak / Pesanan Tahun Lalu" key="1">
+                <ContractForm
+                  revenue={revenue}
+                  ref={form => (this.contractForm5 = form)}
+                />
               </TabPane>
-              <TabPane tab="Kontrak / Pesanan Baru" key="2">
-                <ContractForm revenue={revenue} />
+              <TabPane forceRender tab="Kontrak / Pesanan Baru" key="2">
+                <ContractForm
+                  revenue={revenue}
+                  ref={form => (this.contractForm6 = form)}
+                />
               </TabPane>
             </Tabs>
           </TabPane>
-          <TabPane tab="Biaya Usaha" key="4">
+          <TabPane forceRender tab="Biaya Usaha" key="4">
             <SingleForm />
           </TabPane>
-          <TabPane tab="Bunga" key="5">
+          <TabPane forceRender tab="Bunga" key="5">
             <SingleForm />
           </TabPane>
-          <TabPane tab="Laba Rugi Lain-lain" key="6">
+          <TabPane forceRender tab="Laba Rugi Lain-lain" key="6">
             <SingleForm />
           </TabPane>
         </Tabs>

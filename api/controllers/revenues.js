@@ -35,13 +35,15 @@ exports.findOne = function findOne(req, res) {
 
 exports.create = function create(req, res) {
   const revenueForm = req.body;
-  models.Revenue.create(revenueForm)
-  .then((revenue) => {
-    res.json(revenue);
-  })
-  .catch((err) => {
-    sendError(err, res);
-  });
+  console.log(revenueForm);
+  res.json(revenueForm);
+  // models.Revenue.create(revenueForm)
+  // .then((revenue) => {
+  //   res.json(revenue);
+  // })
+  // .catch((err) => {
+  //   sendError(err, res);
+  // });
 };
 
 exports.update = function update(req, res) {
