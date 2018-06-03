@@ -62,7 +62,7 @@ class RevenueWindow extends Component {
 
   resetFields() {
     if (!this.contractForm1) return;
-
+    this.monthYearForm.resetFields();
     this.contractForm1.resetFields();
     this.contractForm2.resetFields();
     this.contractForm3.resetFields();
@@ -98,7 +98,7 @@ class RevenueWindow extends Component {
         </Row>
         <Row>
           <Col>
-            <Tabs defaultActiveKey="1" style={{ minHeight: 445, marginTop: -20 }}>
+            <Tabs defaultActiveKey="1" style={{ minHeight: 400, marginTop: -20 }}>
               <TabPane forceRender tab="Kontrak Dihadapi" key="1">
                 <Tabs defaultActiveKey="1" type="card">
                   <TabPane forceRender tab="Sisa Kontrak / Pesanan Tahun Lalu" key="1">
