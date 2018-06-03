@@ -126,12 +126,13 @@ class RevenueWindow extends Component {
                 <Tabs defaultActiveKey="1" type="card">
                   <TabPane forceRender tab="Sisa Kontrak / Pesanan Tahun Lalu" key="1">
                     <ContractForm
-                      obj={ hasilUsaha ? getUnitValues(hasilUsaha, 'kontrakDihadapi', 'pesananTahunLalu') : undefined}
+                      obj={hasilUsaha ? getUnitValues(hasilUsaha, 'kontrakDihadapi', 'pesananTahunLalu') : undefined}
                       ref={form => (this.contractForm1 = form)}
                     />
                   </TabPane>
                   <TabPane forceRender tab="Kontrak / Pesanan Baru" key="2">
                     <ContractForm
+                      obj={hasilUsaha ? getUnitValues(hasilUsaha, 'kontrakDihadapi', 'pesananBaru') : undefined}
                       revenue={revenue}
                       ref={form => (this.contractForm2 = form)}
                     />
@@ -142,13 +143,13 @@ class RevenueWindow extends Component {
                 <Tabs defaultActiveKey="1" type="card">
                   <TabPane forceRender tab="Sisa Kontrak / Pesanan Tahun Lalu" key="1">
                     <ContractForm
-                      revenue={revenue}
+                      obj={hasilUsaha ? getUnitValues(hasilUsaha, 'penjualan', 'pesananTahunLalu') : undefined}
                       ref={form => (this.contractForm3 = form)}
                     />
                   </TabPane>
                   <TabPane forceRender tab="Kontrak / Pesanan Baru" key="2">
                     <ContractForm
-                      revenue={revenue}
+                      obj={hasilUsaha ? getUnitValues(hasilUsaha, 'penjualan', 'pesananBaru') : undefined}
                       ref={form => (this.contractForm4 = form)}
                     />
                   </TabPane>
@@ -158,26 +159,35 @@ class RevenueWindow extends Component {
                 <Tabs defaultActiveKey="1" type="card">
                   <TabPane forceRender tab="Sisa Kontrak / Pesanan Tahun Lalu" key="1">
                     <ContractForm
-                      revenue={revenue}
+                      obj={hasilUsaha ? getUnitValues(hasilUsaha, 'labaKotor', 'pesananTahunLalu') : undefined}
                       ref={form => (this.contractForm5 = form)}
                     />
                   </TabPane>
                   <TabPane forceRender tab="Kontrak / Pesanan Baru" key="2">
                     <ContractForm
-                      revenue={revenue}
+                      obj={hasilUsaha ? getUnitValues(hasilUsaha, 'labaKotor', 'pesananBaru') : undefined}
                       ref={form => (this.contractForm6 = form)}
                     />
                   </TabPane>
                 </Tabs>
               </TabPane>
               <TabPane forceRender tab="Biaya Usaha" key="4">
-                <SimpleForm ref={form => (this.simpleForm1 = form)} />
+                <SimpleForm
+                  obj={hasilUsaha ? hasilUsaha.biayaUsaha : undefined}
+                  ref={form => (this.simpleForm1 = form)}
+                />
               </TabPane>
               <TabPane forceRender tab="Bunga" key="5">
-                <SimpleForm ref={form => (this.simpleForm2 = form)} />
+                <SimpleForm
+                  obj={hasilUsaha ? hasilUsaha.bunga : undefined}
+                  ref={form => (this.simpleForm2 = form)}
+                />
               </TabPane>
               <TabPane forceRender tab="Laba Rugi Lain-lain" key="6">
-                <SimpleForm ref={form => (this.simpleForm3 = form)} />
+                <SimpleForm
+                  obj={hasilUsaha ? hasilUsaha.labaRugiLain : undefined}
+                  ref={form => (this.simpleForm3 = form)}
+                />
               </TabPane>
             </Tabs>
           </Col>

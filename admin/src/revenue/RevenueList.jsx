@@ -6,6 +6,7 @@ import RevenueWindow from './RevenueWindow';
 
 const REVENUES_URL = `${process.env.REACT_APP_SERVER_URL}/api/revenues`;
 const Column = Table.Column;
+const PAGE_SIZE = 12;
 
 class RevenueList extends Component {
   state = {
@@ -136,20 +137,20 @@ class RevenueList extends Component {
               pagination={{
                 total: this.state.count,
                 current: this.state.currentPage,
-                pageSize: this.state.pageSize,
+                pageSize: PAGE_SIZE,
               }}
               onChange={this.pageChanged}
               size="small"
             >
               <Column
-                title="Bulan"
-                dataIndex="month"
-                key="month"
-              />
-              <Column
                 title="Tahun"
                 dataIndex="year"
                 key="year"
+              />
+              <Column
+                title="Bulan"
+                dataIndex="month"
+                key="month"
               />
               <Column
                 title="Action"

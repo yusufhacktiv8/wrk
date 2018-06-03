@@ -12,6 +12,7 @@ exports.findAll = function findAll(req, res) {
     where: {
       // year: searchYear || MINIMUM_YEAR,
     },
+    order: ['year', 'month'],
   })
   .then((revenues) => {
     res.json(revenues);
