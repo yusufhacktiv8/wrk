@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Button, Tabs, Row, Col } from 'antd';
+import { Modal, Button, Tabs, Row, Col, message } from 'antd';
 import axios from 'axios';
 import showError from '../utils/ShowError';
 import './RevenueWindow.css';
@@ -31,33 +31,33 @@ class RevenueWindow extends Component {
       simpleForm2: this.simpleForm2.getFieldsValue(),
       simpleForm3: this.simpleForm3.getFieldsValue(),
     };
-    const result = FormConverter(forms);
-    console.log(result);
-    // form.validateFields((err, values) => {
-    //   if (err) {
-    //     return;
-    //   }
-    //   this.setState({
-    //     saving: true,
-    //   }, () => {
-    //     const revenueId = revenue.id;
-    //     const axiosObj = revenueId ? axios.put(`${REVENUES_URL}/${revenueId}`, values) : axios.post(REVENUES_URL, values);
-    //     axiosObj.then(() => {
-    //       message.success('Saving revenue success');
-    //       this.setState({
-    //         saving: false,
-    //       }, () => {
-    //         onSaveSuccess();
-    //       });
-    //     })
-    //       .catch((error) => {
-    //         this.setState({
-    //           saving: false,
-    //         });
-    //         showError(error);
-    //       });
-    //   });
-    // });
+    const hasilUsaha = FormConverter(forms);
+    this.monthYearForm.validateFields((err, values) => {
+      if (err) {
+        return;
+      }
+      this.setState({
+        saving: true,
+      }, () => {
+        const data = { ...values, hasilUsaha };
+        const revenueId = revenue.id;
+        const axiosObj = revenueId ? axios.put(`${REVENUES_URL}/${revenueId}`, data) : axios.post(REVENUES_URL, data);
+        axiosObj.then(() => {
+          message.success('Saving revenue success');
+          this.setState({
+            saving: false,
+          }, () => {
+            onSaveSuccess();
+          });
+        })
+          .catch((error) => {
+            this.setState({
+              saving: false,
+            });
+            showError(error);
+          });
+      });
+    });
   }
 
   resetFields() {
@@ -93,7 +93,7 @@ class RevenueWindow extends Component {
       >
         <Row style={{ mrginTop: -15, marginBottom: 15 }}>
           <Col>
-            <MonthYearForm />
+            <MonthYearForm ref={form => (this.monthYearForm = form)} />
           </Col>
         </Row>
         <Row>
