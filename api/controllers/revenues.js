@@ -6,50 +6,6 @@ const sendError = (err, res) => {
   res.status(500).send(`Error while doing operation: ${err.name}, ${err.message}`);
 };
 
-exports.findAll = function findAll(req, res) {
-  const { searchYear } = req.query;
-  models.Revenue.findAndCountAll({
-    where: {
-      // year: searchYear || MINIMUM_YEAR,
-    },
-    order: ['year', 'month'],
-  })
-  .then((revenues) => {
-    res.json(revenues);
-  })
-  .catch((err) => {
-    sendError(err, res);
-  });
-};
-
-exports.findOne = function findOne(req, res) {
-  models.Revenue.findOne({
-    where: { id: req.params.revenueId },
-  })
-  .then((revenue) => {
-    res.json(revenue);
-  })
-  .catch((err) => {
-    sendError(err, res);
-  });
-};
-
-exports.create = function create(req, res) {
-  const revenueForm = req.body;
-  const data = JSON.stringify(revenueForm.hasilUsaha);
-  models.Revenue.create({
-    month: revenueForm.month,
-    year: revenueForm.year,
-    data,
-  })
-  .then((revenue) => {
-    res.json(revenue);
-  })
-  .catch((err) => {
-    sendError(err, res);
-  });
-};
-
 const insertOmzet = (year, month, data) => (
   new Promise((resolve, reject) => {
     let plan = 0;
@@ -84,6 +40,56 @@ const insertOmzet = (year, month, data) => (
   })
 );
 
+exports.findAll = function findAll(req, res) {
+  const { searchYear } = req.query;
+  models.Revenue.findAndCountAll({
+    where: {
+      // year: searchYear || MINIMUM_YEAR,
+    },
+    order: ['year', 'month'],
+  })
+  .then((revenues) => {
+    res.json(revenues);
+  })
+  .catch((err) => {
+    sendError(err, res);
+  });
+};
+
+exports.findOne = function findOne(req, res) {
+  models.Revenue.findOne({
+    where: { id: req.params.revenueId },
+  })
+  .then((revenue) => {
+    res.json(revenue);
+  })
+  .catch((err) => {
+    sendError(err, res);
+  });
+};
+
+exports.create = function create(req, res) {
+  const revenueForm = req.body;
+  const year = revenueForm.year;
+  const month = revenueForm.month;
+  const data = revenueForm.hasilUsaha;
+  const dataJSON = JSON.stringify(data);
+  models.Revenue.create({
+    year,
+    month,
+    data: dataJSON,
+  })
+  .then((result) => {
+    insertOmzet(year, month, data)
+    .then(() => {
+      res.json(result);
+    });
+  })
+  .catch((err) => {
+    sendError(err, res);
+  });
+};
+
 exports.update = function update(req, res) {
   const revenueForm = req.body;
   const year = revenueForm.year;
@@ -94,7 +100,7 @@ exports.update = function update(req, res) {
     {
       year,
       month,
-      dataJSON,
+      data: dataJSON,
     },
     {
       where: { id: req.params.revenueId },
