@@ -50,20 +50,60 @@ exports.create = function create(req, res) {
   });
 };
 
+const insertOmzet = (year, month, data) => (
+  new Promise((resolve, reject) => {
+    let plan = 0;
+    let actual = 0;
+    const externRa1 = data.kontrakDihadapi.pesananTahunLalu.extern.ra || 0;
+    const externRi1 = data.kontrakDihadapi.pesananTahunLalu.extern.ri || 0;
+
+    plan = externRa1;
+    actual = externRi1;
+
+    models.Omzet.destroy(
+      {
+        where: { year, month },
+      })
+    .then(() => {
+      models.Omzet.create({
+        year,
+        month,
+        plan,
+        actual,
+      })
+      .then((newOmzet) => {
+        resolve(newOmzet);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+    })
+    .catch((err) => {
+      reject(err);
+    });
+  })
+);
+
 exports.update = function update(req, res) {
   const revenueForm = req.body;
-  const data = JSON.stringify(revenueForm.hasilUsaha);
+  const year = revenueForm.year;
+  const month = revenueForm.month;
+  const data = revenueForm.hasilUsaha;
+  const dataJSON = JSON.stringify(data);
   models.Revenue.update(
     {
-      month: revenueForm.month,
-      year: revenueForm.year,
-      data,
+      year,
+      month,
+      dataJSON,
     },
     {
       where: { id: req.params.revenueId },
     })
   .then((result) => {
-    res.json(result);
+    insertOmzet(year, month, data)
+    .then(() => {
+      res.json(result);
+    });
   })
   .catch((err) => {
     sendError(err, res);
