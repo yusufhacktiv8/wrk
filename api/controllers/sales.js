@@ -7,10 +7,10 @@ const sendError = (err, res) => {
 };
 
 exports.findByYear = function findByYear(req, res) {
-  const { searchYear } = req.query;
+  const { year } = req.query;
   models.Sales.findAll({
     where: {
-      year: searchYear || MINIMUM_YEAR,
+      year: year || MINIMUM_YEAR,
     },
     order: ['year', 'month'],
   })

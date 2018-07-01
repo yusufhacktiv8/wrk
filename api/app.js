@@ -14,6 +14,7 @@ var security = require('./routes/security');
 var revenues = require('./routes/revenues');
 var omzets = require('./routes/omzets');
 var sales = require('./routes/sales');
+var credits = require('./routes/credits');
 
 var app = express();
 
@@ -39,6 +40,7 @@ app.use('/api/security', security);
 app.use('/api/revenues', revenues);
 app.use('/api/omzets', omzets);
 app.use('/api/sales', sales);
+app.use('/api/credits', credits);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

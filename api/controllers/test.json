@@ -1,0 +1,52 @@
+{
+  "kontrakDihadapi": {
+    "pesananTahunLalu": {
+      "extern": {
+        "rkap": 1.1
+      },
+      "jo": {
+        "ra": 2.9,
+        "ri": 77
+      },
+      "intern": {
+        "prognosa": 5
+      }
+    },
+    "pesananBaru": {
+      "extern": {},
+      "jo": {},
+      "intern": {}
+    }
+  },
+  "penjualan": {
+    "pesananTahunLalu": {
+      "extern": {},
+      "jo": {},
+      "intern": {}
+    },
+    "pesananBaru": {
+      "extern": {},
+      "jo": {},
+      "intern": {}
+    }
+  },
+  "labaKotor": {
+    "pesananTahunLalu": {
+      "extern": {},
+      "jo": {},
+      "intern": {}
+    },
+    "pesananBaru": {
+      "extern": {
+        "ra": 444
+      },
+      "jo": {},
+      "intern": {}
+    }
+  },
+  "biayaUsaha": {},
+  "bunga": {},
+  "labaRugiLain": {
+    "ra": 10000
+  }
+}
