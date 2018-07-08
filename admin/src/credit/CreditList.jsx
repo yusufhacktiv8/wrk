@@ -4,19 +4,19 @@ import { Table, Button, Input, Row, Col, message, Popconfirm } from 'antd';
 import showError from '../utils/ShowError';
 import CreditWindow from './CreditWindow';
 
-const ROLES_URL = `${process.env.REACT_APP_SERVER_URL}/api/roles`;
+const CREDITS_URL = `${process.env.REACT_APP_SERVER_URL}/api/credits`;
 const Column = Table.Column;
 
 class CreditList extends Component {
   state = {
     searchText: '',
-    role: {},
-    roles: [],
+    credit: {},
+    credits: [],
     loading: false,
     count: 0,
     currentPage: 1,
     pageSize: 10,
-    roleWindowVisible: false,
+    creditWindowVisible: false,
   }
   componentDidMount() {
     this.fetchCredits();
@@ -37,14 +37,14 @@ class CreditList extends Component {
     this.setState({
       loading: true,
     });
-    axios.get(ROLES_URL, { params: {
+    axios.get(CREDITS_URL, { params: {
       searchText: this.state.searchText,
       currentPage: this.state.currentPage,
       pageSize: this.state.pageSize,
     } })
       .then((response) => {
         this.setState({
-          roles: response.data.rows,
+          credits: response.data.rows,
           count: response.data.count,
           loading: false,
         });
@@ -65,11 +65,11 @@ class CreditList extends Component {
     }, () => { this.fetchCredits(); });
   }
 
-  deleteCredit(role) {
+  deleteCredit(credit) {
     const hide = message.loading('Action in progress..', 0);
-    axios.delete(`${ROLES_URL}/${role.id}`)
+    axios.delete(`${CREDITS_URL}/${credit.id}`)
       .then(() => {
-        message.success('Delete role success');
+        message.success('Delete credit success');
         this.fetchCredits();
       })
       .catch((error) => {
@@ -82,16 +82,16 @@ class CreditList extends Component {
 
   openEditWindow = (record) => {
     this.setState({
-      role: record,
-      roleWindowVisible: true,
+      credit: record,
+      creditWindowVisible: true,
     }, () => {
-      this.roleWindow.resetFields();
+      this.creditWindow.resetFields();
     });
   }
 
   closeEditWindow = () => {
     this.setState({
-      roleWindowVisible: false,
+      creditWindowVisible: false,
     });
   }
 
@@ -134,7 +134,7 @@ class CreditList extends Component {
         <Row>
           <Col span={24}>
             <Table
-              dataSource={this.state.roles}
+              dataSource={this.state.credits}
               style={{ marginTop: 20 }}
               rowKey="id"
               loading={this.state.loading}
@@ -147,36 +147,14 @@ class CreditList extends Component {
               size="small"
             >
               <Column
-                title="Code"
-                dataIndex="code"
-                key="code"
-                render={(columnText, record) => {
-                  const reg = new RegExp(this.state.searchText, 'gi');
-                  const match = columnText.match(reg);
-                  return (
-                    <span key={record.code}>
-                      {columnText.split(reg).map((text, i) => (
-                        i > 0 ? [<span key={record.code} style={{ color: '#F50' }}>{match[0]}</span>, text] : text
-                      ))}
-                    </span>
-                  );
-                }}
+                title="Tahun"
+                dataIndex="year"
+                key="year"
               />
               <Column
-                title="Name"
-                dataIndex="name"
-                key="name"
-                render={(columnText, record) => {
-                  const reg = new RegExp(this.state.searchText, 'gi');
-                  const match = columnText.match(reg);
-                  return (
-                    <span key={record.code}>
-                      {columnText.split(reg).map((text, i) => (
-                        i > 0 ? [<span key={record.code} style={{ color: '#F50' }}>{match[0]}</span>, text] : text
-                      ))}
-                    </span>
-                  );
-                }}
+                title="Bulan"
+                dataIndex="month"
+                key="month"
               />
               <Column
                 title="Action"
@@ -190,7 +168,7 @@ class CreditList extends Component {
                       style={{ marginRight: 5 }}
                     />
                     <Popconfirm
-                      title={`Are you sure delete role ${record.name}`}
+                      title={`Are you sure delete credit ${record.name}`}
                       onConfirm={() => this.deleteCredit(record)}
                       okText="Yes" cancelText="No"
                     >
@@ -208,12 +186,12 @@ class CreditList extends Component {
         </Row>
 
         <CreditWindow
-          visible={this.state.roleWindowVisible}
+          visible={this.state.creditWindowVisible}
           onSaveSuccess={this.onSaveSuccess}
           onCancel={this.closeEditWindow}
           onClose={this.closeEditWindow}
-          role={this.state.role}
-          ref={roleWindow => (this.roleWindow = roleWindow)}
+          credit={this.state.credit}
+          ref={creditWindow => (this.creditWindow = creditWindow)}
         />
       </div>
     );

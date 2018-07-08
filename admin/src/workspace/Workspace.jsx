@@ -6,6 +6,7 @@ import RolePage from '../role/RolePage';
 import UserPage from '../user/UserPage';
 import DashboardPage from '../dashboard/DashboardPage';
 import RevenuePage from '../revenue/RevenuePage';
+import CreditPage from '../credit/CreditPage';
 
 const { Header, Content } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -58,6 +59,8 @@ class Workspace extends Component {
       selectedKeys = ['users'];
     } else if (location.includes('revenues')) {
       selectedKeys = ['revenues'];
+    } else if (location.includes('credits')) {
+      selectedKeys = ['credits'];
     }
     return (
       <Layout style={{ height: '100%' }}>
@@ -108,6 +111,16 @@ class Workspace extends Component {
                     }}
                   ><Icon type="profile" />Hasil Usaha</Link>
                 </Menu.Item>
+                <Menu.Item key="credits">
+                  <Link
+                    to="/credits"
+                    onClick={() => {
+                      this.setState({
+                        selectedKeys: ['credits'],
+                      });
+                    }}
+                  ><Icon type="profile" />Piutang</Link>
+                </Menu.Item>
 
                 <SubMenu title={<span><Icon type="setting" />Settings</span>}>
                   <MenuItemGroup title="Security">
@@ -128,6 +141,7 @@ class Workspace extends Component {
             <Route path="/roles" component={RolePage} />
             <Route path="/users" component={UserPage} />
             <Route path="/revenues" component={RevenuePage} />
+            <Route path="/credits" component={CreditPage} />
           </div>
         </Content>
       </Layout>

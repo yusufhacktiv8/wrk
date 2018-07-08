@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { Modal, Form, Input, Button, message } from 'antd';
+import { Modal, Form, InputNumber, Button, message } from 'antd';
 import axios from 'axios';
 import showError from '../utils/ShowError';
+import YearSelect from '../common/YearSelect';
+import MonthSelect from '../common/MonthSelect';
 
 const CREDITS_URL = `${process.env.REACT_APP_SERVER_URL}/api/credits`;
 
@@ -58,24 +60,38 @@ class CreditWindow extends Component {
         ]}
       >
         <Form layout="vertical">
-          <FormItem label="Code">
-            {getFieldDecorator('code', {
-              initialValue: credit.code,
+          <FormItem label="Year">
+            {getFieldDecorator('year', {
+              initialValue: credit.year,
               rules: [
-                { required: true, message: 'Please input code' },
+                { required: true, message: 'Please input year' },
               ],
             })(
-              <Input maxLength="30" />,
+              <YearSelect />,
             )}
           </FormItem>
-          <FormItem label="Name">
-            {getFieldDecorator('name', {
-              initialValue: credit.name,
+          <FormItem label="Month">
+            {getFieldDecorator('month', {
+              initialValue: credit.month,
               rules: [
-                { required: true, message: 'Please input name' },
+                { required: true, message: 'Please input month' },
               ],
             })(
-              <Input maxLength="50" />,
+              <MonthSelect />,
+            )}
+          </FormItem>
+          <FormItem label="Piutang">
+            {getFieldDecorator('pu', {
+              initialValue: credit.pu,
+            })(
+              <InputNumber min={0} max={10000} step={0.1} style={{ width: '100%' }} />,
+            )}
+          </FormItem>
+          <FormItem label="Tagihan Bruto">
+            {getFieldDecorator('tb', {
+              initialValue: credit.tb,
+            })(
+              <InputNumber min={0} max={10000} step={0.1} style={{ width: '100%' }} />,
             )}
           </FormItem>
         </Form>
