@@ -17,6 +17,9 @@ var sales = require('./routes/sales');
 var credits = require('./routes/credits');
 var creditsByYear = require('./routes/credits_by_year');
 
+var projectUsers = require('./routes/project_users');
+var projects = require('./routes/projects');
+
 var app = express();
 
 // view engine setup
@@ -43,6 +46,8 @@ app.use('/api/omzets', omzets);
 app.use('/api/sales', sales);
 app.use('/api/credits', credits);
 app.use('/api/creditsbyyear', creditsByYear);
+app.use('/api/projectusers', projectUsers);
+app.use('/api/projects', projects);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
