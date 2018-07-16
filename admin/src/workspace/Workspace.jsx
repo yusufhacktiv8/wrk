@@ -7,6 +7,8 @@ import UserPage from '../user/UserPage';
 import DashboardPage from '../dashboard/DashboardPage';
 import RevenuePage from '../revenue/RevenuePage';
 import CreditPage from '../credit/CreditPage';
+import ProjectPage from '../project/ProjectPage';
+import ProjectUserPage from '../project_user/ProjectUserPage';
 
 const { Header, Content } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -61,6 +63,8 @@ class Workspace extends Component {
       selectedKeys = ['revenues'];
     } else if (location.includes('credits')) {
       selectedKeys = ['credits'];
+    } else if (location.includes('projects')) {
+      selectedKeys = ['projects'];
     }
     return (
       <Layout style={{ height: '100%' }}>
@@ -128,7 +132,11 @@ class Workspace extends Component {
                       <Link to="/users">Users</Link>
                     </Menu.Item>
                     <Menu.Item key="roles">
-                      <Link to="/roles">Roles</Link></Menu.Item>
+                      <Link to="/roles">Roles</Link>
+                    </Menu.Item>
+                    <Menu.Item key="projects">
+                      <Link to="/projects">Projects</Link>
+                    </Menu.Item>
                   </MenuItemGroup>
                 </SubMenu>
               </Menu>
@@ -142,6 +150,8 @@ class Workspace extends Component {
             <Route path="/users" component={UserPage} />
             <Route path="/revenues" component={RevenuePage} />
             <Route path="/credits" component={CreditPage} />
+            <Route path="/projectusers" component={ProjectUserPage} />
+            <Route path="/projects" component={ProjectPage} />
           </div>
         </Content>
       </Layout>
