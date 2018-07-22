@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Table, Button, Input, Row, Col, message, Popconfirm } from 'antd';
 import showError from '../utils/ShowError';
-import UserWindow from './UserWindow';
+import ProjectUserWindow from './ProjectUserWindow';
 
-const PROJECT_USERS_URL = `${process.env.REACT_APP_SERVER_URL}/api/hospitalusers`;
+const PROJECT_USERS_URL = `${process.env.REACT_APP_SERVER_URL}/api/projectusers`;
 const Column = Table.Column;
 
 class UserList extends Component {
@@ -188,7 +188,7 @@ class UserList extends Component {
           </Col>
         </Row>
 
-        <UserWindow
+        <ProjectUserWindow
           visible={this.state.userWindowVisible}
           onSaveSuccess={this.onSaveSuccess}
           onCancel={this.closeEditWindow}

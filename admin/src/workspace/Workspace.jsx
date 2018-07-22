@@ -57,14 +57,16 @@ class Workspace extends Component {
     let selectedKeys = 'dashboard';
     if (location.includes('roles')) {
       selectedKeys = ['roles'];
-    } else if (location.includes('users')) {
+    } else if (location.includes('users') && !location.includes('projectusers')) {
       selectedKeys = ['users'];
     } else if (location.includes('revenues')) {
       selectedKeys = ['revenues'];
     } else if (location.includes('credits')) {
       selectedKeys = ['credits'];
-    } else if (location.includes('projects')) {
+    } else if (location.includes('projects') && !location.includes('projectusers')) {
       selectedKeys = ['projects'];
+    } else if (location.includes('projectusers')) {
+      selectedKeys = ['projectusers'];
     }
     return (
       <Layout style={{ height: '100%' }}>
@@ -137,6 +139,9 @@ class Workspace extends Component {
                     <Menu.Item key="projects">
                       <Link to="/projects">Projects</Link>
                     </Menu.Item>
+                    <Menu.Item key="projectusers">
+                      <Link to="/projectusers">Project Users</Link>
+                    </Menu.Item>
                   </MenuItemGroup>
                 </SubMenu>
               </Menu>
@@ -150,8 +155,8 @@ class Workspace extends Component {
             <Route path="/users" component={UserPage} />
             <Route path="/revenues" component={RevenuePage} />
             <Route path="/credits" component={CreditPage} />
-            <Route path="/projectusers" component={ProjectUserPage} />
             <Route path="/projects" component={ProjectPage} />
+            <Route path="/projectusers" component={ProjectUserPage} />
           </div>
         </Content>
       </Layout>

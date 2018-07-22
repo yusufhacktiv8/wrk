@@ -9,7 +9,7 @@ const PROJECT_USERS_URL = `${process.env.REACT_APP_SERVER_URL}/api/projectusers`
 
 const FormItem = Form.Item;
 
-class UserWindow extends Component {
+class ProjectUserWindow extends Component {
   state = {
     saving: false,
   }
@@ -70,7 +70,7 @@ class UserWindow extends Component {
           </FormItem>
           <FormItem label="Project">
             {getFieldDecorator('project', {
-              initialValue: user.Project ? String(user.Project.id) : undefined,
+              initialValue: user.Project ? user.Project.id : undefined,
               rules: [
                 { required: true, message: 'Please input project' },
               ],
@@ -84,4 +84,4 @@ class UserWindow extends Component {
   }
 }
 
-export default Form.create()(UserWindow);
+export default Form.create()(ProjectUserWindow);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Layout } from 'antd';
-import UserList from './UserList';
+import ProjectUserList from './ProjectUserList';
 
 const { Header, Content } = Layout;
 
@@ -10,7 +10,7 @@ export default () => (
       <span>Settings &gt;</span><span className="page-header-title"> Project Users</span>
     </Header>
     <Content className="page-content">
-      <UserList />
+      <ProjectUserList />
     </Content>
   </Layout>
 );

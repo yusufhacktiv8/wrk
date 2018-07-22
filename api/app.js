@@ -19,6 +19,7 @@ var creditsByYear = require('./routes/credits_by_year');
 
 var projectUsers = require('./routes/project_users');
 var projects = require('./routes/projects');
+var usersByRole = require('./routes/users_by_role');
 
 var app = express();
 
@@ -48,6 +49,7 @@ app.use('/api/credits', credits);
 app.use('/api/creditsbyyear', creditsByYear);
 app.use('/api/projectusers', projectUsers);
 app.use('/api/projects', projects);
+app.use('/api/usersbyrole', usersByRole);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
