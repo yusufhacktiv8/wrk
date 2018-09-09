@@ -111,7 +111,7 @@ const dataReducer = (a, b) => ({
   prognosa: (a.prognosa || 0) + (b.prognosa || 0),
 });
 
-const getTotal = (data) => ({
+const getTotal = data => ({
   rkap: (data.pesananTahunLalu.extern.rkap || 0) +
   (data.pesananTahunLalu.jo.rkap || 0) +
   (data.pesananTahunLalu.intern.rkap || 0) +
@@ -146,6 +146,7 @@ const insertNetProfit = (year, month, data) => (
     // labaUsaha = biayaUsaha + labaKotorStlhPphFinal
     // labaKotorStlhPphFinal = pphFinal + labaKotor
     // pphFinal = 3% penjualan
+    console.log(data);
 
     const totalPenjualan = getTotal(penjualan);
     const pphFinal = {
@@ -161,10 +162,13 @@ const insertNetProfit = (year, month, data) => (
     const labaUsaha = [biayaUsaha, labaKotorStlhPphFinal].reduce(dataReducer);
     const result = [labaUsaha, bunga, labaRugiLain].reduce(dataReducer);
 
-    models.Revenue.create({
+    models.NetProfit.create({
       year,
       month,
-      ...result,
+      rkap: result.rkap,
+      ra: result.ra,
+      ri: result.ri,
+      prognosa: result.prognosa,
     })
     .then(() => {
       resolve();
@@ -251,7 +255,7 @@ exports.update = function update(req, res) {
     .then(() => {
       insertSales(year, month, data)
       .then(() => {
-        insertNetProfit()
+        insertNetProfit(year, month, data)
         .then(() => {
           res.json(result);
         });
