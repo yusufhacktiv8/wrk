@@ -104,6 +104,69 @@ const insertSales = (year, month, data) => (
   })
 );
 
+const dataReducer = (a, b) => ({
+  rkap: (a.rkap || 0) + (b.rkap || 0),
+  ra: (a.ra || 0) + (b.ra || 0),
+  ri: (a.ri || 0) + (b.ri || 0),
+  prognosa: (a.prognosa || 0) + (b.prognosa || 0),
+});
+
+const getTotal = (data) => ({
+  rkap: (data.pesananTahunLalu.extern.rkap || 0) +
+  (data.pesananTahunLalu.jo.rkap || 0) +
+  (data.pesananTahunLalu.intern.rkap || 0) +
+  (data.pesananBaru.extern.rkap || 0) +
+  (data.pesananBaru.jo.rkap || 0) +
+  (data.pesananBaru.intern.rkap || 0),
+  ra: (data.pesananTahunLalu.extern.ra || 0) +
+  (data.pesananTahunLalu.jo.ra || 0) +
+  (data.pesananTahunLalu.intern.ra || 0) +
+  (data.pesananBaru.extern.ra || 0) +
+  (data.pesananBaru.jo.ra || 0) +
+  (data.pesananBaru.intern.ra || 0),
+  ri: (data.pesananTahunLalu.extern.ri || 0) +
+  (data.pesananTahunLalu.jo.ri || 0) +
+  (data.pesananTahunLalu.intern.ri || 0) +
+  (data.pesananBaru.extern.ri || 0) +
+  (data.pesananBaru.jo.ri || 0) +
+  (data.pesananBaru.intern.ri || 0),
+  prognosa: (data.pesananTahunLalu.extern.prognosa || 0) +
+  (data.pesananTahunLalu.jo.prognosa || 0) +
+  (data.pesananTahunLalu.intern.prognosa || 0) +
+  (data.pesananBaru.extern.prognosa || 0) +
+  (data.pesananBaru.jo.prognosa || 0) +
+  (data.pesananBaru.intern.prognosa || 0),
+});
+
+const insertNetProfit = (year, month, data) => (
+  new Promise((resolve, reject) => {
+    const result = {
+      rkap: 0,
+      ra: 0,
+      ri: 0,
+      prognosa: 0,
+    };
+    const { biayaUsaha, bunga, labaRugiLain, labaKotor, penjualan } = data;
+
+    const pphFinal = {
+      rkap: 0.3 * (penjualan)
+    }
+
+    // result = labaUsaha + bunga + labaRugiLain
+    // labaUsaha = biayaUsaha + labaKotorStlhPphFinal
+    // labaKotorStlhPphFinal = pphFinal + labaKotor
+    // pphFinal = 3% penjualan
+
+    const totalPenjualan = getTotal(penjualan);
+    const biayaUsaha = {
+      rkap: totalPenjualan.rkap * 0.3,
+      ra: totalPenjualan.ra * 0.3,
+      ri: totalPenjualan.ri * 0.3,
+      rkap: totalPenjualan.rkap * 0.3,
+    }
+  })
+);
+
 exports.findAll = function findAll(req, res) {
   const { searchYear } = req.query;
   models.Revenue.findAndCountAll({
