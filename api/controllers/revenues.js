@@ -140,17 +140,7 @@ const getTotal = (data) => ({
 
 const insertNetProfit = (year, month, data) => (
   new Promise((resolve, reject) => {
-    const result = {
-      rkap: 0,
-      ra: 0,
-      ri: 0,
-      prognosa: 0,
-    };
     const { biayaUsaha, bunga, labaRugiLain, labaKotor, penjualan } = data;
-
-    const pphFinal = {
-      rkap: 0.3 * (penjualan)
-    }
 
     // result = labaUsaha + bunga + labaRugiLain
     // labaUsaha = biayaUsaha + labaKotorStlhPphFinal
@@ -158,12 +148,30 @@ const insertNetProfit = (year, month, data) => (
     // pphFinal = 3% penjualan
 
     const totalPenjualan = getTotal(penjualan);
-    const biayaUsaha = {
-      rkap: totalPenjualan.rkap * 0.3,
-      ra: totalPenjualan.ra * 0.3,
-      ri: totalPenjualan.ri * 0.3,
-      rkap: totalPenjualan.rkap * 0.3,
-    }
+    const pphFinal = {
+      rkap: 0.3 * (totalPenjualan.rkap),
+      ra: 0.3 * (totalPenjualan.ra),
+      ri: 0.3 * (totalPenjualan.ri),
+      prognosa: 0.3 * (totalPenjualan.prognosa),
+    };
+
+    const totalLabaKotor = getTotal(labaKotor);
+    const labaKotorStlhPphFinal = [pphFinal, totalLabaKotor].reduce(dataReducer);
+
+    const labaUsaha = [biayaUsaha, labaKotorStlhPphFinal].reduce(dataReducer);
+    const result = [labaUsaha, bunga, labaRugiLain].reduce(dataReducer);
+
+    models.Revenue.create({
+      year,
+      month,
+      ...result,
+    })
+    .then(() => {
+      resolve();
+    })
+    .catch((err) => {
+      reject(err);
+    });
   })
 );
 
@@ -211,7 +219,10 @@ exports.create = function create(req, res) {
     .then(() => {
       insertSales(year, month, data)
       .then(() => {
-        res.json(result);
+        insertNetProfit()
+        .then(() => {
+          res.json(result);
+        });
       });
     });
   })
@@ -240,7 +251,10 @@ exports.update = function update(req, res) {
     .then(() => {
       insertSales(year, month, data)
       .then(() => {
-        res.json(result);
+        insertNetProfit()
+        .then(() => {
+          res.json(result);
+        });
       });
     });
   })
