@@ -162,19 +162,25 @@ const insertNetProfit = (year, month, data) => (
     const labaUsaha = [biayaUsaha, labaKotorStlhPphFinal].reduce(dataReducer);
     const result = [labaUsaha, bunga, labaRugiLain].reduce(dataReducer);
 
-    models.NetProfit.create({
-      year,
-      month,
-      rkap: result.rkap,
-      ra: result.ra,
-      ri: result.ri,
-      prognosa: result.prognosa,
-    })
+    models.NetProfit.destroy(
+      {
+        where: { year, month },
+      })
     .then(() => {
-      resolve();
-    })
-    .catch((err) => {
-      reject(err);
+      models.NetProfit.create({
+        year,
+        month,
+        rkap: result.rkap,
+        ra: result.ra,
+        ri: result.ri,
+        prognosa: result.prognosa,
+      })
+      .then(() => {
+        resolve();
+      })
+      .catch((err) => {
+        reject(err);
+      });
     });
   })
 );
