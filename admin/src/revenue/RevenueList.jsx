@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Table, Button, Input, Row, Col, message, Popconfirm } from 'antd';
 import showError from '../utils/ShowError';
 import RevenueWindow from './RevenueWindow';
+import YearSelect from '../common/YearSelect';
 
 const REVENUES_URL = `${process.env.REACT_APP_SERVER_URL}/api/revenues`;
 const Column = Table.Column;
@@ -10,7 +11,7 @@ const PAGE_SIZE = 12;
 
 class RevenueList extends Component {
   state = {
-    searchYear: '',
+    searchYear: new Date().getFullYear(),
     revenue: {},
     revenues: [],
     loading: false,
@@ -22,7 +23,7 @@ class RevenueList extends Component {
 
   onSearchChange = (e) => {
     this.setState({
-      searchYear: e.target.value,
+      searchYear: e,
     });
   }
 
@@ -102,12 +103,10 @@ class RevenueList extends Component {
     return (
       <div>
         <Row gutter={10}>
-          <Col span={8}>
-            <Input
+          <Col span={2}>
+            <YearSelect
               value={this.state.searchYear}
               onChange={this.onSearchChange}
-              placeholder="Name or SID"
-              maxLength="50"
             />
           </Col>
           <Col span={16}>

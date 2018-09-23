@@ -47,6 +47,7 @@ class YearSelect extends Component {
         placeholder="Year"
         onChange={this.handleChange}
         value={this.state.value}
+        style={{ width: '100%' }}
       >
         {this.state.years.map(obj => (
           <Option value={obj}>{obj}</Option>

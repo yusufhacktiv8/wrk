@@ -189,7 +189,7 @@ exports.findAll = function findAll(req, res) {
   const { searchYear } = req.query;
   models.Revenue.findAndCountAll({
     where: {
-      // year: searchYear || MINIMUM_YEAR,
+      year: searchYear || MINIMUM_YEAR,
     },
     order: ['year', 'month'],
   })
