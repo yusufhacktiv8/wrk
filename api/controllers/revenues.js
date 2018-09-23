@@ -187,11 +187,16 @@ const insertNetProfit = (year, month, data) => (
 
 exports.findAll = function findAll(req, res) {
   const { searchYear } = req.query;
+  const limit = req.query.pageSize ? parseInt(req.query.pageSize, 10) : 10;
+  const currentPage = req.query.currentPage ? parseInt(req.query.currentPage, 10) : 1;
+  const offset = (currentPage - 1) * limit;
   models.Revenue.findAndCountAll({
     where: {
       year: searchYear || MINIMUM_YEAR,
     },
     order: ['year', 'month'],
+    limit,
+    offset,
   })
   .then((revenues) => {
     res.json(revenues);

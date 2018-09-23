@@ -7,13 +7,13 @@ const sendError = (err, res) => {
 };
 
 exports.findAll = function findAll(req, res) {
-  const { year } = req.query || MINIMUM_YEAR;
+  const { searchYear } = req.query;
   const limit = req.query.pageSize ? parseInt(req.query.pageSize, 10) : 10;
   const currentPage = req.query.currentPage ? parseInt(req.query.currentPage, 10) : 1;
   const offset = (currentPage - 1) * limit;
   models.Credit.findAndCountAll({
     where: {
-      // year,
+      year: searchYear || MINIMUM_YEAR,
     },
     order: ['year', 'month'],
     limit,

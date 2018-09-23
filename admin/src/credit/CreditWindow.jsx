@@ -50,7 +50,7 @@ class CreditWindow extends Component {
     return (
       <Modal
         visible={visible}
-        title="Credit"
+        title="Piutang"
         okText="Save"
         footer={[
           <Button key="cancel" onClick={onCancel}>Cancel</Button>,

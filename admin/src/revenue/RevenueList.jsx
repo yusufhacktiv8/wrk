@@ -38,6 +38,8 @@ class RevenueList extends Component {
     });
     axios.get(REVENUES_URL, { params: {
       searchYear: this.state.searchYear,
+      currentPage: this.state.currentPage,
+      pageSize: this.state.pageSize,
     } })
       .then((response) => {
         this.setState({
@@ -103,7 +105,7 @@ class RevenueList extends Component {
     return (
       <div>
         <Row gutter={10}>
-          <Col span={2}>
+          <Col span={6}>
             <YearSelect
               value={this.state.searchYear}
               onChange={this.onSearchChange}

@@ -3,13 +3,14 @@ import axios from 'axios';
 import { Table, Button, Input, Row, Col, message, Popconfirm } from 'antd';
 import showError from '../utils/ShowError';
 import CreditWindow from './CreditWindow';
+import YearSelect from '../common/YearSelect';
 
 const CREDITS_URL = `${process.env.REACT_APP_SERVER_URL}/api/credits`;
 const Column = Table.Column;
 
 class CreditList extends Component {
   state = {
-    searchText: '',
+    searchYear: new Date().getFullYear(),
     credit: {},
     credits: [],
     loading: false,
@@ -24,7 +25,7 @@ class CreditList extends Component {
 
   onSearchChange = (e) => {
     this.setState({
-      searchText: e.target.value,
+      searchYear: e,
     });
   }
 
@@ -38,7 +39,7 @@ class CreditList extends Component {
       loading: true,
     });
     axios.get(CREDITS_URL, { params: {
-      searchText: this.state.searchText,
+      searchYear: this.state.searchYear,
       currentPage: this.state.currentPage,
       pageSize: this.state.pageSize,
     } })
@@ -106,12 +107,10 @@ class CreditList extends Component {
     return (
       <div>
         <Row gutter={10}>
-          <Col span={8}>
-            <Input
-              value={this.state.searchText}
+          <Col span={6}>
+            <YearSelect
+              value={this.state.searchYear}
               onChange={this.onSearchChange}
-              placeholder="Name or SID"
-              maxLength="50"
             />
           </Col>
           <Col span={16}>
