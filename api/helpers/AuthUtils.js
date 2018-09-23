@@ -12,18 +12,6 @@ const isAuthorizedAsAdmin = function(req, res, next) {
   });
 };
 
-const isAuthorizedAsBakordik = function(req, res, next) {
-  const token = req.headers.token;
-
-  jwt.verify(token, process.env.TOKEN_PASSWORD, function(err, decoded) {
-    if (decoded && decoded.role === 'BAKORDIK') {
-      next();
-    } else {
-      res.send('Unauthorized', 403);
-    }
-  });
-};
-
 const isAuthenticated = function(req, res, next) {
   const token = req.headers.token;
 

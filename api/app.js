@@ -21,6 +21,8 @@ var projectUsers = require('./routes/project_users');
 var projects = require('./routes/projects');
 var usersByRole = require('./routes/users_by_role');
 
+var netProfit = require('./routes/net_profit');
+
 var app = express();
 
 // view engine setup
@@ -50,6 +52,7 @@ app.use('/api/creditsbyyear', creditsByYear);
 app.use('/api/projectusers', projectUsers);
 app.use('/api/projects', projects);
 app.use('/api/usersbyrole', usersByRole);
+app.use('/api/netprofit', netProfit);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
