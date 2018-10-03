@@ -234,7 +234,7 @@ exports.create = function create(req, res) {
     .then(() => {
       insertSales(year, month, data)
       .then(() => {
-        insertNetProfit()
+        insertNetProfit(year, month, data)
         .then(() => {
           res.json(result);
         });
