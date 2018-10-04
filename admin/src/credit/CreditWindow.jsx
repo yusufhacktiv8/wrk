@@ -84,14 +84,14 @@ class CreditWindow extends Component {
             {getFieldDecorator('pu', {
               initialValue: credit.pu,
             })(
-              <InputNumber min={0} max={10000} step={0.1} style={{ width: '100%' }} />,
+              <InputNumber min={0} max={1000000000} step={0.1} precision={2} style={{ width: '100%' }} />,
             )}
           </FormItem>
           <FormItem label="Tagihan Bruto">
             {getFieldDecorator('tb', {
               initialValue: credit.tb,
             })(
-              <InputNumber min={0} max={10000} step={0.1} style={{ width: '100%' }} />,
+              <InputNumber min={0} max={1000000000} step={0.1} precision={2} style={{ width: '100%' }} />,
             )}
           </FormItem>
         </Form>
