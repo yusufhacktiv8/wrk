@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { Modal, Form, Input, Button, message } from 'antd';
+import { Modal, Form, Input, InputNumber, Button, Row, Col, Tabs, DatePicker, message } from 'antd';
 import axios from 'axios';
+import moment from 'moment';
 import showError from '../utils/ShowError';
 
 const PROJECTS_URL = `${process.env.REACT_APP_SERVER_URL}/api/projects`;
 
 const FormItem = Form.Item;
+const TabPane = Tabs.TabPane;
 
 class ProjectWindow extends Component {
   state = {
@@ -50,6 +52,7 @@ class ProjectWindow extends Component {
         visible={visible}
         title="Project"
         okText="Save"
+        width={600}
         footer={[
           <Button key="cancel" onClick={onCancel}>Cancel</Button>,
           <Button key="save" type="primary" loading={saving} onClick={this.onSave}>
@@ -58,26 +61,144 @@ class ProjectWindow extends Component {
         ]}
       >
         <Form layout="vertical">
-          <FormItem label="Code">
-            {getFieldDecorator('code', {
-              initialValue: project.code,
-              rules: [
-                { required: true, message: 'Please input code' },
-              ],
-            })(
-              <Input maxLength="30" />,
-            )}
-          </FormItem>
-          <FormItem label="Name">
-            {getFieldDecorator('name', {
-              initialValue: project.name,
-              rules: [
-                { required: true, message: 'Please input name' },
-              ],
-            })(
-              <Input maxLength="50" />,
-            )}
-          </FormItem>
+          <Row gutter={10}>
+            <Col span={6}>
+              <FormItem label="Code">
+                {getFieldDecorator('code', {
+                  initialValue: project.code,
+                  rules: [
+                    { required: true, message: 'Please input code' },
+                  ],
+                })(
+                  <Input maxLength="30" />,
+                )}
+              </FormItem>
+            </Col>
+            <Col span={18}>
+              <FormItem label="Name">
+                {getFieldDecorator('name', {
+                  initialValue: project.name,
+                  rules: [
+                    { required: true, message: 'Please input name' },
+                  ],
+                })(
+                  <Input maxLength="100" />,
+                )}
+              </FormItem>
+            </Col>
+          </Row>
+          <Tabs defaultActiveKey="1" type="card">
+            <TabPane forceRender tab="Info" key="1">
+              <FormItem label="Alamat">
+                {getFieldDecorator('address', {
+                  initialValue: project.address,
+                })(
+                  <Input maxLength="150" />,
+                )}
+              </FormItem>
+              <Row gutter={10}>
+                <Col span={12}>
+                  <FormItem label="Pemberi Kerja">
+                    {getFieldDecorator('owner', {
+                      initialValue: project.owner,
+                    })(
+                      <Input maxLength="80" />,
+                    )}
+                  </FormItem>
+                </Col>
+                <Col span={12}>
+                  <FormItem label="Omzet Kontrak">
+                    {getFieldDecorator('omzetKontrak', {
+                      initialValue: project.omzetKontrak,
+                    })(
+                      <InputNumber
+                        min={-1000000000}
+                        max={1000000000}
+                        step={0.1}
+                        precision={2}
+                        style={{ width: '100%' }}
+                      />,
+                    )}
+                  </FormItem>
+                </Col>
+              </Row>
+              <Row gutter={10}>
+                <Col span={12}>
+                  <FormItem label="Tanggal Mulai">
+                    {getFieldDecorator('startDate', {
+                      initialValue: project.startDate ? moment(project.startDate) : undefined,
+                    })(
+                      <DatePicker style={{ width: '100%' }} />,
+                    )}
+                  </FormItem>
+                </Col>
+                <Col span={12}>
+                  <FormItem label="Tanggal Selesai">
+                    {getFieldDecorator('endDate', {
+                      initialValue: project.endDate ? moment(project.endDate) : undefined,
+                    })(
+                      <DatePicker style={{ width: '100%' }} />,
+                    )}
+                  </FormItem>
+                </Col>
+              </Row>
+            </TabPane>
+            <TabPane forceRender tab="Team" key="2">
+              <Row>
+                <Col span={12}>
+                  <FormItem label="Project Manager">
+                    {getFieldDecorator('manager', {
+                      initialValue: project.manager,
+                    })(
+                      <Input maxLength="100" />,
+                    )}
+                  </FormItem>
+                </Col>
+              </Row>
+              <Row gutter={10}>
+                <Col span={12}>
+                  <FormItem label="Kasie Keu">
+                    {getFieldDecorator('kasieKeu', {
+                      initialValue: project.kasieKeu,
+                    })(
+                      <Input maxLength="100" />,
+                    )}
+                  </FormItem>
+                </Col>
+                <Col span={12}>
+                  <FormItem label="Kasie Kom">
+                    {getFieldDecorator('kasieKom', {
+                      initialValue: project.kasieKom,
+                    })(
+                      <Input maxLength="100" />,
+                    )}
+                  </FormItem>
+                </Col>
+              </Row>
+              <Row gutter={10}>
+                <Col span={12}>
+                  <FormItem label="Pelut">
+                    {getFieldDecorator('pelut', {
+                      initialValue: project.pelut,
+                    })(
+                      <Input maxLength="100" />,
+                    )}
+                  </FormItem>
+                </Col>
+                <Col span={12}>
+                  <FormItem label="Kasie Eng">
+                    {getFieldDecorator('kasieEng', {
+                      initialValue: project.kasieEng,
+                    })(
+                      <Input maxLength="100" />,
+                    )}
+                  </FormItem>
+                </Col>
+              </Row>
+            </TabPane>
+            <TabPane forceRender tab="BAST" key="3" disabled={project.id === undefined}>
+            </TabPane>
+          </Tabs>
         </Form>
       </Modal>
     );
