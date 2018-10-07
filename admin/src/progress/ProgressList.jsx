@@ -5,7 +5,7 @@ import showError from '../utils/ShowError';
 import ProgressWindow from './ProgressWindow';
 import YearSelect from '../common/YearSelect';
 
-const PROGRESSES_URL = `${process.env.REACT_APP_SERVER_URL}/api/progresses`;
+const PROGRESSES_URL = `${process.env.REACT_APP_SERVER_URL}/api/projectprogresses`;
 const Column = Table.Column;
 
 class ProgressList extends Component {

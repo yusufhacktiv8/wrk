@@ -7,6 +7,8 @@ module.exports = function(sequelize, DataTypes) {
     givenBy: DataTypes.STRING,
     startDate: DataTypes.DATEONLY,
     endDate: DataTypes.DATEONLY,
+    omzetKontrak: DataTypes.FLOAT,
+    projectType: DataTypes.INTEGER,
     mp: DataTypes.STRING,
     keu: DataTypes.STRING,
     kom: DataTypes.STRING,

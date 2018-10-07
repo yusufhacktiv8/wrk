@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Form, InputNumber, Button, message } from 'antd';
+import { Modal, Form, InputNumber, Button, Row, Col, message } from 'antd';
 import axios from 'axios';
 import showError from '../utils/ShowError';
 import YearSelect from '../common/YearSelect';
@@ -59,27 +59,33 @@ class CreditWindow extends Component {
           </Button>,
         ]}
       >
+        <Row gutter={10}>
+          <Col span={12}>
+            <FormItem label="Year">
+              {getFieldDecorator('year', {
+                initialValue: credit.year,
+                rules: [
+                  { required: true, message: 'Please input year' },
+                ],
+              })(
+                <YearSelect />,
+              )}
+            </FormItem>
+          </Col>
+          <Col span={12}>
+            <FormItem label="Month">
+              {getFieldDecorator('month', {
+                initialValue: credit.month,
+                rules: [
+                  { required: true, message: 'Please input month' },
+                ],
+              })(
+                <MonthSelect />,
+              )}
+            </FormItem>
+          </Col>
+        </Row>
         <Form layout="vertical">
-          <FormItem label="Year">
-            {getFieldDecorator('year', {
-              initialValue: credit.year,
-              rules: [
-                { required: true, message: 'Please input year' },
-              ],
-            })(
-              <YearSelect />,
-            )}
-          </FormItem>
-          <FormItem label="Month">
-            {getFieldDecorator('month', {
-              initialValue: credit.month,
-              rules: [
-                { required: true, message: 'Please input month' },
-              ],
-            })(
-              <MonthSelect />,
-            )}
-          </FormItem>
           <FormItem label="Piutang">
             {getFieldDecorator('pu', {
               initialValue: credit.pu,

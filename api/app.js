@@ -22,6 +22,7 @@ var projects = require('./routes/projects');
 var usersByRole = require('./routes/users_by_role');
 
 var netProfit = require('./routes/net_profit');
+var projectProgresses = require('./routes/project_progresses');
 
 var app = express();
 
@@ -53,6 +54,7 @@ app.use('/api/projectusers', projectUsers);
 app.use('/api/projects', projects);
 app.use('/api/usersbyrole', usersByRole);
 app.use('/api/netprofit', netProfit);
+app.use('/api/projectprogresses', projectProgresses);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

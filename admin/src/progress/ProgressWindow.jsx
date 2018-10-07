@@ -5,7 +5,7 @@ import showError from '../utils/ShowError';
 import YearSelect from '../common/YearSelect';
 import MonthSelect from '../common/MonthSelect';
 
-const PROGRESSES_URL = `${process.env.REACT_APP_SERVER_URL}/api/progresses`;
+const PROGRESSES_URL = `${process.env.REACT_APP_SERVER_URL}/api/projectprogresses`;
 
 const FormItem = Form.Item;
 

@@ -3,6 +3,8 @@ import { Modal, Form, Input, InputNumber, Button, Row, Col, Tabs, DatePicker, me
 import axios from 'axios';
 import moment from 'moment';
 import showError from '../utils/ShowError';
+import TypeSelect from './TypeSelect';
+import { dateFormat } from '../constant';
 
 const PROJECTS_URL = `${process.env.REACT_APP_SERVER_URL}/api/projects`;
 
@@ -24,7 +26,15 @@ class ProjectWindow extends Component {
         saving: true,
       }, () => {
         const projectId = project.id;
-        const axiosObj = projectId ? axios.put(`${PROJECTS_URL}/${projectId}`, values) : axios.post(PROJECTS_URL, values);
+        const fixedDateData = { ...values };
+        if (fixedDateData.startDate) {
+          fixedDateData.startDate = fixedDateData.startDate.format(dateFormat);
+        }
+        if (fixedDateData.endDate) {
+          fixedDateData.endDate = fixedDateData.endDate.format(dateFormat);
+        }
+
+        const axiosObj = projectId ? axios.put(`${PROJECTS_URL}/${projectId}`, fixedDateData) : axios.post(PROJECTS_URL, fixedDateData);
         axiosObj.then(() => {
           message.success('Saving project success');
           this.setState({
@@ -63,6 +73,18 @@ class ProjectWindow extends Component {
         <Form layout="vertical">
           <Row gutter={10}>
             <Col span={6}>
+              <FormItem label="Type">
+                {getFieldDecorator('projectType', {
+                  initialValue: project.projectType,
+                  rules: [
+                    { required: true, message: 'Please input type' },
+                  ],
+                })(
+                  <TypeSelect />,
+                )}
+              </FormItem>
+            </Col>
+            <Col span={6}>
               <FormItem label="Code">
                 {getFieldDecorator('code', {
                   initialValue: project.code,
@@ -74,7 +96,7 @@ class ProjectWindow extends Component {
                 )}
               </FormItem>
             </Col>
-            <Col span={18}>
+            <Col span={12}>
               <FormItem label="Name">
                 {getFieldDecorator('name', {
                   initialValue: project.name,
@@ -99,8 +121,8 @@ class ProjectWindow extends Component {
               <Row gutter={10}>
                 <Col span={12}>
                   <FormItem label="Pemberi Kerja">
-                    {getFieldDecorator('owner', {
-                      initialValue: project.owner,
+                    {getFieldDecorator('givenBy', {
+                      initialValue: project.givenBy,
                     })(
                       <Input maxLength="80" />,
                     )}
@@ -147,8 +169,8 @@ class ProjectWindow extends Component {
               <Row>
                 <Col span={12}>
                   <FormItem label="Project Manager">
-                    {getFieldDecorator('manager', {
-                      initialValue: project.manager,
+                    {getFieldDecorator('mp', {
+                      initialValue: project.mp,
                     })(
                       <Input maxLength="100" />,
                     )}
@@ -158,8 +180,8 @@ class ProjectWindow extends Component {
               <Row gutter={10}>
                 <Col span={12}>
                   <FormItem label="Kasie Keu">
-                    {getFieldDecorator('kasieKeu', {
-                      initialValue: project.kasieKeu,
+                    {getFieldDecorator('keu', {
+                      initialValue: project.keu,
                     })(
                       <Input maxLength="100" />,
                     )}
@@ -167,8 +189,8 @@ class ProjectWindow extends Component {
                 </Col>
                 <Col span={12}>
                   <FormItem label="Kasie Kom">
-                    {getFieldDecorator('kasieKom', {
-                      initialValue: project.kasieKom,
+                    {getFieldDecorator('kom', {
+                      initialValue: project.kom,
                     })(
                       <Input maxLength="100" />,
                     )}
@@ -187,8 +209,8 @@ class ProjectWindow extends Component {
                 </Col>
                 <Col span={12}>
                   <FormItem label="Kasie Eng">
-                    {getFieldDecorator('kasieEng', {
-                      initialValue: project.kasieEng,
+                    {getFieldDecorator('eng', {
+                      initialValue: project.eng,
                     })(
                       <Input maxLength="100" />,
                     )}
@@ -196,7 +218,7 @@ class ProjectWindow extends Component {
                 </Col>
               </Row>
             </TabPane>
-            <TabPane forceRender tab="BAST" key="3" disabled={project.id === undefined}>
+            <TabPane forceRender tab="BAST" key="3" disabled>
             </TabPane>
           </Tabs>
         </Form>
