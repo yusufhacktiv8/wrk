@@ -4,6 +4,7 @@ import axios from 'axios';
 import showError from '../utils/ShowError';
 import YearSelect from '../common/YearSelect';
 import MonthSelect from '../common/MonthSelect';
+import ProjectSelect from '../project/ProjectSelect';
 
 const PROGRESSES_URL = `${process.env.REACT_APP_SERVER_URL}/api/projectprogresses`;
 
@@ -61,6 +62,20 @@ class ProgressWindow extends Component {
       >
         <Form layout="vertical">
           <Row gutter={10}>
+            <Col span={24}>
+              <FormItem label="Project">
+                {getFieldDecorator('project', {
+                  initialValue: progress.Project ? progress.Project.id : undefined,
+                  rules: [
+                    { required: true, message: 'Please project' },
+                  ],
+                })(
+                  <ProjectSelect />,
+                )}
+              </FormItem>
+            </Col>
+          </Row>
+          <Row gutter={10}>
             <Col span={12}>
               <FormItem label="Year">
                 {getFieldDecorator('year', {
@@ -86,20 +101,26 @@ class ProgressWindow extends Component {
               </FormItem>
             </Col>
           </Row>
-          <FormItem label="Piutang">
-            {getFieldDecorator('pu', {
-              initialValue: progress.pu,
-            })(
-              <InputNumber min={-1000000000} max={1000000000} step={0.1} precision={2} style={{ width: '100%' }} />,
-            )}
-          </FormItem>
-          <FormItem label="Tagihan Bruto">
-            {getFieldDecorator('tb', {
-              initialValue: progress.tb,
-            })(
-              <InputNumber min={-1000000000} max={1000000000} step={0.1} precision={2} style={{ width: '100%' }} />,
-            )}
-          </FormItem>
+          <Row gutter={10}>
+            <Col span={12}>
+              <FormItem label="Ra Progress">
+                {getFieldDecorator('raProgress', {
+                  initialValue: progress.raProgress,
+                })(
+                  <InputNumber min={-1000000000} max={1000000000} step={0.1} precision={2} style={{ width: '100%' }} />,
+                )}
+              </FormItem>
+            </Col>
+            <Col span={12}>
+              <FormItem label="Ri Progress">
+                {getFieldDecorator('riProgress', {
+                  initialValue: progress.riProgress,
+                })(
+                  <InputNumber min={-1000000000} max={1000000000} step={0.1} precision={2} style={{ width: '100%' }} />,
+                )}
+              </FormItem>
+            </Col>
+          </Row>
         </Form>
       </Modal>
     );

@@ -167,7 +167,7 @@ class ProgressList extends Component {
                       style={{ marginRight: 5 }}
                     />
                     <Popconfirm
-                      title={`Are you sure delete progress ${record.name}`}
+                      title={`Are you sure delete progress ${record.Project.name}`}
                       onConfirm={() => this.deleteProgress(record)}
                       okText="Yes" cancelText="No"
                     >
