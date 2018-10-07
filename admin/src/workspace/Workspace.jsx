@@ -9,6 +9,7 @@ import RevenuePage from '../revenue/RevenuePage';
 import CreditPage from '../credit/CreditPage';
 import ProjectPage from '../project/ProjectPage';
 import ProjectUserPage from '../project_user/ProjectUserPage';
+import ProgressPage from '../progress/ProgressPage';
 
 const { Header, Content } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -65,6 +66,8 @@ class Workspace extends Component {
       selectedKeys = ['credits'];
     } else if (location.includes('projects') && !location.includes('projectusers')) {
       selectedKeys = ['projects'];
+    } else if (location.includes('progress')) {
+      selectedKeys = ['progress'];
     } else if (location.includes('projectusers')) {
       selectedKeys = ['projectusers'];
     }
@@ -127,6 +130,14 @@ class Workspace extends Component {
                     }}
                   ><Icon type="profile" />Piutang</Link>
                 </Menu.Item>
+                <SubMenu title={<span><Icon type="profile" />Projects</span>}>
+                  <Menu.Item key="projects">
+                    <Link to="/projects">Projects</Link>
+                  </Menu.Item>
+                  <Menu.Item key="progress">
+                    <Link to="/progress">Project Progress</Link>
+                  </Menu.Item>
+                </SubMenu>
 
                 <SubMenu title={<span><Icon type="setting" />Settings</span>}>
                   <MenuItemGroup title="Security">
@@ -135,9 +146,6 @@ class Workspace extends Component {
                     </Menu.Item>
                     <Menu.Item key="roles">
                       <Link to="/roles">Roles</Link>
-                    </Menu.Item>
-                    <Menu.Item key="projects">
-                      <Link to="/projects">Projects</Link>
                     </Menu.Item>
                     <Menu.Item key="projectusers">
                       <Link to="/projectusers">Project Users</Link>
@@ -157,6 +165,7 @@ class Workspace extends Component {
             <Route path="/credits" component={CreditPage} />
             <Route path="/projects" component={ProjectPage} />
             <Route path="/projectusers" component={ProjectUserPage} />
+            <Route path="/progress" component={ProgressPage} />
           </div>
         </Content>
       </Layout>

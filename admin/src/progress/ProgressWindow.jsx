@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
-import { Modal, Form, InputNumber, Button, message } from 'antd';
+import { Modal, Form, InputNumber, Button, Row, Col, message } from 'antd';
 import axios from 'axios';
 import showError from '../utils/ShowError';
 import YearSelect from '../common/YearSelect';
 import MonthSelect from '../common/MonthSelect';
 
-const CREDITS_URL = `${process.env.REACT_APP_SERVER_URL}/api/credits`;
+const PROGRESSES_URL = `${process.env.REACT_APP_SERVER_URL}/api/progresses`;
 
 const FormItem = Form.Item;
 
-class CreditWindow extends Component {
+class ProgressWindow extends Component {
   state = {
     saving: false,
   }
 
   onSave = () => {
-    const { credit, onSaveSuccess, form } = this.props;
+    const { progress, onSaveSuccess, form } = this.props;
     form.validateFields((err, values) => {
       if (err) {
         return;
@@ -23,10 +23,10 @@ class CreditWindow extends Component {
       this.setState({
         saving: true,
       }, () => {
-        const creditId = credit.id;
-        const axiosObj = creditId ? axios.put(`${CREDITS_URL}/${creditId}`, values) : axios.post(CREDITS_URL, values);
+        const progressId = progress.id;
+        const axiosObj = progressId ? axios.put(`${PROGRESSES_URL}/${progressId}`, values) : axios.post(PROGRESSES_URL, values);
         axiosObj.then(() => {
-          message.success('Saving credit success');
+          message.success('Saving progress success');
           this.setState({
             saving: false,
           }, () => {
@@ -45,7 +45,7 @@ class CreditWindow extends Component {
 
   render() {
     const { saving } = this.state;
-    const { visible, onCancel, form, credit } = this.props;
+    const { visible, onCancel, form, progress } = this.props;
     const { getFieldDecorator } = form;
     return (
       <Modal
@@ -60,36 +60,42 @@ class CreditWindow extends Component {
         ]}
       >
         <Form layout="vertical">
-          <FormItem label="Year">
-            {getFieldDecorator('year', {
-              initialValue: credit.year,
-              rules: [
-                { required: true, message: 'Please input year' },
-              ],
-            })(
-              <YearSelect />,
-            )}
-          </FormItem>
-          <FormItem label="Month">
-            {getFieldDecorator('month', {
-              initialValue: credit.month,
-              rules: [
-                { required: true, message: 'Please input month' },
-              ],
-            })(
-              <MonthSelect />,
-            )}
-          </FormItem>
+          <Row gutter={10}>
+            <Col span={12}>
+              <FormItem label="Year">
+                {getFieldDecorator('year', {
+                  initialValue: progress.year,
+                  rules: [
+                    { required: true, message: 'Please input year' },
+                  ],
+                })(
+                  <YearSelect />,
+                )}
+              </FormItem>
+            </Col>
+            <Col span={12}>
+              <FormItem label="Month">
+                {getFieldDecorator('month', {
+                  initialValue: progress.month,
+                  rules: [
+                    { required: true, message: 'Please input month' },
+                  ],
+                })(
+                  <MonthSelect />,
+                )}
+              </FormItem>
+            </Col>
+          </Row>
           <FormItem label="Piutang">
             {getFieldDecorator('pu', {
-              initialValue: credit.pu,
+              initialValue: progress.pu,
             })(
               <InputNumber min={-1000000000} max={1000000000} step={0.1} precision={2} style={{ width: '100%' }} />,
             )}
           </FormItem>
           <FormItem label="Tagihan Bruto">
             {getFieldDecorator('tb', {
-              initialValue: credit.tb,
+              initialValue: progress.tb,
             })(
               <InputNumber min={-1000000000} max={1000000000} step={0.1} precision={2} style={{ width: '100%' }} />,
             )}
@@ -100,4 +106,4 @@ class CreditWindow extends Component {
   }
 }
 
-export default Form.create()(CreditWindow);
+export default Form.create()(ProgressWindow);

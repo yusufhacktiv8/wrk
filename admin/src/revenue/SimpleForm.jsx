@@ -13,7 +13,7 @@ const SimpleForm = ({ form, obj = {} }) => {
             {getFieldDecorator('rkap', {
               initialValue: obj.rkap,
             })(
-              <InputNumber min={0} max={1000000000} step={0.1} precision={2} style={{ width: '100%' }} />,
+              <InputNumber min={-1000000000} max={1000000000} step={0.1} precision={2} style={{ width: '100%' }} />,
             )}
           </FormItem>
         </Col>
@@ -22,7 +22,7 @@ const SimpleForm = ({ form, obj = {} }) => {
             {getFieldDecorator('ra', {
               initialValue: obj.ra,
             })(
-              <InputNumber min={0} max={1000000000} step={0.1} precision={2} style={{ width: '100%' }} />,
+              <InputNumber min={-1000000000} max={1000000000} step={0.1} precision={2} style={{ width: '100%' }} />,
             )}
           </FormItem>
         </Col>
@@ -31,7 +31,7 @@ const SimpleForm = ({ form, obj = {} }) => {
             {getFieldDecorator('ri', {
               initialValue: obj.ri,
             })(
-              <InputNumber min={0} max={1000000000} step={0.1} precision={2} style={{ width: '100%' }} />,
+              <InputNumber min={-1000000000} max={1000000000} step={0.1} precision={2} style={{ width: '100%' }} />,
             )}
           </FormItem>
         </Col>
@@ -40,7 +40,7 @@ const SimpleForm = ({ form, obj = {} }) => {
             {getFieldDecorator('prognosa', {
               initialValue: obj.prognosa,
             })(
-              <InputNumber min={0} max={1000000000} step={0.1} precision={2} style={{ width: '100%' }} />,
+              <InputNumber min={-1000000000} max={1000000000} step={0.1} precision={2} style={{ width: '100%' }} />,
             )}
           </FormItem>
         </Col>
