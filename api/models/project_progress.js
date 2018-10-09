@@ -5,6 +5,17 @@ module.exports = function(sequelize, DataTypes) {
     year: DataTypes.INTEGER,
     raProgress: DataTypes.FLOAT,
     riProgress: DataTypes.FLOAT,
+    ra: DataTypes.FLOAT,
+    ri: DataTypes.FLOAT,
+    pdp: DataTypes.FLOAT,
+    bad: DataTypes.FLOAT,
+    ok: DataTypes.FLOAT,
+    cashflow: DataTypes.FLOAT,
+    piutangUsaha: DataTypes.FLOAT,
+    piutangRetensi: DataTypes.FLOAT,
+    tagihanBruto: DataTypes.FLOAT,
+    persediaan: DataTypes.FLOAT,
+    labaKotor: DataTypes.FLOAT,
   }, {
     classMethods: {
       associate: function(models) {

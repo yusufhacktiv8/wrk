@@ -62,7 +62,7 @@ class ProgressWindow extends Component {
           </Button>,
         ]}
       >
-        <Form layout="vertical">
+        <Form layout="vertical" style={{ minHeight: 450 }}>
           <Row gutter={10}>
             <Col span={24}>
               <FormItem label="Project">
@@ -221,6 +221,19 @@ class ProgressWindow extends Component {
                   <FormItem label="Persediaan">
                     {getFieldDecorator('persediaan', {
                       initialValue: progress.persediaan,
+                    })(
+                      <InputNumber min={-1000000000} max={1000000000} step={0.1} precision={2} style={{ width: '100%' }} />,
+                    )}
+                  </FormItem>
+                </Col>
+              </Row>
+            </TabPane>
+            <TabPane forceRender tab="Tab 3" key="3">
+              <Row gutter={10}>
+                <Col span={12}>
+                  <FormItem label="Laba Kotor">
+                    {getFieldDecorator('labaKotor', {
+                      initialValue: progress.labaKotor,
                     })(
                       <InputNumber min={-1000000000} max={1000000000} step={0.1} precision={2} style={{ width: '100%' }} />,
                     )}

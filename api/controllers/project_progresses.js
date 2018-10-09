@@ -48,7 +48,7 @@ exports.create = function create(req, res) {
 exports.update = function update(req, res) {
   const projectProgressForm = req.body;
   projectProgressForm.ProjectId = projectProgressForm.project;
-  models.Role.update(
+  models.ProjectProgress.update(
     projectProgressForm,
     {
       where: { id: req.params.projectProgressId },
