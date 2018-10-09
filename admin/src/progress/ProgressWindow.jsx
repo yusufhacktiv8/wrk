@@ -51,7 +51,7 @@ class ProgressWindow extends Component {
     return (
       <Modal
         visible={visible}
-        title="Piutang"
+        title="Project Progress"
         okText="Save"
         footer={[
           <Button key="cancel" onClick={onCancel}>Cancel</Button>,
