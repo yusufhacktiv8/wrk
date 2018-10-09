@@ -4,6 +4,7 @@ import { Table, Button, Input, Row, Col, message, Popconfirm } from 'antd';
 import showError from '../utils/ShowError';
 import ProgressWindow from './ProgressWindow';
 import YearSelect from '../common/YearSelect';
+import ProjectSelect from '../project/ProjectSelect';
 
 const PROGRESSES_URL = `${process.env.REACT_APP_SERVER_URL}/api/projectprogresses`;
 const Column = Table.Column;
@@ -29,6 +30,12 @@ class ProgressList extends Component {
     });
   }
 
+  onSearchProjectChange = (e) => {
+    this.setState({
+      searchProject: e,
+    });
+  }
+
   onSaveSuccess = () => {
     this.closeEditWindow();
     this.fetchProgresses();
@@ -40,6 +47,7 @@ class ProgressList extends Component {
     });
     axios.get(PROGRESSES_URL, { params: {
       searchYear: this.state.searchYear,
+      searchProject: this.state.searchProject,
       currentPage: this.state.currentPage,
       pageSize: this.state.pageSize,
     } })
@@ -113,7 +121,13 @@ class ProgressList extends Component {
               onChange={this.onSearchChange}
             />
           </Col>
-          <Col span={16}>
+          <Col span={6}>
+            <ProjectSelect
+              value={this.state.searchProject}
+              onChange={this.onSearchProjectChange}
+            />
+          </Col>
+          <Col span={12}>
             <span>
               <Button
                 shape="circle"
@@ -154,6 +168,10 @@ class ProgressList extends Component {
                 title="Bulan"
                 dataIndex="month"
                 key="month"
+              />
+              <Column
+                title="Name"
+                dataIndex="Project.name"
               />
               <Column
                 title="Action"

@@ -61,9 +61,11 @@ class ProjectSelect extends Component {
   render() {
     return (
       <Select
+        allowClear
         placeholder="Select Project"
         onChange={this.handleChange}
         value={this.state.value}
+        style={{ width: '100%' }}
       >
         {this.state.projects.map(project => (
           <Option key={project.id} value={project.id}>{project.name}</Option>

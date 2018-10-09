@@ -5,19 +5,29 @@ const sendError = (err, res) => {
 };
 
 exports.findAll = function findAll(req, res) {
-  const searchText = req.query.searchText ? `%${req.query.searchText}%` : '%%';
+  const { searchYear, searchProject } = req.query;
   const limit = req.query.pageSize ? parseInt(req.query.pageSize, 10) : 10;
   const currentPage = req.query.currentPage ? parseInt(req.query.currentPage, 10) : 1;
   const offset = (currentPage - 1) * limit;
+
+  const yearWhere = {};
+  const projectWhere = {};
+
+  if (searchYear) {
+    yearWhere.year = searchYear;
+  }
+
+  if (searchProject) {
+    projectWhere.id = searchProject;
+  }
   models.ProjectProgress.findAndCountAll({
-    where: {
-      // $or: [
-      //   { username: { $ilike: searchText } },
-      //   { name: { $ilike: searchText } },
-      // ],
-    },
+    where: yearWhere,
     include: [
-      { model: models.Project },
+      {
+        model: models.Project,
+        required: true,
+        where: projectWhere,
+      },
     ],
     limit,
     offset,
