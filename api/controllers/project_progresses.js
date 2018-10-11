@@ -105,6 +105,7 @@ exports.findAllByMonthYear = function findAllByMonthYear(req, res) {
         },
       },
     ],
+    order: [[models.Project, 'name', 'asc']],
   })
   .then((result) => {
     res.json(result);
