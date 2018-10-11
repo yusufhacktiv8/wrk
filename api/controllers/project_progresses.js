@@ -40,7 +40,6 @@ exports.findAll = function findAll(req, res) {
   });
 };
 
-
 exports.create = function create(req, res) {
   const projectProgressForm = req.body;
   const projectId = projectProgressForm.project;
@@ -76,6 +75,34 @@ exports.destroy = function destroy(req, res) {
     {
       where: { id: req.params.projectProgressId },
     })
+  .then((result) => {
+    res.json(result);
+  })
+  .catch((err) => {
+    sendError(err, res);
+  });
+};
+
+exports.findAllByMonthYear = function findAllByMonthYear(req, res) {
+  const { year, month } = req.query;
+
+  if (!year || !month) {
+    res.json([]);
+    return;
+  }
+
+  models.ProjectProgress.findAll({
+    where: {
+      year,
+      month,
+    },
+    include: [
+      {
+        model: models.Project,
+        required: true,
+      },
+    ],
+  })
   .then((result) => {
     res.json(result);
   })
