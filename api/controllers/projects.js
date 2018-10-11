@@ -27,18 +27,6 @@ exports.findAll = function findAll(req, res) {
   });
 };
 
-exports.findOne = function findOne(req, res) {
-  models.Project.findOne({
-    where: { id: req.params.projectId },
-  })
-  .then((project) => {
-    res.json(project);
-  })
-  .catch((err) => {
-    sendError(err, res);
-  });
-};
-
 exports.create = function create(req, res) {
   const projectForm = req.body;
   models.Project.create(projectForm)
@@ -72,6 +60,31 @@ exports.destroy = function destroy(req, res) {
     })
   .then((result) => {
     res.json(result);
+  })
+  .catch((err) => {
+    sendError(err, res);
+  });
+};
+
+exports.countByType = function countByType(req, res) {
+  const { projectType } = req.query;
+
+  if (!projectType) {
+    res.json({
+      count: 0,
+    });
+    return;
+  }
+
+  models.Project.count({
+    where: {
+      projectType,
+    },
+  })
+  .then((count) => {
+    res.json({
+      count,
+    });
   })
   .catch((err) => {
     sendError(err, res);

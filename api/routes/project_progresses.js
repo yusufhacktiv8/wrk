@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.get('/', isAuthorizedAs('ADMIN'), ProjectProgressController.findAll);
 router.get('/bymonthyear', ProjectProgressController.findAllByMonthYear);
+router.get('/countbytype', ProjectProgressController.countByType);
 router.post('/', isAuthorizedAs('ADMIN'), ProjectProgressController.create);
 router.put('/:projectProgressId', isAuthorizedAs('ADMIN'), ProjectProgressController.update);
 router.delete('/:projectProgressId', isAuthorizedAs('ADMIN'), ProjectProgressController.destroy);

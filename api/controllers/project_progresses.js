@@ -84,9 +84,9 @@ exports.destroy = function destroy(req, res) {
 };
 
 exports.findAllByMonthYear = function findAllByMonthYear(req, res) {
-  const { year, month } = req.query;
+  const { year, month, projectType } = req.query;
 
-  if (!year || !month) {
+  if (!year || !month || !projectType) {
     res.json([]);
     return;
   }
@@ -100,11 +100,46 @@ exports.findAllByMonthYear = function findAllByMonthYear(req, res) {
       {
         model: models.Project,
         required: true,
+        where: {
+          projectType,
+        },
       },
     ],
   })
   .then((result) => {
     res.json(result);
+  })
+  .catch((err) => {
+    sendError(err, res);
+  });
+};
+
+exports.countByType = function countByType(req, res) {
+  const { projectType } = req.query;
+
+  if (!projectType) {
+    res.json({
+      count: 0,
+    });
+    return;
+  }
+
+  models.ProjectProgress.count({
+    where: {},
+    include: [
+      {
+        model: models.Project,
+        required: true,
+        where: {
+          projectType,
+        },
+      },
+    ],
+  })
+  .then((count) => {
+    res.json({
+      count,
+    });
   })
   .catch((err) => {
     sendError(err, res);
