@@ -115,6 +115,37 @@ exports.findAllByMonthYear = function findAllByMonthYear(req, res) {
   });
 };
 
+exports.findAllByProject = function findAllByProject(req, res) {
+  const { year, month, projectId } = req.query;
+
+  if (!year || !month || !projectId) {
+    res.json([]);
+    return;
+  }
+
+  models.ProjectProgress.findOne({
+    where: {
+      year,
+      month,
+    },
+    include: [
+      {
+        model: models.Project,
+        required: true,
+        where: {
+          id: projectId,
+        },
+      },
+    ],
+  })
+  .then((result) => {
+    res.json(result);
+  })
+  .catch((err) => {
+    sendError(err, res);
+  });
+};
+
 exports.countByType = function countByType(req, res) {
   const { projectType } = req.query;
 

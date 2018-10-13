@@ -27,6 +27,18 @@ exports.findAll = function findAll(req, res) {
   });
 };
 
+exports.findOne = function findOne(req, res) {
+  models.Project.findOne({
+    where: { id: req.params.projectId },
+  })
+  .then((role) => {
+    res.json(role);
+  })
+  .catch((err) => {
+    sendError(err, res);
+  });
+};
+
 exports.create = function create(req, res) {
   const projectForm = req.body;
   models.Project.create(projectForm)
