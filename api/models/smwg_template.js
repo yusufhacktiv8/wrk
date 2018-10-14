@@ -4,6 +4,7 @@ module.exports = function(sequelize, DataTypes) {
     code: { type: DataTypes.STRING },
     name: DataTypes.STRING,
     smwgType: DataTypes.INTEGER,
+    smwgSequence: DataTypes.INTEGER,
   }, {
     classMethods: {
       associate: function(models) {

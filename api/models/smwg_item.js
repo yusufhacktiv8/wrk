@@ -5,6 +5,7 @@ module.exports = function(sequelize, DataTypes) {
     name: DataTypes.STRING,
     bobot: DataTypes.FLOAT,
     nilai: DataTypes.INTEGER,
+    smwgSequence: DataTypes.INTEGER,
   }, {
     classMethods: {
       associate: function(models) {
