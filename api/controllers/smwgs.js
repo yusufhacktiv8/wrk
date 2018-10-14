@@ -74,13 +74,48 @@ exports.findOne = function findOne(req, res) {
   });
 };
 
+const insertSmwgItem = (smwgId, code, name, smwgSequence) => (
+  new Promise((resolve, reject) => {
+    models.SmwgItem.create({
+      SmwgId: smwgId,
+      code,
+      name,
+      smwgSequence,
+    })
+    .then((smwgItem) => {
+      resolve(smwgItem.id);
+    })
+    .catch((err) => {
+      console.error(err);
+      reject(err);
+    });
+  })
+);
+
 exports.create = function create(req, res) {
   const smwgForm = req.body;
   const projectId = smwgForm.project;
+  const { smwgType } = smwgForm;
   smwgForm.ProjectId = projectId;
   models.Smwg.create(smwgForm)
   .then((smwg) => {
-    res.json(smwg);
+    models.SmwgTemplate.findAll({
+      where: {
+        smwgType,
+      },
+    })
+    .then((templates) => {
+      const promises = [];
+      for (let i = 0; i < templates.length; i += 1) {
+        const template = templates[i];
+        const { code, name, smwgSequence } = template;
+        promises.push(insertSmwgItem(smwg.id, code, name, smwgSequence));
+      }
+      Promise.all(promises)
+      .then(() => {
+        res.json(smwg);
+      });
+    });
   })
   .catch((err) => {
     sendError(err, res);

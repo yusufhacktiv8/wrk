@@ -227,7 +227,7 @@ class SmwgList extends Component {
                       style={{ marginRight: 5 }}
                     />
                     <Popconfirm
-                      title={`Are you sure delete smwg ${record.name}`}
+                      title={`Are you sure delete smwg`}
                       onConfirm={() => this.deleteSmwg(record)}
                       okText="Yes" cancelText="No"
                     >
