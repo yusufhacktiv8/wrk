@@ -207,7 +207,7 @@ exports.findAll = function findAll(req, res) {
 };
 
 exports.byYearMonth = function byYearMonth(req, res) {
-  const { year, month } = req.params;
+  const { year, month } = req.query;
   models.Revenue.findOne({
     where: { year, month },
   })
