@@ -24,6 +24,7 @@ var usersByRole = require('./routes/users_by_role');
 var netProfit = require('./routes/net_profit');
 var projectProgresses = require('./routes/project_progresses');
 var smwgTemplates = require('./routes/smwg_templates');
+var smwgs = require('./routes/smwgs');
 
 var app = express();
 
@@ -57,6 +58,7 @@ app.use('/api/usersbyrole', usersByRole);
 app.use('/api/netprofit', netProfit);
 app.use('/api/projectprogresses', projectProgresses);
 app.use('/api/smwgtemplates', smwgTemplates);
+app.use('/api/smwgs', smwgs);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
