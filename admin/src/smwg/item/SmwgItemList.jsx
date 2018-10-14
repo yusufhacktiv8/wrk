@@ -50,7 +50,8 @@ class SmwgItemList extends Component {
     } })
       .then((response) => {
         this.setState({
-          smwgItems: response.data,
+          smwgItems: response.data.rows,
+          count: response.data.count,
           loading: false,
         });
       })
