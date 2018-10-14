@@ -5,7 +5,7 @@ const { isAuthorizedAs } = require('../helpers/AuthUtils');
 const router = express.Router();
 
 router.get('/', isAuthorizedAs('ADMIN'), RevenueController.findAll);
-router.get('/:revenueId', isAuthorizedAs('ADMIN'), RevenueController.findOne);
+router.get('/byyearmonth', RevenueController.byYearMonth);
 router.post('/', isAuthorizedAs('ADMIN'), RevenueController.create);
 router.put('/:revenueId', isAuthorizedAs('ADMIN'), RevenueController.update);
 router.delete('/:revenueId', isAuthorizedAs('ADMIN'), RevenueController.destroy);

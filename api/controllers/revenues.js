@@ -206,9 +206,10 @@ exports.findAll = function findAll(req, res) {
   });
 };
 
-exports.findOne = function findOne(req, res) {
+exports.byYearMonth = function byYearMonth(req, res) {
+  const { year, month } = req.params;
   models.Revenue.findOne({
-    where: { id: req.params.revenueId },
+    where: { year, month },
   })
   .then((revenue) => {
     res.json(revenue);
