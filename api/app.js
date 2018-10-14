@@ -25,6 +25,7 @@ var netProfit = require('./routes/net_profit');
 var projectProgresses = require('./routes/project_progresses');
 var smwgTemplates = require('./routes/smwg_templates');
 var smwgs = require('./routes/smwgs');
+var smwgItems = require('./routes/smwg_items');
 
 var app = express();
 
@@ -59,6 +60,7 @@ app.use('/api/netprofit', netProfit);
 app.use('/api/projectprogresses', projectProgresses);
 app.use('/api/smwgtemplates', smwgTemplates);
 app.use('/api/smwgs', smwgs);
+app.use('/api/smwgitems', smwgItems);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

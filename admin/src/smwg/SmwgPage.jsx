@@ -4,13 +4,13 @@ import SmwgList from './SmwgList';
 
 const { Header, Content } = Layout;
 
-export default () => (
+export default ({ history }) => (
   <Layout style={{ height: '100%' }}>
     <Header className="page-header">
       <span className="page-header-title"> Smwg</span>
     </Header>
     <Content className="page-content">
-      <SmwgList />
+      <SmwgList history={history} />
     </Content>
   </Layout>
 );

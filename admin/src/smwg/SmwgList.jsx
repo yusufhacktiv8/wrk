@@ -49,6 +49,10 @@ class SmwgList extends Component {
     this.fetchSmwgs();
   }
 
+  openSmwgItemPage = (record) => {
+    this.props.history.push(`/smwgs/${record.id}/items`);
+  }
+
   fetchSmwgs() {
     this.setState({
       loading: true,
@@ -214,6 +218,12 @@ class SmwgList extends Component {
                       icon="ellipsis"
                       size="small"
                       onClick={() => this.openEditWindow(record)}
+                      style={{ marginRight: 5 }}
+                    />
+                    <Button
+                      icon="profile"
+                      size="small"
+                      onClick={() => this.openSmwgItemPage(record)}
                       style={{ marginRight: 5 }}
                     />
                     <Popconfirm
