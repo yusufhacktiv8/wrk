@@ -20,6 +20,7 @@ exports.findAll = function findAll(req, res) {
     },
     limit,
     offset,
+    order: ['smwgSequence'],
   })
   .then((smwgTemplates) => {
     res.json(smwgTemplates);

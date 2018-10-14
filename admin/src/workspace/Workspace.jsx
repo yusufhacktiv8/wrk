@@ -10,6 +10,7 @@ import CreditPage from '../credit/CreditPage';
 import ProjectPage from '../project/ProjectPage';
 import ProjectUserPage from '../project_user/ProjectUserPage';
 import ProgressPage from '../progress/ProgressPage';
+import SmwgTemplatePage from '../smwg/template/SmwgTemplatePage';
 
 const { Header, Content } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -70,6 +71,8 @@ class Workspace extends Component {
       selectedKeys = ['progress'];
     } else if (location.includes('projectusers')) {
       selectedKeys = ['projectusers'];
+    } else if (location.includes('smwgtemplates')) {
+      selectedKeys = ['smwgtemplates'];
     }
     return (
       <Layout style={{ height: '100%' }}>
@@ -138,6 +141,14 @@ class Workspace extends Component {
                     <Link to="/progress">Project Progress</Link>
                   </Menu.Item>
                 </SubMenu>
+                <SubMenu title={<span><Icon type="profile" />SMWG</span>}>
+                  <Menu.Item key="smwgtemplates">
+                    <Link to="/smwgtemplates">Templates</Link>
+                  </Menu.Item>
+                  <Menu.Item key="smwgs">
+                    <Link to="/smwgs">SMWG</Link>
+                  </Menu.Item>
+                </SubMenu>
 
                 <SubMenu title={<span><Icon type="setting" />Settings</span>}>
                   <MenuItemGroup title="Security">
@@ -166,6 +177,7 @@ class Workspace extends Component {
             <Route path="/projects" component={ProjectPage} />
             <Route path="/projectusers" component={ProjectUserPage} />
             <Route path="/progress" component={ProgressPage} />
+            <Route path="/smwgtemplates" component={SmwgTemplatePage} />
           </div>
         </Content>
       </Layout>
