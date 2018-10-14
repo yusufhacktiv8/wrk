@@ -9,7 +9,7 @@ exports.findAll = function findAll(req, res) {
   const limit = req.query.pageSize ? parseInt(req.query.pageSize, 10) : 10;
   const currentPage = req.query.currentPage ? parseInt(req.query.currentPage, 10) : 1;
   const offset = (currentPage - 1) * limit;
-  models.SmwgItem.findAll({
+  models.SmwgItem.findAndCountAll({
     where: {},
     include: [
       {
@@ -20,6 +20,27 @@ exports.findAll = function findAll(req, res) {
     ],
     limit,
     offset,
+    order: ['smwgSequence'],
+  })
+  .then((smwgItems) => {
+    res.json(smwgItems);
+  })
+  .catch((err) => {
+    sendError(err, res);
+  });
+};
+
+exports.bySmwg = function bySmwg(req, res) {
+  const { year, month, smwgType } = req.query;
+  models.SmwgItem.findAll({
+    where: {},
+    include: [
+      {
+        model: models.Smwg,
+        required: true,
+        where: { year, month, smwgType },
+      },
+    ],
     order: ['smwgSequence'],
   })
   .then((smwgItems) => {
