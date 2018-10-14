@@ -11,6 +11,6 @@ router.post('/', isAuthorizedAs('ADMIN'), SmwgController.create);
 router.put('/:smwgId', isAuthorizedAs('ADMIN'), SmwgController.update);
 router.delete('/:smwgId', isAuthorizedAs('ADMIN'), SmwgController.destroy);
 
-router.get('/:smwgId/departments', SmwgItemController.findAll);
+router.get('/:smwgId/items', SmwgItemController.findAll);
 
 module.exports = router;

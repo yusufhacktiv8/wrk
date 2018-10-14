@@ -62,6 +62,9 @@ exports.findByYear = function findByYear(req, res) {
 exports.findOne = function findOne(req, res) {
   models.Smwg.findOne({
     where: { id: req.params.smwgId },
+    include: [
+      { model: models.Project },
+    ],
   })
   .then((smwg) => {
     res.json(smwg);

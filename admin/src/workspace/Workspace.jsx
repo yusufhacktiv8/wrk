@@ -12,6 +12,7 @@ import ProjectUserPage from '../project_user/ProjectUserPage';
 import ProgressPage from '../progress/ProgressPage';
 import SmwgTemplatePage from '../smwg/template/SmwgTemplatePage';
 import SmwgPage from '../smwg/SmwgPage';
+import SmwgItemPage from '../smwg/item/SmwgItemPage';
 
 const { Header, Content } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -181,7 +182,8 @@ class Workspace extends Component {
             <Route path="/projectusers" component={ProjectUserPage} />
             <Route path="/progress" component={ProgressPage} />
             <Route path="/smwgtemplates" component={SmwgTemplatePage} />
-            <Route path="/smwgs" component={SmwgPage} />
+            <Route exact path="/smwgs" component={SmwgPage} />
+            <Route exact path="/smwgs/:smwgId/items" component={SmwgItemPage} />
           </div>
         </Content>
       </Layout>

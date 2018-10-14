@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
-import { Modal, Form, InputNumber, Button, message } from 'antd';
+import { Modal, Form, Input, InputNumber, Button, message } from 'antd';
 import axios from 'axios';
-import showError from '../utils/ShowError';
-import DepartmentSelect from '../settings/department/DepartmentSelect';
+import showError from '../../utils/ShowError';
 
-const HOSPITAL_DEPARTMENTS_URL = `${process.env.REACT_APP_SERVER_URL}/api/hospitaldepartments`;
+const SMWG_ITEMS_URL = `${process.env.REACT_APP_SERVER_URL}/api/smwgitems`;
 
 const FormItem = Form.Item;
 
-class HospitalDepartmentWindow extends Component {
+class SmwgItemWindow extends Component {
   state = {
     saving: false,
   }
 
   onSave = () => {
-    const { hospitalDepartment, hospitalId, onSaveSuccess, form } = this.props;
+    const { smwgItem, smwgId, onSaveSuccess, form } = this.props;
     form.validateFields((err, values) => {
       if (err) {
         return;
@@ -22,11 +21,11 @@ class HospitalDepartmentWindow extends Component {
       this.setState({
         saving: true,
       }, () => {
-        const hospitalDepartmentId = hospitalDepartment.id;
-        const data = { ...values, hospital: hospitalId };
-        const axiosObj = hospitalDepartmentId ? axios.put(`${HOSPITAL_DEPARTMENTS_URL}/${hospitalDepartmentId}`, data) : axios.post(HOSPITAL_DEPARTMENTS_URL, data);
+        const smwgItemId = smwgItem.id;
+        const data = { ...values, smwg: smwgId };
+        const axiosObj = smwgItemId ? axios.put(`${SMWG_ITEMS_URL}/${smwgItemId}`, data) : axios.post(SMWG_ITEMS_URL, data);
         axiosObj.then(() => {
-          message.success('Saving hospitalDepartment success');
+          message.success('Saving smwgItem success');
           this.setState({
             saving: false,
           }, () => {
@@ -45,12 +44,12 @@ class HospitalDepartmentWindow extends Component {
 
   render() {
     const { saving } = this.state;
-    const { visible, onCancel, form, hospitalDepartment } = this.props;
+    const { visible, onCancel, form, smwgItem } = this.props;
     const { getFieldDecorator } = form;
     return (
       <Modal
         visible={visible}
-        title="Hospital Department"
+        title="SMWG Item"
         okText="Save"
         footer={[
           <Button key="cancel" onClick={onCancel}>Cancel</Button>,
@@ -60,24 +59,51 @@ class HospitalDepartmentWindow extends Component {
         ]}
       >
         <Form layout="vertical">
-          <FormItem label="Department">
-            {getFieldDecorator('department', {
-              initialValue: hospitalDepartment.Department ? String(hospitalDepartment.Department.id) : undefined,
+          <FormItem label="Code">
+            {getFieldDecorator('code', {
+              initialValue: smwgItem.code,
               rules: [
-                { required: true, message: 'Please input department' },
+                { required: true, message: 'Please input code' },
               ],
             })(
-              <DepartmentSelect level={-1} />,
+              <Input maxLength="30" />,
             )}
           </FormItem>
-          <FormItem label="Quota">
-            {getFieldDecorator('quota', {
-              initialValue: hospitalDepartment.quota,
+          <FormItem label="Name">
+            {getFieldDecorator('name', {
+              initialValue: smwgItem.name,
               rules: [
-                { required: true, message: 'Please input quota' },
+                { required: true, message: 'Please input name' },
               ],
             })(
-              <InputNumber min={1} max={1000} />,
+              <Input maxLength="50" />,
+            )}
+          </FormItem>
+          <FormItem label="Bobot">
+            {getFieldDecorator('bobot', {
+              initialValue: smwgItem.bobot,
+              rules: [
+                { required: true, message: 'Please input weight' },
+              ],
+            })(
+              <InputNumber min={0} max={1000} precision={1} />,
+            )}
+          </FormItem>
+          <FormItem label="Nilai">
+            {getFieldDecorator('nilai', {
+              initialValue: smwgItem.nilai,
+            })(
+              <InputNumber min={0} max={1000} precision={0} />,
+            )}
+          </FormItem>
+          <FormItem label="Sequence">
+            {getFieldDecorator('smwgSequence', {
+              initialValue: smwgItem.smwgSequence,
+              rules: [
+                { required: true, message: 'Please input sequence' },
+              ],
+            })(
+              <InputNumber min={0} max={10000} step={1} precision={0} style={{ width: '100%' }} />,
             )}
           </FormItem>
         </Form>
@@ -86,4 +112,4 @@ class HospitalDepartmentWindow extends Component {
   }
 }
 
-export default Form.create()(HospitalDepartmentWindow);
+export default Form.create()(SmwgItemWindow);

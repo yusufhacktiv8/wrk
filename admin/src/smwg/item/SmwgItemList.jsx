@@ -134,14 +134,32 @@ class SmwgItemList extends Component {
     const { match } = this.props;
     const { smwgId } = match.params;
     const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
+
+    let smwgTypeStr = '-';
+    if (this.state.smwg.smwgType) {
+      switch (this.state.smwg.smwgType) {
+        case 1:
+          smwgTypeStr = 'QMSL';
+          break;
+        case 2:
+          smwgTypeStr = 'SHE Level';
+          break;
+        case 3:
+          smwgTypeStr = '5R';
+          break;
+        default:
+      }
+    }
     return (
       <div>
         <Col span={8}>
           {
             this.state.smwg.smwgType ? (
               <span>
-                <Tag style={{ height: 26, fontSize: 15 }} color="#2db7f5">{ this.state.smwg.year}</Tag>
-                <Tag style={{ height: 26, fontSize: 15 }}>{ this.state.smwg.smwgType}</Tag>
+                <Tag style={{ height: 26, fontSize: 15 }} color="#2db7f5">{ this.state.smwg.Project.name}</Tag>
+                <Tag style={{ height: 26, fontSize: 15 }} color="#2db7f5">{ smwgTypeStr }</Tag>
+                <Tag style={{ height: 26, fontSize: 15 }}>{ this.state.smwg.year}</Tag>
+                <Tag style={{ height: 26, fontSize: 15 }}>{ this.state.smwg.month}</Tag>
               </span>
             ) : (
               <Spin indicator={antIcon} />
@@ -151,6 +169,12 @@ class SmwgItemList extends Component {
         <Row gutter={10}>
           <Col span={8}>
             <span>
+              <Button
+                shape="circle"
+                icon="search"
+                onClick={this.filterSmwgItems}
+                style={{ marginRight: 15 }}
+              />
               <Button
                 type="primary"
                 shape="circle"
@@ -176,6 +200,10 @@ class SmwgItemList extends Component {
               size="small"
             >
               <Column
+                title="Code"
+                dataIndex="code"
+              />
+              <Column
                 title="Name"
                 dataIndex="name"
               />
@@ -190,6 +218,11 @@ class SmwgItemList extends Component {
                 key="nilai"
               />
               <Column
+                title="Sequence"
+                dataIndex="smwgSequence"
+                key="smwgSequence"
+              />
+              <Column
                 title="Action"
                 key="action"
                 render={(text, record) => (
@@ -201,7 +234,7 @@ class SmwgItemList extends Component {
                       style={{ marginRight: 5 }}
                     />
                     <Popconfirm
-                      title={`Are you sure delete smwg item ${record.Item.name}`}
+                      title={`Are you sure delete smwg item ${record.name}`}
                       onConfirm={() => this.deleteSmwgItem(record)}
                       okText="Yes" cancelText="No"
                     >
