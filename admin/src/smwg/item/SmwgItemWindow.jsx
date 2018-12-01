@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Modal, Form, Input, InputNumber, Button, message } from 'antd';
 import axios from 'axios';
 import showError from '../../utils/ShowError';
+import ItemTypeSelect from './ItemTypeSelect';
 
 const SMWG_ITEMS_URL = `${process.env.REACT_APP_SERVER_URL}/api/smwgitems`;
 
@@ -77,6 +78,16 @@ class SmwgItemWindow extends Component {
               ],
             })(
               <Input maxLength="50" />,
+            )}
+          </FormItem>
+          <FormItem label="Type">
+            {getFieldDecorator('itemType', {
+              initialValue: smwgItem.itemType,
+              rules: [
+                { required: true, message: 'Please input type' },
+              ],
+            })(
+              <ItemTypeSelect />,
             )}
           </FormItem>
           <FormItem label="Bobot">

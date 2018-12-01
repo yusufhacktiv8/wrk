@@ -74,12 +74,14 @@ exports.findOne = function findOne(req, res) {
   });
 };
 
-const insertSmwgItem = (smwgId, code, name, smwgSequence) => (
+const insertSmwgItem = (smwgId, code, name, bobot, itemType, smwgSequence) => (
   new Promise((resolve, reject) => {
     models.SmwgItem.create({
       SmwgId: smwgId,
       code,
       name,
+      bobot,
+      itemType,
       smwgSequence,
     })
     .then((smwgItem) => {
@@ -108,8 +110,8 @@ exports.create = function create(req, res) {
       const promises = [];
       for (let i = 0; i < templates.length; i += 1) {
         const template = templates[i];
-        const { code, name, smwgSequence } = template;
-        promises.push(insertSmwgItem(smwg.id, code, name, smwgSequence));
+        const { code, name, bobot, itemType, smwgSequence } = template;
+        promises.push(insertSmwgItem(smwg.id, code, name, bobot, itemType, smwgSequence));
       }
       Promise.all(promises)
       .then(() => {

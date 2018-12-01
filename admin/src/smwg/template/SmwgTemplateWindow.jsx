@@ -3,6 +3,7 @@ import { Modal, Form, Input, InputNumber, Button, message } from 'antd';
 import axios from 'axios';
 import showError from '../../utils/ShowError';
 import SmwgTypeSelect from '../SmwgTypeSelect';
+import ItemTypeSelect from '../item/ItemTypeSelect';
 
 const SMWG_TEMPLATES_URL = `${process.env.REACT_APP_SERVER_URL}/api/smwgtemplates`;
 
@@ -87,6 +88,26 @@ class SmwgTemplateWindow extends Component {
               ],
             })(
               <Input maxLength="50" />,
+            )}
+          </FormItem>
+          <FormItem label="Type">
+            {getFieldDecorator('itemType', {
+              initialValue: smwgTemplate.itemType,
+              rules: [
+                { required: true, message: 'Please input type' },
+              ],
+            })(
+              <ItemTypeSelect />,
+            )}
+          </FormItem>
+          <FormItem label="Bobot">
+            {getFieldDecorator('bobot', {
+              initialValue: smwgTemplate.bobot,
+              rules: [
+                { required: true, message: 'Please input weight' },
+              ],
+            })(
+              <InputNumber min={0} max={1000} precision={1} />,
             )}
           </FormItem>
           <FormItem label="Sequence">
