@@ -49,6 +49,7 @@ class SmwgItemWindow extends Component {
     const { getFieldDecorator } = form;
     return (
       <Modal
+        wrapClassName="vertical-center-modal"
         visible={visible}
         title="SMWG Item"
         okText="Save"

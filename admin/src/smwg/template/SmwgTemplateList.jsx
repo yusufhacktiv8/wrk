@@ -211,6 +211,21 @@ class SmwgTemplateList extends Component {
                 }}
               />
               <Column
+                title="Item Type"
+                dataIndex="itemType"
+                key="itemType"
+                render={(columnText, record) => {
+                  switch (record.itemType) {
+                    case 1:
+                      return 'Score';
+                    case 2:
+                      return 'Label';
+                    default:
+                      return '-';
+                  }
+                }}
+              />
+              <Column
                 title="Sequence"
                 dataIndex="smwgSequence"
                 key="smwgSequence"

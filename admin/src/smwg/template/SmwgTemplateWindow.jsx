@@ -49,6 +49,7 @@ class SmwgTemplateWindow extends Component {
     const { getFieldDecorator } = form;
     return (
       <Modal
+        wrapClassName="vertical-center-modal"
         visible={visible}
         title="Smwg Template"
         okText="Save"
@@ -90,7 +91,7 @@ class SmwgTemplateWindow extends Component {
               <Input maxLength="50" />,
             )}
           </FormItem>
-          <FormItem label="Type">
+          <FormItem label="Item Type">
             {getFieldDecorator('itemType', {
               initialValue: smwgTemplate.itemType,
               rules: [
@@ -103,9 +104,6 @@ class SmwgTemplateWindow extends Component {
           <FormItem label="Bobot">
             {getFieldDecorator('bobot', {
               initialValue: smwgTemplate.bobot,
-              rules: [
-                { required: true, message: 'Please input weight' },
-              ],
             })(
               <InputNumber min={0} max={1000} precision={1} />,
             )}
