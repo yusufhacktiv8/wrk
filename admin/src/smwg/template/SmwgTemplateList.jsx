@@ -220,6 +220,8 @@ class SmwgTemplateList extends Component {
                       return 'Score';
                     case 2:
                       return 'Label';
+                    case 3:
+                      return 'Sub Total';
                     default:
                       return '-';
                   }

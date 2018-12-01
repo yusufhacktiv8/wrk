@@ -13,6 +13,7 @@ class ItemTypeSelect extends Component {
       months: [
         { id: 1, name: 'Score' },
         { id: 2, name: 'Label' },
+        { id: 3, name: 'Sub Total' },
       ],
     };
   }
