@@ -9,6 +9,7 @@ var fileUpload = require('express-fileupload');
 
 var users = require('./routes/users');
 var changePassword = require('./routes/change_password');
+var changeMyPassword = require('./routes/change_my_password');
 var roles = require('./routes/roles');
 var security = require('./routes/security');
 var revenues = require('./routes/revenues');
@@ -46,6 +47,7 @@ app.use(fileUpload());
 // app.use('/', index);
 app.use('/api/users', users);
 app.use('/api/changepassword', changePassword);
+app.use('/api/changemypassword', changeMyPassword);
 app.use('/api/roles', roles);
 app.use('/api/security', security);
 app.use('/api/revenues', revenues);
