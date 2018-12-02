@@ -88,7 +88,7 @@ class SmwgTemplateWindow extends Component {
                 { required: true, message: 'Please input name' },
               ],
             })(
-              <Input maxLength="50" />,
+              <Input maxLength="150" />,
             )}
           </FormItem>
           <FormItem label="Item Type">
