@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const models = require('../models');
+require('dotenv').config();
 
 const sendLoginFailedMessage = function (req, res) {
   res.send('Invalid username or password', 403);

@@ -1,8 +1,8 @@
 {
   "development": {
-    "username": "myyusuf",
+    "username": "yusuf",
     "password": null,
-    "database": "wrk_dev",
+    "database": "wrk",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },

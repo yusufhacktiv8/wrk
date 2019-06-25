@@ -13,6 +13,7 @@ import ProgressPage from '../progress/ProgressPage';
 import SmwgTemplatePage from '../smwg/template/SmwgTemplatePage';
 import SmwgPage from '../smwg/SmwgPage';
 import SmwgItemPage from '../smwg/item/SmwgItemPage';
+import UploadPage from '../upload/UploadPage';
 
 const { Header, Content } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -77,6 +78,8 @@ class Workspace extends Component {
       selectedKeys = ['smwgtemplates'];
     } else if (location.includes('smwgs')) {
       selectedKeys = ['smwgs'];
+    } else if (location.includes('uploads')) {
+      selectedKeys = ['uploads'];
     }
     return (
       <Layout style={{ height: '100%' }}>
@@ -153,7 +156,16 @@ class Workspace extends Component {
                     <Link to="/smwgs">SMWG</Link>
                   </Menu.Item>
                 </SubMenu>
-
+                <Menu.Item key="uploads">
+                  <Link
+                    to="/uploads"
+                    onClick={() => {
+                      this.setState({
+                        selectedKeys: ['uploads'],
+                      });
+                    }}
+                  ><Icon type="upload" />Upload</Link>
+                </Menu.Item>
                 <SubMenu title={<span><Icon type="setting" />Settings</span>}>
                   <MenuItemGroup title="Security">
                     <Menu.Item key="users">
@@ -184,6 +196,7 @@ class Workspace extends Component {
             <Route path="/smwgtemplates" component={SmwgTemplatePage} />
             <Route exact path="/smwgs" component={SmwgPage} />
             <Route exact path="/smwgs/:smwgId/items" component={SmwgItemPage} />
+            <Route path="/uploads" component={UploadPage} />
           </div>
         </Content>
       </Layout>
