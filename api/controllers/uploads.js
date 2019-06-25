@@ -82,15 +82,21 @@ exports.destroy = function destroy(req, res) {
   });
 };
 
+const INIT_WORKSHEET_LABEL = 'Cover';
+const HASIL_USAHA_LABEL = 'Hasil Usaha';
+const PIUTANG_LABEL = 'Piutang';
+const SHEET_TYPE_CELL = 'F5';
+const MONTH_CELL = 'F7';
+const YEAR_CELL = 'F9';
 
-const MONTH_CELL = 'B3';
-const YEAR_CELL = 'C3';
+const OMZET_RA_CELL = 'E7';
+const OMZET_RI_CELL = 'E8';
+const SALES_RA_CELL = 'F7';
+const SALES_RI_CELL = 'F8';
 
-const OMZET_RA_CELL = 'I7';
-const OMZET_RI_CELL = 'I8';
-
-const insertOmzet = (year, month, worksheet) => (
+const insertOmzet = (year, month, workbook) => (
   new Promise((resolve, reject) => {
+    const worksheet = workbook.getWorksheet(HASIL_USAHA_LABEL);
     let plan = parseFloat(worksheet.getCell(OMZET_RA_CELL).value.result);
     let actual = parseFloat(worksheet.getCell(OMZET_RI_CELL).value.result);
     models.Omzet.destroy(
@@ -117,6 +123,75 @@ const insertOmzet = (year, month, worksheet) => (
   })
 );
 
+const insertSales = (year, month, workbook) => (
+  new Promise((resolve, reject) => {
+    const worksheet = workbook.getWorksheet(HASIL_USAHA_LABEL);
+    let plan = parseFloat(worksheet.getCell(SALES_RA_CELL).value.result);
+    let actual = parseFloat(worksheet.getCell(SALES_RI_CELL).value.result);
+    models.Sales.destroy(
+      {
+        where: { year, month },
+      })
+    .then(() => {
+      models.Sales.create({
+        year,
+        month,
+        plan,
+        actual,
+      })
+      .then((newSales) => {
+        resolve(newSales);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+    })
+    .catch((err) => {
+      reject(err);
+    });
+  })
+);
+
+const insertPiutang = (year, month, workbook) => (
+  new Promise((resolve, reject) => {
+    const worksheet = workbook.getWorksheet(PIUTANG_LABEL);
+    let promises = [];
+    for (let i = 5; i <= 5 + 12; i++) {
+      let pu = parseFloat(worksheet.getCell(`C${i}`).value);
+      let tb = parseFloat(worksheet.getCell(`D${i}`).value);
+      
+      if (isNaN(pu) || isNaN(tb)) continue;
+      promises.push(new Promise((resolve2, reject2) => {
+        models.Credit.create({
+          year,
+          month,
+          pu,
+          tb,
+        })
+        .then((newPiutang) => {
+          resolve2(newPiutang);
+        })
+        .catch((err) => {
+          reject2(err);
+        });
+      }));
+    }
+    models.Credit.destroy(
+      {
+        where: { year },
+      })
+    .then(() => {
+      Promise.all(promises)
+        .then(() => {
+          resolve();
+        });
+    })
+    .catch((err) => {
+      reject(err);
+    });
+  })
+);
+
 exports.processUpload = (req, res) => {
   if (!req.files) {
     return res.status(400).send('No files were uploaded.');
@@ -132,11 +207,18 @@ exports.processUpload = (req, res) => {
   
   workbook.xlsx.read(stream)
       .then(() => {
-        const worksheet = workbook.getWorksheet(1);
+        const worksheet = workbook.getWorksheet(INIT_WORKSHEET_LABEL);
+        const sheetType = worksheet.getCell(MONTH_CELL).value;
         const month = worksheet.getCell(MONTH_CELL).value;
         const year = worksheet.getCell(YEAR_CELL).value;
+
+        console.log('Month: ', month);
         
-        insertOmzet(year, month, worksheet)
+        let promises = [];
+        promises.push(insertOmzet(year, month, workbook));
+        promises.push(insertSales(year, month, workbook));
+        promises.push(insertPiutang(year, month, workbook));
+        Promise.all(promises)
         .then(() => {
           res.json({
             result: 'OK',
