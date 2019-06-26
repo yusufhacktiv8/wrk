@@ -91,14 +91,22 @@ const YEAR_CELL = 'F9';
 
 const OMZET_RA_CELL = 'E7';
 const OMZET_RI_CELL = 'E8';
+const OMZET_PROGNOSA_CELL = 'E9';
 const SALES_RA_CELL = 'F7';
 const SALES_RI_CELL = 'F8';
+const SALES_PROGNOSA_CELL = 'F9';
+
+const NET_PROFIT_RKAP_CELL = 'O6';
+const NET_PROFIT_RA_CELL = 'O7';
+const NET_PROFIT_RI_CELL = 'O8';
+const NET_PROFIT_PROGNOSA_CELL = 'O9';
 
 const insertOmzet = (year, month, workbook) => (
   new Promise((resolve, reject) => {
     const worksheet = workbook.getWorksheet(HASIL_USAHA_LABEL);
     let plan = parseFloat(worksheet.getCell(OMZET_RA_CELL).value.result);
     let actual = parseFloat(worksheet.getCell(OMZET_RI_CELL).value.result);
+    let prognosa = parseFloat(worksheet.getCell(OMZET_PROGNOSA_CELL).value.result);
     models.Omzet.destroy(
       {
         where: { year, month },
@@ -109,6 +117,7 @@ const insertOmzet = (year, month, workbook) => (
         month,
         plan,
         actual,
+        prognosa,
       })
       .then((newOmzet) => {
         resolve(newOmzet);
@@ -128,6 +137,7 @@ const insertSales = (year, month, workbook) => (
     const worksheet = workbook.getWorksheet(HASIL_USAHA_LABEL);
     let plan = parseFloat(worksheet.getCell(SALES_RA_CELL).value.result);
     let actual = parseFloat(worksheet.getCell(SALES_RI_CELL).value.result);
+    let prognosa = parseFloat(worksheet.getCell(SALES_PROGNOSA_CELL).value.result);
     models.Sales.destroy(
       {
         where: { year, month },
@@ -138,6 +148,7 @@ const insertSales = (year, month, workbook) => (
         month,
         plan,
         actual,
+        prognosa,
       })
       .then((newSales) => {
         resolve(newSales);
@@ -192,6 +203,39 @@ const insertPiutang = (year, month, workbook) => (
   })
 );
 
+const insertNetProfit = (year, month, workbook) => (
+  new Promise((resolve, reject) => {
+    const worksheet = workbook.getWorksheet(HASIL_USAHA_LABEL);
+    let rkap = parseFloat(worksheet.getCell(NET_PROFIT_RKAP_CELL).value.result);
+    let plan = parseFloat(worksheet.getCell(NET_PROFIT_RA_CELL).value.result);
+    let actual = parseFloat(worksheet.getCell(NET_PROFIT_RI_CELL).value.result);
+    let prognosa = parseFloat(worksheet.getCell(NET_PROFIT_PROGNOSA_CELL).value.result);
+    models.NetProfit.destroy(
+      {
+        where: { year, month },
+      })
+    .then(() => {
+      models.NetProfit.create({
+        year,
+        month,
+        rkap,
+        ra: plan,
+        ri: actual,
+        prognosa,
+      })
+      .then((newNetProfit) => {
+        resolve(newNetProfit);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+    })
+    .catch((err) => {
+      reject(err);
+    });
+  })
+);
+
 exports.processUpload = (req, res) => {
   if (!req.files) {
     return res.status(400).send('No files were uploaded.');
@@ -218,6 +262,7 @@ exports.processUpload = (req, res) => {
         promises.push(insertOmzet(year, month, workbook));
         promises.push(insertSales(year, month, workbook));
         promises.push(insertPiutang(year, month, workbook));
+        promises.push(insertNetProfit(year, month, workbook));
         Promise.all(promises)
         .then(() => {
           res.json({

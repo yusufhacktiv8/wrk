@@ -5,6 +5,7 @@ module.exports = function(sequelize, DataTypes) {
     year: DataTypes.INTEGER,
     plan: DataTypes.FLOAT,
     actual: DataTypes.FLOAT,
+    prognosa: DataTypes.FLOAT,
   }, {
     classMethods: {
       associate: function(models) {
