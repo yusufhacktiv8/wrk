@@ -15,10 +15,10 @@ exports.findAll = function findAll(req, res) {
   const offset = (currentPage - 1) * limit;
   models.Upload.findAndCountAll({
     where: {
-      $or: [
-        { code: { $ilike: searchText } },
-        { name: { $ilike: searchText } },
-      ],
+      // $or: [
+      //   { code: { $ilike: searchText } },
+      //   { name: { $ilike: searchText } },
+      // ],
     },
     limit,
     offset,
@@ -100,6 +100,31 @@ const NET_PROFIT_RKAP_CELL = 'O6';
 const NET_PROFIT_RA_CELL = 'O7';
 const NET_PROFIT_RI_CELL = 'O8';
 const NET_PROFIT_PROGNOSA_CELL = 'O9';
+
+const insertUpload = (year, month, sheetType) => (
+  new Promise((resolve, reject) => {
+    models.Upload.destroy(
+      {
+        where: { year, month },
+      })
+    .then(() => {
+      models.Upload.create({
+        year,
+        month,
+        sheetType,
+      })
+      .then((newUpload) => {
+        resolve(newUpload);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+    })
+    .catch((err) => {
+      reject(err);
+    });
+  })
+);
 
 const insertOmzet = (year, month, workbook) => (
   new Promise((resolve, reject) => {
@@ -252,13 +277,14 @@ exports.processUpload = (req, res) => {
   workbook.xlsx.read(stream)
       .then(() => {
         const worksheet = workbook.getWorksheet(INIT_WORKSHEET_LABEL);
-        const sheetType = worksheet.getCell(MONTH_CELL).value;
+        const sheetType = worksheet.getCell(SHEET_TYPE_CELL).value;
         const month = worksheet.getCell(MONTH_CELL).value;
         const year = worksheet.getCell(YEAR_CELL).value;
 
         console.log('Month: ', month);
         
         let promises = [];
+        promises.push(insertUpload(year, month, sheetType));
         promises.push(insertOmzet(year, month, workbook));
         promises.push(insertSales(year, month, workbook));
         promises.push(insertPiutang(year, month, workbook));

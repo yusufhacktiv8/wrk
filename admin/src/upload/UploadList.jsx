@@ -170,50 +170,32 @@ class UploadList extends Component {
               size="small"
             >
               <Column
-                title="Code"
-                dataIndex="code"
-                key="code"
-                render={(columnText, record) => {
-                  const reg = new RegExp(this.state.searchText, 'gi');
-                  const match = columnText.match(reg);
-                  return (
-                    <span key={record.code}>
-                      {columnText.split(reg).map((text, i) => (
-                        i > 0 ? [<span key={record.code} style={{ color: '#F50' }}>{match[0]}</span>, text] : text
-                      ))}
-                    </span>
-                  );
-                }}
+                title="Tahun"
+                dataIndex="year"
+                key="year"
               />
               <Column
-                title="Name"
-                dataIndex="name"
-                key="name"
-                render={(columnText, record) => {
-                  const reg = new RegExp(this.state.searchText, 'gi');
-                  const match = columnText.match(reg);
-                  return (
-                    <span key={record.code}>
-                      {columnText.split(reg).map((text, i) => (
-                        i > 0 ? [<span key={record.code} style={{ color: '#F50' }}>{match[0]}</span>, text] : text
-                      ))}
-                    </span>
-                  );
-                }}
+                title="Bulan"
+                dataIndex="month"
+                key="month"
+              />
+              <Column
+                title="Tipe Sheet"
+                dataIndex="sheetType"
               />
               <Column
                 title="Action"
                 key="action"
                 render={(text, record) => (
                   <span>
-                    <Button
+                    {/* <Button
                       icon="ellipsis"
                       size="small"
                       onClick={() => this.openEditWindow(record)}
                       style={{ marginRight: 5 }}
-                    />
+                    /> */}
                     <Popconfirm
-                      title={`Are you sure delete upload ${record.name}`}
+                      title={'Are you sure delete upload ?'}
                       onConfirm={() => this.deleteUpload(record)}
                       okText="Yes" cancelText="No"
                     >

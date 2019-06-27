@@ -1,8 +1,9 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
   var Upload = sequelize.define('Upload', {
-    code: { type: DataTypes.STRING, unique: true },
-    name: DataTypes.STRING
+    month: DataTypes.INTEGER,
+    year: DataTypes.INTEGER,
+    sheetType: DataTypes.STRING
   }, {
     classMethods: {
       associate: function(models) {
