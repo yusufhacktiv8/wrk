@@ -8,6 +8,10 @@ const sendError = (err, res) => {
 
 const OMZETS_KEY = 'OMZETS';
 const SALES_KEY = 'SALES';
+const CREDITS_KEY = 'CREDITS';
+const NET_PROFITS_KEY = 'NET_PROFITS';
+
+const DIVIDER = 1000;
 
 const findOmzets = (year) => (
     new Promise((resolve, reject) => {
@@ -20,7 +24,14 @@ const findOmzets = (year) => (
           .then((omzets) => {
             resolve({
                 key: OMZETS_KEY,
-                result: omzets,
+                result: omzets.map(obj => {
+                  return {
+                    month: obj.month,
+                    plan: obj.plan / DIVIDER,
+                    actual: obj.actual / DIVIDER,
+                    prognosa: obj.prognosa / DIVIDER,
+                  }
+                }),
             });
           })
           .catch((err) => {
@@ -40,7 +51,14 @@ const findSales = (year) => (
       .then((sales) => {
         resolve({
             key: SALES_KEY,
-            result: sales,
+            result: sales.map(obj => {
+              return {
+                month: obj.month,
+                plan: obj.plan / DIVIDER,
+                actual: obj.actual / DIVIDER,
+                prognosa: obj.prognosa / DIVIDER,
+              }
+            }),
         });
       })
       .catch((err) => {
@@ -49,19 +67,78 @@ const findSales = (year) => (
     })
 );
 
-exports.findByMonthYear = function findByMonthYear(req, res) {
+const findCredits = (year) => (
+  new Promise((resolve, reject) => {
+      models.Credit.findAll({
+          where: {
+            year: year || MINIMUM_YEAR,
+          },
+          order: ['year', 'month'],
+        })
+        .then((credits) => {
+          resolve({
+              key: CREDITS_KEY,
+              result: credits.map(obj => {
+                return {
+                  month: obj.month,
+                  pu: obj.pu / DIVIDER,
+                  tb: obj.tb / DIVIDER
+                }
+              }),
+          });
+        })
+        .catch((err) => {
+          reject(err);
+        });
+  })
+);
 
+const findNetProfits = (year) => (
+  new Promise((resolve, reject) => {
+      models.NetProfit.findAll({
+          where: {
+            year: year || MINIMUM_YEAR,
+          },
+          order: ['year', 'month'],
+        })
+        .then((netProfits) => {
+          resolve({
+              key: NET_PROFITS_KEY,
+              result: netProfits.map(obj => {
+                return {
+                  month: obj.month,
+                  rkap: obj.rkap / DIVIDER,
+                  ra: obj.ra / DIVIDER,
+                  ri: obj.ri / DIVIDER,
+                  prognosa: obj.prognosa / DIVIDER,
+                }
+              }),
+          });
+        })
+        .catch((err) => {
+          reject(err);
+        });
+  })
+);
+
+exports.findByMonthYear = function findByMonthYear(req, res) {
     const { month, year } = req.query;
     let promises = [];
     promises.push(findOmzets(year));
     promises.push(findSales(year));
+    promises.push(findCredits(year));
+    promises.push(findNetProfits(year));
     Promise.all(promises)
     .then((results) => {
         const homeData = {};
         const omzets = results.find(o => o.key === OMZETS_KEY);
         const sales = results.find(o => o.key === SALES_KEY);
+        const credits = results.find(o => o.key === CREDITS_KEY);
+        const netProfits = results.find(o => o.key === NET_PROFITS_KEY);
         homeData['omzets'] = omzets.result;
         homeData['sales'] = sales.result;
+        homeData['credits'] = credits.result;
+        homeData['netProfits'] = netProfits.result;
         console.log('------->');
         console.log(homeData);
         
