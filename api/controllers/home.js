@@ -12,6 +12,7 @@ const SALES_KEY = 'SALES';
 const CREDITS_KEY = 'CREDITS';
 const NET_PROFITS_KEY = 'NET_PROFITS';
 const EPC_SUMS_KEY = 'EPC_SUMS';
+const OM_SUMS_KEY = 'OM_SUMS';
 
 const DIVIDER = 1000;
 
@@ -163,6 +164,46 @@ const findEpcSum = (year, month) => (
   })
 );
 
+const findOmSum = (year, month) => (
+  new Promise((resolve, reject) => {
+    models.Project.findAll({
+      where: {
+        projectType: 2,
+      },
+    })
+    .then((projects) => {
+      let projectIds = projects.map((o) => {
+        return o.id;
+      });
+
+      models.ProjectProgress.findAll({
+        where: {
+          year: year || MINIMUM_YEAR,
+          ProjectId: { $in: projectIds },
+        },
+        attributes: ['month', [sequelize.fn('sum', sequelize.col('riProgress')), 'riSum']],
+        group : ['month'],
+        raw: true,
+        order: ['month']
+      })
+      .then((riSums) => {
+        resolve({
+          key: OM_SUMS_KEY,
+          result: riSums.map(obj => {
+            return {
+              month: obj.month,
+              riSum: obj.riSum / DIVIDER,
+            }
+          }),
+        });
+      }).catch((err) => {
+        reject(err);
+      });
+      
+    });
+  })
+);
+
 exports.findByMonthYear = function findByMonthYear(req, res) {
     const { month, year } = req.query;
     let promises = [];
@@ -171,6 +212,7 @@ exports.findByMonthYear = function findByMonthYear(req, res) {
     promises.push(findCredits(year));
     promises.push(findNetProfits(year));
     promises.push(findEpcSum(year));
+    promises.push(findOmSum(year));
     Promise.all(promises)
     .then((results) => {
         const homeData = {};
@@ -179,11 +221,13 @@ exports.findByMonthYear = function findByMonthYear(req, res) {
         const credits = results.find(o => o.key === CREDITS_KEY);
         const netProfits = results.find(o => o.key === NET_PROFITS_KEY);
         const epcSums = results.find(o => o.key === EPC_SUMS_KEY);
+        const omSums = results.find(o => o.key === OM_SUMS_KEY);
         homeData['omzets'] = omzets.result;
         homeData['sales'] = sales.result;
         homeData['credits'] = credits.result;
         homeData['netProfits'] = netProfits.result;
         homeData['epcSums'] = epcSums.result;
+        homeData['omSums'] = omSums.result;
         console.log('------->');
         console.log(homeData);
         
