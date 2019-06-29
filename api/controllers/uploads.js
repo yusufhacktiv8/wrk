@@ -3,6 +3,7 @@ const models = require('../models');
 const moment = require('moment');
 const Constant = require('../Constant');
 const Readable = require('stream').Readable;
+const UploadProject = require('./upload_project.js');
 
 const sendError = (err, res) => {
   res.status(500).send(`Error while doing operation: ${err.name}, ${err.message}`);
@@ -22,6 +23,7 @@ exports.findAll = function findAll(req, res) {
     },
     limit,
     offset,
+    order: ['year', 'month'],
   })
   .then((uploads) => {
     res.json(uploads);
@@ -88,6 +90,7 @@ const PIUTANG_LABEL = 'Piutang';
 const SHEET_TYPE_CELL = 'F5';
 const MONTH_CELL = 'F7';
 const YEAR_CELL = 'F9';
+const PROJECT_CODE_CELL = 'F11';
 
 const OMZET_RA_CELL = 'E7';
 const OMZET_RI_CELL = 'E8';
@@ -188,11 +191,12 @@ const insertSales = (year, month, workbook) => (
   })
 );
 
-const insertPiutang = (year, month, workbook) => (
+const insertPiutang = (year, workbook) => (
   new Promise((resolve, reject) => {
     const worksheet = workbook.getWorksheet(PIUTANG_LABEL);
     let promises = [];
-    for (let i = 5; i <= 5 + 12; i++) {
+    var month = 1;
+    for (let i = 5; i <= 5 + 12; i += 1) {
       let pu = parseFloat(worksheet.getCell(`C${i}`).value);
       let tb = parseFloat(worksheet.getCell(`D${i}`).value);
       
@@ -211,6 +215,7 @@ const insertPiutang = (year, month, workbook) => (
           reject2(err);
         });
       }));
+      month += 1;
     }
     models.Credit.destroy(
       {
@@ -281,14 +286,22 @@ exports.processUpload = (req, res) => {
         const month = worksheet.getCell(MONTH_CELL).value;
         const year = worksheet.getCell(YEAR_CELL).value;
 
-        console.log('Month: ', month);
+        console.log('sheetType: ', `'${sheetType}'`);
         
         let promises = [];
+        
         promises.push(insertUpload(year, month, sheetType));
-        promises.push(insertOmzet(year, month, workbook));
-        promises.push(insertSales(year, month, workbook));
-        promises.push(insertPiutang(year, month, workbook));
-        promises.push(insertNetProfit(year, month, workbook));
+
+        if (sheetType === 'HEAD OFFICE') {
+          promises.push(insertOmzet(year, month, workbook));
+          promises.push(insertSales(year, month, workbook));
+          promises.push(insertPiutang(year, workbook));
+          promises.push(insertNetProfit(year, month, workbook));
+        } else if (sheetType === 'PROJECT') {
+          const projectCode = worksheet.getCell(PROJECT_CODE_CELL).value;
+          promises.push(UploadProject.insertProject(year, month, projectCode, workbook));
+        }
+        
         Promise.all(promises)
         .then(() => {
           res.json({
