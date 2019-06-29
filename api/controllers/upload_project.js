@@ -3,6 +3,20 @@ const models = require('../models');
 
 const PROYEK_DATA_UMUM = 'Proyek Data Umum';
 
+function insertUpdateProjectProgress(values, condition) {
+  return models.ProjectProgress
+      .findOne({ where: condition })
+      .then(function(obj) {
+          if(obj) { // update
+              return obj.update(values);
+          }
+          else { // insert
+              return models.ProjectProgress.create(values);
+          }
+      })
+}
+
+
 exports.insertProject = insertOmzet = (year, month, code, workbook) => (
     new Promise((resolve, reject) => {
       const worksheet = workbook.getWorksheet(PROYEK_DATA_UMUM);
@@ -12,6 +26,15 @@ exports.insertProject = insertOmzet = (year, month, code, workbook) => (
 
       let projectType = worksheet.getCell('E3').value;
       let name = worksheet.getCell('E5').value;
+      let givenBy = worksheet.getCell('E6').value;
+
+      let riProgress = worksheet.getCell('E29').value;
+
+      let projectProgress = {
+        year,
+        month,
+        riProgress,
+      }
       
       models.Project.findOne({
         where: { code },
@@ -20,21 +43,35 @@ exports.insertProject = insertOmzet = (year, month, code, workbook) => (
         if (project != null) {
           models.Project.update({
             name,
+            givenBy,
           },
           {
             where: { code },
           })
-          .then((project) => {
-            resolve(project);
+          .then(() => {
+            insertUpdateProjectProgress({
+              ProjectId: project.id,
+              ...projectProgress,
+            }, { ProjectId: project.id })
+            .then(() => {
+              resolve(project);
+            });
           })
         } else {
           models.Project.create({
             code,
             name,
             projectType: projectType === 'EPC' ? 1 : 2,
+            givenBy,
           })
-          .then((project) => {
-            resolve(project);
+          .then((createdProject) => {
+            insertUpdateProjectProgress({
+              ProjectId: createdProject.id,
+              ...projectProgress,
+            }, { ProjectId: null })
+            .then(() => {
+              resolve(project);
+            });
           })
         }
       })
