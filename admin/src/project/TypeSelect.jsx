@@ -11,7 +11,7 @@ class TypeSelect extends Component {
     this.state = {
       value,
       types: [
-        { id: 1, name: 'Kons & Fab' },
+        { id: 1, name: 'EPC' },
         { id: 2, name: 'O & M' },
       ],
     };
