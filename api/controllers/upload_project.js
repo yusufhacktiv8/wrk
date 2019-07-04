@@ -17,6 +17,7 @@ function insertUpdateProjectProgress(values, condition) {
       })
 }
 
+const DATE_PATTERN = 'DD/MM/YYYY HH:mm:ss';
 
 exports.insertProject = insertOmzet = (year, month, code, workbook) => (
     new Promise((resolve, reject) => {
@@ -31,21 +32,47 @@ exports.insertProject = insertOmzet = (year, month, code, workbook) => (
       let address = worksheet.getCell('E10').value;
       let omzetKontrak = worksheet.getCell('E14').value;
       let startDateStr = worksheet.getCell('E18').value;
-      let startDate = moment(startDateStr, 'DD/MM/YYYY HH:mm:ss').toDate();
-      console.log('------------> ', startDateStr);
-      console.log('------------> ', startDate);
+      let endDateStr = worksheet.getCell('E19').value;
+      let startDate = moment(startDateStr, DATE_PATTERN).toDate();
+      let endDate = moment(endDateStr, DATE_PATTERN).toDate();
+      // console.log('------------> ', startDateStr);
+      // console.log('------------> ', startDate);
       
       let mp = worksheet.getCell('E21').value;
       let keu = worksheet.getCell('E22').value;
       let kom = worksheet.getCell('E23').value;
       let eng = worksheet.getCell('E24').value;
 
+      let ra = worksheet.getCell('E26').value;
+      let ri = worksheet.getCell('E27').value;
+      let raProgress = worksheet.getCell('E28').value;
       let riProgress = worksheet.getCell('E29').value;
+      let pdp = worksheet.getCell('E31').value;
+      let bad = worksheet.getCell('E32').value;
+      let ok = worksheet.getCell('E32').value;
+      let piutangUsaha = worksheet.getCell('E34').value;
+      let piutangRetensi = worksheet.getCell('E35').value;
+      let tagihanBruto = worksheet.getCell('E36').value;
+      let persediaan = worksheet.getCell('E37').value;
+      let cashflow = worksheet.getCell('E38').value;
+      let labaKotor = worksheet.getCell('E39').value;
 
       let projectProgress = {
         year,
         month,
+        ra,
+        ri,
+        raProgress,
         riProgress,
+        pdp,
+        bad,
+        ok,
+        piutangUsaha,
+        piutangRetensi,
+        tagihanBruto,
+        persediaan,
+        cashflow,
+        labaKotor,
       }
       
       models.Project.findOne({
@@ -59,6 +86,7 @@ exports.insertProject = insertOmzet = (year, month, code, workbook) => (
             address,
             omzetKontrak,
             startDate,
+            endDate,
             mp,
             keu,
             kom,
@@ -85,6 +113,7 @@ exports.insertProject = insertOmzet = (year, month, code, workbook) => (
             address,
             omzetKontrak,
             startDate,
+            endDate,
             mp,
             keu,
             kom,
