@@ -1,4 +1,5 @@
 const Excel = require('exceljs');
+const moment = require('moment');
 const models = require('../models');
 
 const PROYEK_DATA_UMUM = 'Proyek Data Umum';
@@ -27,6 +28,17 @@ exports.insertProject = insertOmzet = (year, month, code, workbook) => (
       let projectType = worksheet.getCell('E3').value;
       let name = worksheet.getCell('E5').value;
       let givenBy = worksheet.getCell('E6').value;
+      let address = worksheet.getCell('E10').value;
+      let omzetKontrak = worksheet.getCell('E14').value;
+      let startDateStr = worksheet.getCell('E18').value;
+      let startDate = moment(startDateStr, 'DD/MM/YYYY HH:mm:ss').toDate();
+      console.log('------------> ', startDateStr);
+      console.log('------------> ', startDate);
+      
+      let mp = worksheet.getCell('E21').value;
+      let keu = worksheet.getCell('E22').value;
+      let kom = worksheet.getCell('E23').value;
+      let eng = worksheet.getCell('E24').value;
 
       let riProgress = worksheet.getCell('E29').value;
 
@@ -44,6 +56,13 @@ exports.insertProject = insertOmzet = (year, month, code, workbook) => (
           models.Project.update({
             name,
             givenBy,
+            address,
+            omzetKontrak,
+            startDate,
+            mp,
+            keu,
+            kom,
+            eng,
           },
           {
             where: { code },
@@ -63,6 +82,13 @@ exports.insertProject = insertOmzet = (year, month, code, workbook) => (
             name,
             projectType: projectType === 'EPC' ? 1 : 2,
             givenBy,
+            address,
+            omzetKontrak,
+            startDate,
+            mp,
+            keu,
+            kom,
+            eng,
           })
           .then((createdProject) => {
             insertUpdateProjectProgress({
