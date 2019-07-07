@@ -43,13 +43,13 @@ exports.insertProject = insertOmzet = (year, month, code, workbook) => (
       let kom = worksheet.getCell('E23').value;
       let eng = worksheet.getCell('E24').value;
 
-      let ra = worksheet.getCell('E26').value;
-      let ri = worksheet.getCell('E27').value;
-      let raProgress = worksheet.getCell('E28').value;
-      let riProgress = worksheet.getCell('E29').value;
+      let ra = worksheet.getCell('E28').value;
+      let ri = worksheet.getCell('E29').value;
+      let raProgress = worksheet.getCell('E26').value;
+      let riProgress = worksheet.getCell('E27').value;
       let pdp = worksheet.getCell('E31').value;
       let bad = worksheet.getCell('E32').value;
-      let ok = worksheet.getCell('E32').value;
+      let ok = worksheet.getCell('E33').value;
       let piutangUsaha = worksheet.getCell('E34').value;
       let piutangRetensi = worksheet.getCell('E35').value;
       let tagihanBruto = worksheet.getCell('E36').value;

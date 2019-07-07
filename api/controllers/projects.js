@@ -4,7 +4,7 @@ const sendError = (err, res) => {
   res.status(500).send(`Error while doing operation: ${err.name}, ${err.message}`);
 };
 
-exports.findAll = function findAll(req, res) {
+exports.findAndCountAll = function findAndCountAll(req, res) {
   const searchText = req.query.searchText ? `%${req.query.searchText}%` : '%%';
   const limit = req.query.pageSize ? parseInt(req.query.pageSize, 10) : 10;
   const currentPage = req.query.currentPage ? parseInt(req.query.currentPage, 10) : 1;
@@ -18,6 +18,19 @@ exports.findAll = function findAll(req, res) {
     },
     limit,
     offset,
+  })
+  .then((projects) => {
+    res.json(projects);
+  })
+  .catch((err) => {
+    sendError(err, res);
+  });
+};
+
+exports.findAll = function findAll(req, res) {
+  models.Project.findAll({
+    where: {
+    },
   })
   .then((projects) => {
     res.json(projects);

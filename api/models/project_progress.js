@@ -17,6 +17,11 @@ module.exports = function(sequelize, DataTypes) {
     persediaan: DataTypes.FLOAT,
     labaKotor: DataTypes.FLOAT,
   }, {
+    getterMethods: {
+      deviasi() {
+        return this.ra - this.ri;
+      }
+    },
     classMethods: {
       associate: function(models) {
         // associations can be defined here

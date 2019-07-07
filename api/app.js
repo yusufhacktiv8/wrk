@@ -30,6 +30,7 @@ var smwgItems = require('./routes/smwg_items');
 var uploads = require('./routes/uploads');
 var uploadFile = require('./routes/upload_file');
 var home = require('./routes/home');
+var dashboard = require('./routes/dashboard');
 
 var app = express();
 
@@ -69,6 +70,7 @@ app.use('/api/smwgitems', smwgItems);
 app.use('/api/uploads', uploads);
 app.use('/api/uploadfile', uploadFile);
 app.use('/api/home', home);
+app.use('/api/dashboard', dashboard);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
