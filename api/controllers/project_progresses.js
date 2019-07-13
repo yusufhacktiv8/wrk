@@ -139,7 +139,20 @@ exports.findOneByMonthYear = function findOneByMonthYear(req, res) {
     ],
   })
   .then((result) => {
-    res.json(result);
+    if (result === null) {
+      models.Project.findOne({
+        where: {
+          code,
+        },
+      })
+      .then(project => {
+        res.json({
+          'Project': project,
+        });
+      });
+    } else {
+      res.json(result);
+    }
   })
   .catch((err) => {
     sendError(err, res);

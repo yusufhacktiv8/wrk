@@ -231,16 +231,17 @@ exports.create = function create(req, res) {
     data: dataJSON,
   })
   .then((result) => {
-    insertOmzet(year, month, data)
-    .then(() => {
-      insertSales(year, month, data)
-      .then(() => {
-        insertNetProfit(year, month, data)
-        .then(() => {
-          res.json(result);
-        });
-      });
-    });
+    // insertOmzet(year, month, data)
+    // .then(() => {
+    //   insertSales(year, month, data)
+    //   .then(() => {
+    //     insertNetProfit(year, month, data)
+    //     .then(() => {
+    //       res.json(result);
+    //     });
+    //   });
+    // });
+    res.json(result);
   })
   .catch((err) => {
     sendError(err, res);
@@ -263,16 +264,17 @@ exports.update = function update(req, res) {
       where: { id: req.params.revenueId },
     })
   .then((result) => {
-    insertOmzet(year, month, data)
-    .then(() => {
-      insertSales(year, month, data)
-      .then(() => {
-        insertNetProfit(year, month, data)
-        .then(() => {
-          res.json(result);
-        });
-      });
-    });
+    // insertOmzet(year, month, data)
+    // .then(() => {
+    //   insertSales(year, month, data)
+    //   .then(() => {
+    //     insertNetProfit(year, month, data)
+    //     .then(() => {
+    //       res.json(result);
+    //     });
+    //   });
+    // });
+    res.json(result);
   })
   .catch((err) => {
     sendError(err, res);
