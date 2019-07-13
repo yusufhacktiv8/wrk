@@ -428,8 +428,8 @@ const insertRevenue = (year, month, workbook) => (
       ...getBlockValue(worksheet, 'kontrakDihadapi', 'E', false),
       ...getBlockValue(worksheet, 'penjualan', 'F', false),
       ...getBlockValue(worksheet, 'labaKotor', 'G', false),
-      ...getBlockValue(worksheet, 'pphFnal', 'H', true),
-      ...getBlockValue(worksheet, 'labaKotorSetelahPphFnal', 'I', true),
+      ...getBlockValue(worksheet, 'pphFinal', 'H', true),
+      ...getBlockValue(worksheet, 'labaKotorSetelahPphFinal', 'I', true),
       biayaUsaha: getUnitValue(
         parseFloat(worksheet.getCell('J6').value),
         parseFloat(worksheet.getCell('J7').value),

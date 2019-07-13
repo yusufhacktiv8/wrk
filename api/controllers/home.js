@@ -228,8 +228,6 @@ exports.findByMonthYear = function findByMonthYear(req, res) {
         homeData['netProfits'] = netProfits.result;
         homeData['epcSums'] = epcSums.result;
         homeData['omSums'] = omSums.result;
-        console.log('------->');
-        console.log(homeData);
         
         res.json(homeData);
     })
