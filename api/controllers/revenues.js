@@ -293,3 +293,16 @@ exports.destroy = function destroy(req, res) {
     sendError(err, res);
   });
 };
+
+exports.findOneByMonthYear = function findOneByMonthYear(req, res) {
+  const { month, year } = req.query;
+  models.Revenue.findOne({
+    where: { month, year },
+  })
+  .then((revenue) => {
+    res.json(revenue);
+  })
+  .catch((err) => {
+    sendError(err, res);
+  });
+};
