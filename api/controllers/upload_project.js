@@ -19,12 +19,12 @@ function insertUpdateProjectProgress(values, condition) {
 
 const DATE_PATTERN = 'DD/MM/YYYY HH:mm:ss';
 
-exports.insertProject = insertOmzet = (year, month, code, workbook) => (
+exports.insertProject = (year, month, code, workbook) => (
     new Promise((resolve, reject) => {
       const worksheet = workbook.getWorksheet(PROYEK_DATA_UMUM);
 
       // TODO Replace this after fixing the excel template
-      code = 'PRJ001';
+      // code = 'PRJ001';
 
       let projectType = worksheet.getCell('E3').value;
       let name = worksheet.getCell('E5').value;
@@ -99,7 +99,7 @@ exports.insertProject = insertOmzet = (year, month, code, workbook) => (
             insertUpdateProjectProgress({
               ProjectId: project.id,
               ...projectProgress,
-            }, { ProjectId: project.id })
+            }, { ProjectId: project.id, month, year })
             .then(() => {
               resolve(project);
             });
