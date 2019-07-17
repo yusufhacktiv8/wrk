@@ -141,7 +141,7 @@ const findEpcSum = (year, month) => (
           year: year || MINIMUM_YEAR,
           ProjectId: { $in: projectIds },
         },
-        attributes: ['month', [sequelize.fn('sum', sequelize.col('riProgress')), 'riSum']],
+        attributes: ['month', [sequelize.fn('sum', sequelize.col('ok')), 'riSum']],
         group : ['month'],
         raw: true,
         order: ['month']
@@ -181,7 +181,7 @@ const findOmSum = (year, month) => (
           year: year || MINIMUM_YEAR,
           ProjectId: { $in: projectIds },
         },
-        attributes: ['month', [sequelize.fn('sum', sequelize.col('riProgress')), 'riSum']],
+        attributes: ['month', [sequelize.fn('sum', sequelize.col('ok')), 'riSum']],
         group : ['month'],
         raw: true,
         order: ['month']
