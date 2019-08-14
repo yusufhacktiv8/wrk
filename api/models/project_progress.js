@@ -15,6 +15,7 @@ module.exports = function(sequelize, DataTypes) {
     piutangRetensi: DataTypes.FLOAT,
     tagihanBruto: DataTypes.FLOAT,
     persediaan: DataTypes.FLOAT,
+    persekot: DataTypes.FLOAT,
     labaKotor: DataTypes.FLOAT,
   }, {
     getterMethods: {

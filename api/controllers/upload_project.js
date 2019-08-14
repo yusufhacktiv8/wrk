@@ -55,7 +55,8 @@ exports.insertProject = (year, month, code, workbook) => (
       let tagihanBruto = worksheet.getCell('E36').value;
       let persediaan = worksheet.getCell('E37').value;
       let cashflow = worksheet.getCell('E38').value;
-      let labaKotor = worksheet.getCell('E39').value;
+      let persekot = worksheet.getCell('E39').value;
+      let labaKotor = worksheet.getCell('E40').value;
 
       let projectProgress = {
         year,
@@ -72,6 +73,7 @@ exports.insertProject = (year, month, code, workbook) => (
         tagihanBruto,
         persediaan,
         cashflow,
+        persekot,
         labaKotor,
       }
       
