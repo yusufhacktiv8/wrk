@@ -4,6 +4,7 @@ const moment = require('moment');
 const Constant = require('../Constant');
 const Readable = require('stream').Readable;
 const UploadProject = require('./upload_project.js');
+const UploadScore = require('./upload_score.js');
 
 const sendError = (err, res) => {
   res.status(500).send(`Error while doing operation: ${err.name}, ${err.message}`);
@@ -150,7 +151,7 @@ const insertUpload = (year, month, sheetType) => (
   new Promise((resolve, reject) => {
     models.Upload.destroy(
       {
-        where: { year, month },
+        where: { year, month, sheetType },
       })
     .then(() => {
       models.Upload.create({
@@ -527,6 +528,9 @@ exports.processUpload = (req, res) => {
         } else if (sheetType === 'PROJECT') {
           const projectCode = worksheet.getCell(PROJECT_CODE_CELL).value;
           promises.push(UploadProject.insertProject(year, month, projectCode, workbook));
+        } else if (sheetType === 'SCORE') {
+          const projectCode = worksheet.getCell(PROJECT_CODE_CELL).value;
+          promises.push(UploadScore.insertScores(year, month, projectCode, workbook));
         }
         
         Promise.all(promises)
