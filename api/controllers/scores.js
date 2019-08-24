@@ -4,7 +4,7 @@ const sendError = (err, res) => {
   res.status(500).send(`Error while doing operation: ${err.name}, ${err.message}`);
 };
 
-exports.findOneByMonthYear = function findOneByMonthYear(req, res) {
+exports.findAllByMonthYear = function findAllByMonthYear(req, res) {
     const { year, month, projectCode } = req.query;
   
     if (!year || !month || !projectCode) {
@@ -12,7 +12,7 @@ exports.findOneByMonthYear = function findOneByMonthYear(req, res) {
       return;
     }
   
-    models.Score.findOne({
+    models.Score.findAll({
       where: {
         year,
         month,
@@ -28,20 +28,7 @@ exports.findOneByMonthYear = function findOneByMonthYear(req, res) {
       ],
     })
     .then((result) => {
-      if (result === null) {
-        models.Project.findOne({
-          where: {
-            code: projectCode,
-          },
-        })
-        .then(project => {
-          res.json({
-            'Project': project,
-          });
-        });
-      } else {
-        res.json(result);
-      }
+      res.json(result);
     })
     .catch((err) => {
       sendError(err, res);

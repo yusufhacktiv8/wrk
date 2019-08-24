@@ -4,6 +4,6 @@ const { isAuthorizedAs } = require('../helpers/AuthUtils');
 
 const router = express.Router();
 
-router.get('/bymonthyear', isAuthorizedAs('ADMIN'), ScoreController.findOneByMonthYear);
+router.get('/bymonthyear', isAuthorizedAs('ADMIN'), ScoreController.findAllByMonthYear);
 
 module.exports = router;
