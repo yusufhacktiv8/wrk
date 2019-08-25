@@ -5,9 +5,9 @@ const sendError = (err, res) => {
 };
 
 exports.findAllByMonthYear = function findAllByMonthYear(req, res) {
-    const { year, month, projectCode } = req.query;
+    const { year, month, projectCode, scoreType } = req.query;
   
-    if (!year || !month || !projectCode) {
+    if (!year || !month || !projectCode || !scoreType) {
       res.json([]);
       return;
     }
@@ -16,6 +16,7 @@ exports.findAllByMonthYear = function findAllByMonthYear(req, res) {
       where: {
         year,
         month,
+        scoreType,
       },
       include: [
         {
