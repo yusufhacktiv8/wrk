@@ -509,6 +509,7 @@ exports.processUpload = (req, res) => {
   workbook.xlsx.read(stream)
       .then(() => {
         const worksheet = workbook.getWorksheet(INIT_WORKSHEET_LABEL);
+        // const worksheet = workbook.getWorksheet('COVER');
         const sheetType = worksheet.getCell(SHEET_TYPE_CELL).value;
         const month = worksheet.getCell(MONTH_CELL).value;
         const year = worksheet.getCell(YEAR_CELL).value;
@@ -528,8 +529,9 @@ exports.processUpload = (req, res) => {
         } else if (sheetType === 'PROJECT') {
           const projectCode = worksheet.getCell(PROJECT_CODE_CELL).value;
           promises.push(UploadProject.insertProject(year, month, projectCode, workbook));
-        } else if (sheetType === 'SCORE') {
+        } else if (sheetType === 'SCORECARD') {
           const projectCode = worksheet.getCell(PROJECT_CODE_CELL).value;
+          // const projectCode = 'PRJ001';
           promises.push(UploadScore.insertScores(year, month, projectCode, workbook));
         }
         
