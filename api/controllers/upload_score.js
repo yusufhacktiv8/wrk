@@ -1,7 +1,13 @@
 const Excel = require('exceljs');
 const moment = require('moment');
 const models = require('../models');
+const QMSL_LABEL = 'QMSL';
+const QMSL_SCORE_TYPE = 1;
 const SHE_LABEL = 'SHE';
+const SHE_SCORE_TYPE = 2;
+const R5_LABEL = '5R';
+const R5_SCORE_TYPE = 3;
+
 
 const insertScore = (year, month, projectId, scoreType, description, raScore, riScore) => (
   new Promise((resolve, reject) => {
@@ -22,22 +28,23 @@ const insertScore = (year, month, projectId, scoreType, description, raScore, ri
       });
     }
 ));
-const insertSHE = (year, month, projectId, workbook) => (
+
+const insertScoreDetail = (year, month, projectId, workbook, label, scoreType, startIndex, endIndex) => (
     new Promise((resolve, reject) => {
-      const worksheet = workbook.getWorksheet(SHE_LABEL);
+      const worksheet = workbook.getWorksheet(label);
       const promises = [];
       
       models.Score.destroy(
         {
-          where: { year, month, ProjectId: projectId, scoreType: 1},
+          where: { year, month, ProjectId: projectId, scoreType: scoreType},
         })
       .then((deleteResult) => {
-        for(let i = 7; i <= 13; i += 1) {
+        for(let i = startIndex; i <= endIndex; i += 1) {
             let description = worksheet.getCell(`D${i}`).value;
             let raScore = parseFloat(worksheet.getCell(`F${i}`).value);
             let riScore = parseFloat(worksheet.getCell(`E${i}`).value);
             
-            promises.push(insertScore(year, month, projectId, 1, description, raScore, riScore));
+            promises.push(insertScore(year, month, projectId, scoreType, description, raScore, riScore));
         }
 
         Promise.all(promises)
@@ -61,7 +68,9 @@ exports.insertScores = (year, month, code, workbook) => (
       where: { code },
     })
     .then((project) => {
-      promises.push(insertSHE(year, month, project.id, workbook));
+      promises.push(insertScoreDetail(year, month, project.id, workbook, QMSL_LABEL, QMSL_SCORE_TYPE, 7, 14));
+      promises.push(insertScoreDetail(year, month, project.id, workbook, SHE_LABEL, SHE_SCORE_TYPE, 7, 13));
+      promises.push(insertScoreDetail(year, month, project.id, workbook, R5_LABEL, R5_SCORE_TYPE, 7, 9));
       Promise.all(promises)
         .then((result) => {
             resolve(result);
