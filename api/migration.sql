@@ -1,0 +1,1 @@
+ALTER TABLE public."ProjectProgresses" ADD persekot float8 NULL;
