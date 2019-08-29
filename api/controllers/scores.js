@@ -48,17 +48,19 @@ exports.findAllByMonthYear = function findAllByMonthYear(req, res) {
       },
       attributes: [
         'month', 
+        'scoreType', 
         [sequelize.fn('sum', sequelize.col('raScore')), 'raScoreSum'],
         [sequelize.fn('sum', sequelize.col('riScore')), 'riScoreSum'],
       ],
-      group : ['month'],
+      group : ['month', 'scoreType'],
       raw: true,
-      order: ['month']
+      order: ['month', 'scoreType']
     })
     .then((scoreSums) => {
       res.json(scoreSums.map(obj => {
         return {
           month: obj.month,
+          scoreType: obj.scoreType,
           raScoreSum: obj.raScoreSum / DIVIDER,
           riScoreSum: obj.riScoreSum / DIVIDER,
         }
