@@ -7,7 +7,7 @@ const sendError = (err, res) => {
 
 const DIVIDER = 1000;
 
-exports.findAllByMonthYear = function findAllByMonthYear(req, res) {
+exports.findAllByProjectMonthYear = function findAllByProjectMonthYear(req, res) {
     const { year, month, projectCode, scoreType } = req.query;
   
     if (!year || !month || !projectCode || !scoreType) {
