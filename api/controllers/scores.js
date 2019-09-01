@@ -79,13 +79,6 @@ exports.findAllByProjectMonthYear = function findAllByProjectMonthYear(req, res)
         month,
         scoreType,
       },
-      include: [
-        {
-          model: models.Project,
-          required: true,
-          attributes: [],
-        },
-      ],
       attributes: [
         'ProjectId', 
         [sequelize.fn('sum', sequelize.col('raScore')), 'raScoreSum'],
@@ -96,15 +89,20 @@ exports.findAllByProjectMonthYear = function findAllByProjectMonthYear(req, res)
       order: ['ProjectId']
     })
     .then((scoreSums) => {
-      console.log(scoreSums);
-      
-      res.json(scoreSums.map(obj => {
-        return {
-          projectId: obj.ProjectId,
-          raScoreSum: obj.raScoreSum / DIVIDER,
-          riScoreSum: obj.riScoreSum / DIVIDER,
-        }
-      }));
+      models.Project.findAll({
+        where: {}
+      })
+      .then((projects) => {
+        res.json(scoreSums.map(obj => {
+          const foundProject = projects.find(projectObj => (projectObj.id === obj.ProjectId));
+          return {
+            projectId: obj.ProjectId,
+            projectName: foundProject.name,
+            raScoreSum: obj.raScoreSum / DIVIDER,
+            riScoreSum: obj.riScoreSum / DIVIDER,
+          }
+        }));
+      });
     }).catch((err) => {
       sendError(err, res);
     });
