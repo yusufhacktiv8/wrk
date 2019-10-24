@@ -494,10 +494,23 @@ const insertRevenue = (year, month, workbook) => (
 );
 
 exports.processUpload = (req, res) => {
+  const token = req.headers.token;
+
+  jwt.verify(token, process.env.TOKEN_PASSWORD, function(err, decoded) {
+    if (decoded) {
+      processFileUpload(req, res, decoded);
+    } else {
+      res.send('Unauthorized', 403);
+    }
+  });
+}
+
+const processFileUpload = (req, res, decoded) => {
   if (!req.files) {
     return res.status(400).send('No files were uploaded.');
   }
 
+  const role = decoded.role;
   const docFile = req.files.docFile;
 
   const workbook = new Excel.Workbook();
@@ -521,18 +534,39 @@ exports.processUpload = (req, res) => {
         promises.push(insertUpload(year, month, sheetType));
 
         if (sheetType === 'HEAD OFFICE') {
-          promises.push(insertOmzet(year, month, workbook));
-          promises.push(insertSales(year, month, workbook));
-          promises.push(insertPiutang(year, workbook));
-          promises.push(insertNetProfit(year, month, workbook));
-          promises.push(insertRevenue(year, month, workbook));
+          if (role === 'ADMIN') {
+            promises.push(insertOmzet(year, month, workbook));
+            promises.push(insertSales(year, month, workbook));
+            promises.push(insertPiutang(year, workbook));
+            promises.push(insertNetProfit(year, month, workbook));
+            promises.push(insertRevenue(year, month, workbook));
+          } else {
+             res.send('Unauthorized', 403);
+             return;
+          }
         } else if (sheetType === 'PROJECT') {
-          const projectCode = worksheet.getCell(PROJECT_CODE_CELL).value;
-          promises.push(UploadProject.insertProject(year, month, projectCode, workbook));
+          if (role === 'ADMIN') {
+            const projectCode = worksheet.getCell(PROJECT_CODE_CELL).value;
+            promises.push(UploadProject.insertProject(year, month, projectCode, workbook));
+          } else if (role === 'PROJECT'){
+            const projectCodeJwt = decoded.project;
+            if (projectCodeJwt != undefined && projectCodeJwt === 'projectCode') {
+              const projectCode = worksheet.getCell(PROJECT_CODE_CELL).value;
+              promises.push(UploadProject.insertProject(year, month, projectCode, workbook));
+            }
+          } else {
+            res.send('Unauthorized', 403);
+             return;
+          }
         } else if (sheetType === 'SCORECARD') {
-          const projectCode = worksheet.getCell(PROJECT_CODE_CELL).value;
-          // const projectCode = 'PRJ001';
-          promises.push(UploadScore.insertScores(year, month, projectCode, workbook));
+          if (role === 'ADMIN') {
+            const projectCode = worksheet.getCell(PROJECT_CODE_CELL).value;
+            // const projectCode = 'PRJ001';
+            promises.push(UploadScore.insertScores(year, month, projectCode, workbook));
+          } else {
+            res.send('Unauthorized', 403);
+            return;
+          }
         }
         
         Promise.all(promises)
