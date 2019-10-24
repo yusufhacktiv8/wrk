@@ -4,6 +4,7 @@ import 'antd/dist/antd.css';
 
 import './App.css';
 import Workspace from './workspace/Workspace';
+import WorkspaceProject from './workspace/WorkspaceProject';
 import LoginForm from './login/LoginForm';
 
 const parseJwt = (token) => {
@@ -15,11 +16,22 @@ const parseJwt = (token) => {
 const App = () => {
   const token = window.sessionStorage.getItem('token');
   if (token) {
-    return (
-      <div className="App">
-        <Route path="/" component={Workspace} />
-      </div>
-    );
+    const { role } = parseJwt(token);
+    switch(role) {
+      case 'PROJECT':
+        return (
+          <div className="App">
+            <Route path="/" component={WorkspaceProject} />
+          </div>
+        );
+      default:
+        return (
+          <div className="App">
+            <Route path="/" component={Workspace} />
+          </div>
+        );
+    }
+    
   }
 
   return (
