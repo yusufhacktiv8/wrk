@@ -1,5 +1,5 @@
-import React from 'react';
-import { Form, InputNumber, Row, Col } from 'antd';
+import React from "react";
+import { Form, InputNumber, Row, Col } from "antd";
 
 const FormItem = Form.Item;
 
@@ -10,37 +10,61 @@ const SimpleForm = ({ form, obj = {} }) => {
       <Row gutter={20}>
         <Col span={6}>
           <FormItem label="RKAP">
-            {getFieldDecorator('rkap', {
+            {getFieldDecorator("rkap", {
               initialValue: obj.rkap,
             })(
-              <InputNumber min={-1000000000} max={1000000000} step={0.1} precision={2} style={{ width: '100%' }} />,
+              <InputNumber
+                min={-1000000000}
+                max={1000000000}
+                step={0.1}
+                precision={2}
+                style={{ width: "100%" }}
+              />
             )}
           </FormItem>
         </Col>
         <Col span={6}>
           <FormItem label="Ra s/d saat ini">
-            {getFieldDecorator('ra', {
+            {getFieldDecorator("ra", {
               initialValue: obj.ra,
             })(
-              <InputNumber min={-1000000000} max={1000000000} step={0.1} precision={2} style={{ width: '100%' }} />,
+              <InputNumber
+                min={-1000000000}
+                max={1000000000}
+                step={0.1}
+                precision={2}
+                style={{ width: "100%" }}
+              />
             )}
           </FormItem>
         </Col>
         <Col span={6}>
           <FormItem label="Ri s/d saat ini">
-            {getFieldDecorator('ri', {
+            {getFieldDecorator("ri", {
               initialValue: obj.ri,
             })(
-              <InputNumber min={-1000000000} max={1000000000} step={0.1} precision={2} style={{ width: '100%' }} />,
+              <InputNumber
+                min={-1000000000}
+                max={1000000000}
+                step={0.1}
+                precision={2}
+                style={{ width: "100%" }}
+              />
             )}
           </FormItem>
         </Col>
         <Col span={6}>
           <FormItem label="Prognosa">
-            {getFieldDecorator('prognosa', {
+            {getFieldDecorator("prognosa", {
               initialValue: obj.prognosa,
             })(
-              <InputNumber min={-1000000000} max={1000000000} step={0.1} precision={2} style={{ width: '100%' }} />,
+              <InputNumber
+                min={-1000000000}
+                max={1000000000}
+                step={0.1}
+                precision={2}
+                style={{ width: "100%" }}
+              />
             )}
           </FormItem>
         </Col>
@@ -49,4 +73,5 @@ const SimpleForm = ({ form, obj = {} }) => {
   );
 };
 
-export default Form.create()(SimpleForm);
+// export default (SimpleForm);
+export default SimpleForm;

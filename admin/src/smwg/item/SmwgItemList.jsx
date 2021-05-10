@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Table, Button, Row, Col, Tag, Icon, Spin, message, Popconfirm } from 'antd';
+import { Table, Button, Row, Col, Tag, Spin, message, Popconfirm } from 'antd';
+import { Icon } from '@ant-design/compatible';
 import showError from '../../utils/ShowError';
 import SmwgItemWindow from './SmwgItemWindow';
 

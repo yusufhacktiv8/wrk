@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Dropdown, Icon, Affix, Row, Col } from 'antd';
+import { Layout, Menu, Dropdown, Affix, Row, Col } from 'antd';
+import { Icon } from '@ant-design/compatible';
 import axios from 'axios';
 import { Route, Link } from 'react-router-dom';
 import RolePage from '../role/RolePage';

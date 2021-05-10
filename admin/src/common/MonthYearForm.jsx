@@ -1,7 +1,7 @@
-import React from 'react';
-import { Form, Row, Col } from 'antd';
-import MonthSelect from './MonthSelect';
-import YearSelect from './YearSelect';
+import React from "react";
+import { Form, Row, Col } from "antd";
+import MonthSelect from "./MonthSelect";
+import YearSelect from "./YearSelect";
 
 const FormItem = Form.Item;
 
@@ -12,26 +12,18 @@ const MonthYearForm = ({ form, month, year }) => {
       <Row gutter={20}>
         <Col span={6}>
           <FormItem label="Month">
-            {getFieldDecorator('month', {
+            {getFieldDecorator("month", {
               initialValue: month,
-              rules: [
-                { required: true, message: 'Please input month' },
-              ],
-            })(
-              <MonthSelect />,
-            )}
+              rules: [{ required: true, message: "Please input month" }],
+            })(<MonthSelect />)}
           </FormItem>
         </Col>
         <Col span={6}>
           <FormItem label="Year">
-            {getFieldDecorator('year', {
+            {getFieldDecorator("year", {
               initialValue: year,
-              rules: [
-                { required: true, message: 'Please input year' },
-              ],
-            })(
-              <YearSelect />,
-            )}
+              rules: [{ required: true, message: "Please input year" }],
+            })(<YearSelect />)}
           </FormItem>
         </Col>
       </Row>
@@ -39,4 +31,5 @@ const MonthYearForm = ({ form, month, year }) => {
   );
 };
 
-export default Form.create()(MonthYearForm);
+// export default (MonthYearForm);
+export default MonthYearForm;

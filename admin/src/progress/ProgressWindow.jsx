@@ -1,10 +1,19 @@
-import React, { Component } from 'react';
-import { Modal, Form, InputNumber, Button, Row, Col, Tabs, message } from 'antd';
-import axios from 'axios';
-import showError from '../utils/ShowError';
-import YearSelect from '../common/YearSelect';
-import MonthSelect from '../common/MonthSelect';
-import ProjectSelect from '../project/ProjectSelect';
+import React, { Component } from "react";
+import {
+  Modal,
+  Form,
+  InputNumber,
+  Button,
+  Row,
+  Col,
+  Tabs,
+  message,
+} from "antd";
+import axios from "axios";
+import showError from "../utils/ShowError";
+import YearSelect from "../common/YearSelect";
+import MonthSelect from "../common/MonthSelect";
+import ProjectSelect from "../project/ProjectSelect";
 
 const PROGRESSES_URL = `${process.env.REACT_APP_SERVER_URL}/api/projectprogresses`;
 
@@ -14,7 +23,7 @@ const TabPane = Tabs.TabPane;
 class ProgressWindow extends Component {
   state = {
     saving: false,
-  }
+  };
 
   onSave = () => {
     const { progress, onSaveSuccess, form } = this.props;
@@ -22,28 +31,37 @@ class ProgressWindow extends Component {
       if (err) {
         return;
       }
-      this.setState({
-        saving: true,
-      }, () => {
-        const progressId = progress.id;
-        const axiosObj = progressId ? axios.put(`${PROGRESSES_URL}/${progressId}`, values) : axios.post(PROGRESSES_URL, values);
-        axiosObj.then(() => {
-          message.success('Saving progress success');
-          this.setState({
-            saving: false,
-          }, () => {
-            onSaveSuccess();
-          });
-        })
-          .catch((error) => {
-            this.setState({
-              saving: false,
+      this.setState(
+        {
+          saving: true,
+        },
+        () => {
+          const progressId = progress.id;
+          const axiosObj = progressId
+            ? axios.put(`${PROGRESSES_URL}/${progressId}`, values)
+            : axios.post(PROGRESSES_URL, values);
+          axiosObj
+            .then(() => {
+              message.success("Saving progress success");
+              this.setState(
+                {
+                  saving: false,
+                },
+                () => {
+                  onSaveSuccess();
+                }
+              );
+            })
+            .catch((error) => {
+              this.setState({
+                saving: false,
+              });
+              showError(error);
             });
-            showError(error);
-          });
-      });
+        }
+      );
     });
-  }
+  };
 
   render() {
     const { saving } = this.state;
@@ -56,8 +74,15 @@ class ProgressWindow extends Component {
         title="Project Progress"
         okText="Save"
         footer={[
-          <Button key="cancel" onClick={onCancel}>Cancel</Button>,
-          <Button key="save" type="primary" loading={saving} onClick={this.onSave}>
+          <Button key="cancel" onClick={onCancel}>
+            Cancel
+          </Button>,
+          <Button
+            key="save"
+            type="primary"
+            loading={saving}
+            onClick={this.onSave}
+          >
             Save
           </Button>,
         ]}
@@ -66,40 +91,30 @@ class ProgressWindow extends Component {
           <Row gutter={10}>
             <Col span={24}>
               <FormItem label="Project">
-                {getFieldDecorator('project', {
-                  initialValue: progress.Project ? progress.Project.id : undefined,
-                  rules: [
-                    { required: true, message: 'Please project' },
-                  ],
-                })(
-                  <ProjectSelect />,
-                )}
+                {getFieldDecorator("project", {
+                  initialValue: progress.Project
+                    ? progress.Project.id
+                    : undefined,
+                  rules: [{ required: true, message: "Please project" }],
+                })(<ProjectSelect />)}
               </FormItem>
             </Col>
           </Row>
           <Row gutter={10}>
             <Col span={12}>
               <FormItem label="Year">
-                {getFieldDecorator('year', {
+                {getFieldDecorator("year", {
                   initialValue: progress.year,
-                  rules: [
-                    { required: true, message: 'Please input year' },
-                  ],
-                })(
-                  <YearSelect />,
-                )}
+                  rules: [{ required: true, message: "Please input year" }],
+                })(<YearSelect />)}
               </FormItem>
             </Col>
             <Col span={12}>
               <FormItem label="Month">
-                {getFieldDecorator('month', {
+                {getFieldDecorator("month", {
                   initialValue: progress.month,
-                  rules: [
-                    { required: true, message: 'Please input month' },
-                  ],
-                })(
-                  <MonthSelect />,
-                )}
+                  rules: [{ required: true, message: "Please input month" }],
+                })(<MonthSelect />)}
               </FormItem>
             </Col>
           </Row>
@@ -108,19 +123,31 @@ class ProgressWindow extends Component {
               <Row gutter={10}>
                 <Col span={12}>
                   <FormItem label="Ra Progress">
-                    {getFieldDecorator('raProgress', {
+                    {getFieldDecorator("raProgress", {
                       initialValue: progress.raProgress,
                     })(
-                      <InputNumber min={-1000000000} max={1000000000} step={0.1} precision={2} style={{ width: '100%' }} />,
+                      <InputNumber
+                        min={-1000000000}
+                        max={1000000000}
+                        step={0.1}
+                        precision={2}
+                        style={{ width: "100%" }}
+                      />
                     )}
                   </FormItem>
                 </Col>
                 <Col span={12}>
                   <FormItem label="Ri Progress">
-                    {getFieldDecorator('riProgress', {
+                    {getFieldDecorator("riProgress", {
                       initialValue: progress.riProgress,
                     })(
-                      <InputNumber min={-1000000000} max={1000000000} step={0.1} precision={2} style={{ width: '100%' }} />,
+                      <InputNumber
+                        min={-1000000000}
+                        max={1000000000}
+                        step={0.1}
+                        precision={2}
+                        style={{ width: "100%" }}
+                      />
                     )}
                   </FormItem>
                 </Col>
@@ -128,19 +155,31 @@ class ProgressWindow extends Component {
               <Row gutter={10}>
                 <Col span={12}>
                   <FormItem label="Ra">
-                    {getFieldDecorator('ra', {
+                    {getFieldDecorator("ra", {
                       initialValue: progress.ra,
                     })(
-                      <InputNumber min={-1000000000} max={1000000000} step={0.1} precision={2} style={{ width: '100%' }} />,
+                      <InputNumber
+                        min={-1000000000}
+                        max={1000000000}
+                        step={0.1}
+                        precision={2}
+                        style={{ width: "100%" }}
+                      />
                     )}
                   </FormItem>
                 </Col>
                 <Col span={12}>
                   <FormItem label="Ri">
-                    {getFieldDecorator('ri', {
+                    {getFieldDecorator("ri", {
                       initialValue: progress.ri,
                     })(
-                      <InputNumber min={-1000000000} max={1000000000} step={0.1} precision={2} style={{ width: '100%' }} />,
+                      <InputNumber
+                        min={-1000000000}
+                        max={1000000000}
+                        step={0.1}
+                        precision={2}
+                        style={{ width: "100%" }}
+                      />
                     )}
                   </FormItem>
                 </Col>
@@ -148,19 +187,31 @@ class ProgressWindow extends Component {
               <Row gutter={10}>
                 <Col span={12}>
                   <FormItem label="PDP">
-                    {getFieldDecorator('pdp', {
+                    {getFieldDecorator("pdp", {
                       initialValue: progress.pdp,
                     })(
-                      <InputNumber min={-1000000000} max={1000000000} step={0.1} precision={2} style={{ width: '100%' }} />,
+                      <InputNumber
+                        min={-1000000000}
+                        max={1000000000}
+                        step={0.1}
+                        precision={2}
+                        style={{ width: "100%" }}
+                      />
                     )}
                   </FormItem>
                 </Col>
                 <Col span={12}>
                   <FormItem label="BAD">
-                    {getFieldDecorator('bad', {
+                    {getFieldDecorator("bad", {
                       initialValue: progress.bad,
                     })(
-                      <InputNumber min={-1000000000} max={1000000000} step={0.1} precision={2} style={{ width: '100%' }} />,
+                      <InputNumber
+                        min={-1000000000}
+                        max={1000000000}
+                        step={0.1}
+                        precision={2}
+                        style={{ width: "100%" }}
+                      />
                     )}
                   </FormItem>
                 </Col>
@@ -170,19 +221,31 @@ class ProgressWindow extends Component {
               <Row gutter={10}>
                 <Col span={12}>
                   <FormItem label="OK">
-                    {getFieldDecorator('ok', {
+                    {getFieldDecorator("ok", {
                       initialValue: progress.ok,
                     })(
-                      <InputNumber min={-1000000000} max={1000000000} step={0.1} precision={2} style={{ width: '100%' }} />,
+                      <InputNumber
+                        min={-1000000000}
+                        max={1000000000}
+                        step={0.1}
+                        precision={2}
+                        style={{ width: "100%" }}
+                      />
                     )}
                   </FormItem>
                 </Col>
                 <Col span={12}>
                   <FormItem label="Cashflow">
-                    {getFieldDecorator('cashflow', {
+                    {getFieldDecorator("cashflow", {
                       initialValue: progress.cashflow,
                     })(
-                      <InputNumber min={-1000000000} max={1000000000} step={0.1} precision={2} style={{ width: '100%' }} />,
+                      <InputNumber
+                        min={-1000000000}
+                        max={1000000000}
+                        step={0.1}
+                        precision={2}
+                        style={{ width: "100%" }}
+                      />
                     )}
                   </FormItem>
                 </Col>
@@ -190,19 +253,31 @@ class ProgressWindow extends Component {
               <Row gutter={10}>
                 <Col span={12}>
                   <FormItem label="Piutang Usaha">
-                    {getFieldDecorator('piutangUsaha', {
+                    {getFieldDecorator("piutangUsaha", {
                       initialValue: progress.piutangUsaha,
                     })(
-                      <InputNumber min={-1000000000} max={1000000000} step={0.1} precision={2} style={{ width: '100%' }} />,
+                      <InputNumber
+                        min={-1000000000}
+                        max={1000000000}
+                        step={0.1}
+                        precision={2}
+                        style={{ width: "100%" }}
+                      />
                     )}
                   </FormItem>
                 </Col>
                 <Col span={12}>
                   <FormItem label="Piutang Retensi">
-                    {getFieldDecorator('piutangRetensi', {
+                    {getFieldDecorator("piutangRetensi", {
                       initialValue: progress.piutangRetensi,
                     })(
-                      <InputNumber min={-1000000000} max={1000000000} step={0.1} precision={2} style={{ width: '100%' }} />,
+                      <InputNumber
+                        min={-1000000000}
+                        max={1000000000}
+                        step={0.1}
+                        precision={2}
+                        style={{ width: "100%" }}
+                      />
                     )}
                   </FormItem>
                 </Col>
@@ -210,19 +285,31 @@ class ProgressWindow extends Component {
               <Row gutter={10}>
                 <Col span={12}>
                   <FormItem label="Tagihan Bruto">
-                    {getFieldDecorator('tagihanBruto', {
+                    {getFieldDecorator("tagihanBruto", {
                       initialValue: progress.tagihanBruto,
                     })(
-                      <InputNumber min={-1000000000} max={1000000000} step={0.1} precision={2} style={{ width: '100%' }} />,
+                      <InputNumber
+                        min={-1000000000}
+                        max={1000000000}
+                        step={0.1}
+                        precision={2}
+                        style={{ width: "100%" }}
+                      />
                     )}
                   </FormItem>
                 </Col>
                 <Col span={12}>
                   <FormItem label="Persediaan">
-                    {getFieldDecorator('persediaan', {
+                    {getFieldDecorator("persediaan", {
                       initialValue: progress.persediaan,
                     })(
-                      <InputNumber min={-1000000000} max={1000000000} step={0.1} precision={2} style={{ width: '100%' }} />,
+                      <InputNumber
+                        min={-1000000000}
+                        max={1000000000}
+                        step={0.1}
+                        precision={2}
+                        style={{ width: "100%" }}
+                      />
                     )}
                   </FormItem>
                 </Col>
@@ -232,10 +319,16 @@ class ProgressWindow extends Component {
               <Row gutter={10}>
                 <Col span={12}>
                   <FormItem label="Laba Kotor">
-                    {getFieldDecorator('labaKotor', {
+                    {getFieldDecorator("labaKotor", {
                       initialValue: progress.labaKotor,
                     })(
-                      <InputNumber min={-1000000000} max={1000000000} step={0.1} precision={2} style={{ width: '100%' }} />,
+                      <InputNumber
+                        min={-1000000000}
+                        max={1000000000}
+                        step={0.1}
+                        precision={2}
+                        style={{ width: "100%" }}
+                      />
                     )}
                   </FormItem>
                 </Col>
@@ -248,4 +341,5 @@ class ProgressWindow extends Component {
   }
 }
 
-export default Form.create()(ProgressWindow);
+// export default (ProgressWindow);
+export default ProgressWindow;
