@@ -12,13 +12,11 @@ class NormalLoginForm extends React.Component {
   state = {
     redirectToWorkspace: false,
   };
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        axios
+  handleSubmit = (values) => {
+    axios
           .post(LOGIN_URL, values)
-          .then((response) => {
+      .then((response) => {
+        console.log('--------> ', response.data);
             const token = response.data.token;
             if (typeof Storage !== "undefined") {
               window.sessionStorage.setItem("token", token);
@@ -37,16 +35,44 @@ class NormalLoginForm extends React.Component {
               message.error(errPost.message);
             }
           });
-      }
-    });
+    // e.preventDefault();
+    // this.props.form.validateFields((err, values) => {
+    //   if (!err) {
+    //     axios
+    //       .post(LOGIN_URL, values)
+    //       .then((response) => {
+    //         const token = response.data.token;
+    //         if (typeof Storage !== "undefined") {
+    //           window.sessionStorage.setItem("token", token);
+
+    //           this.setState({
+    //             redirectToWorkspace: true,
+    //           });
+    //         } else {
+    //           message.error("Sorry! No Web Storage support..");
+    //         }
+    //       })
+    //       .catch((errPost) => {
+    //         if (errPost.response) {
+    //           message.error(errPost.response.data);
+    //         } else {
+    //           message.error(errPost.message);
+    //         }
+    //       });
+    //   }
+    // });
   };
   render() {
     if (this.state.redirectToWorkspace) {
       return <Redirect to="/" />;
     }
     // const { getFieldDecorator } = this.props.form;
+
+    const onFinish = (values) => {
+      console.log('Success:', values);
+    };
     return (
-      <Form onSubmit={this.handleSubmit} className="login-form">
+      <Form onSubmit={this.handleSubmit} className="login-form" onFinish={this.handleSubmit}>
         <div
           style={{
             width: 215,
