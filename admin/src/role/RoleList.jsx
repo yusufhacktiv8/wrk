@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Table, Button, Input, Row, Col, message, Popconfirm } from 'antd';
+import { SearchOutlined, PlusOutlined, EllipsisOutlined, DeleteOutlined } from '@ant-design/icons';
 import showError from '../utils/ShowError';
 import RoleWindow from './RoleWindow';
 
@@ -85,7 +86,7 @@ class RoleList extends Component {
       role: record,
       roleWindowVisible: true,
     }, () => {
-      this.roleWindow.resetFields();
+      // this.roleWindow.resetFields();
     });
   }
 
@@ -118,14 +119,14 @@ class RoleList extends Component {
             <span>
               <Button
                 shape="circle"
-                icon="search"
+                icon={<SearchOutlined/>}
                 onClick={this.filterRoles}
                 style={{ marginRight: 15 }}
               />
               <Button
                 type="primary"
                 shape="circle"
-                icon="plus"
+                icon={<PlusOutlined/>}
                 onClick={() => this.openEditWindow({})}
               />
             </span>
@@ -184,7 +185,7 @@ class RoleList extends Component {
                 render={(text, record) => (
                   <span>
                     <Button
-                      icon="ellipsis"
+                      icon={<EllipsisOutlined />}
                       size="small"
                       onClick={() => this.openEditWindow(record)}
                       style={{ marginRight: 5 }}
@@ -196,7 +197,7 @@ class RoleList extends Component {
                     >
                       <Button
                         type="danger"
-                        icon="delete"
+                        icon={<DeleteOutlined/>}
                         size="small"
                       />
                     </Popconfirm>
