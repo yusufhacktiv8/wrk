@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Table, Button, Input, Row, Col, message, Popconfirm } from 'antd';
+import { SearchOutlined, PlusOutlined } from '@ant-design/icons';
 import showError from '../utils/ShowError';
 import RevenueWindow from './RevenueWindow';
 import YearSelect from '../common/YearSelect';
@@ -115,14 +116,14 @@ class RevenueList extends Component {
             <span>
               <Button
                 shape="circle"
-                icon="search"
+                icon={ <SearchOutlined/> }
                 onClick={this.filterRevenues}
                 style={{ marginRight: 15 }}
               />
               <Button
                 type="primary"
                 shape="circle"
-                icon="plus"
+                icon={ <PlusOutlined/> }
                 onClick={() => this.openEditWindow({})}
               />
             </span>
