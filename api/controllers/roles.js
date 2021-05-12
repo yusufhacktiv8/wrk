@@ -1,4 +1,4 @@
-var Sequelize = require("sequelize");
+const { Op } = require("sequelize");
 
 const models = require("../models");
 
@@ -17,9 +17,9 @@ exports.findAll = function findAll(req, res) {
   const offset = (currentPage - 1) * limit;
   models.Role.findAndCountAll({
     where: {
-      $or: [
-        { code: { [Sequelize.Op.iLike]: searchText } },
-        { name: { [Sequelize.Op.iLike]: searchText } },
+      [Op.or]: [
+        { code: { [Op.iLike]: searchText } },
+        { name: { [Op.iLike]: searchText } },
       ],
     },
     limit,
