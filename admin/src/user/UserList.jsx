@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Table, Button, Input, Row, Col, message, Popconfirm } from 'antd';
+import { SearchOutlined, PlusOutlined, EllipsisOutlined, DeleteOutlined, KeyOutlined } from '@ant-design/icons';
 import showError from '../utils/ShowError';
 import UserWindow from './UserWindow';
 import ChangePasswordWindow from './ChangePasswordWindow';
@@ -92,7 +93,7 @@ class UserList extends Component {
       user: record,
       userWindowVisible: true,
     }, () => {
-      this.userWindow.resetFields();
+      // this.userWindow.resetFields();
     });
   }
 
@@ -107,7 +108,7 @@ class UserList extends Component {
       user: record,
       changePasswordWindowVisible: true,
     }, () => {
-      this.changePasswordWindow.resetFields();
+      // this.changePasswordWindow.resetFields();
     });
   }
 
@@ -140,14 +141,14 @@ class UserList extends Component {
             <span>
               <Button
                 shape="circle"
-                icon="search"
+                icon={<SearchOutlined/>}
                 onClick={this.filterUsers}
                 style={{ marginRight: 15 }}
               />
               <Button
                 type="primary"
                 shape="circle"
-                icon="plus"
+                icon={<PlusOutlined/>}
                 onClick={() => this.openEditWindow({})}
               />
             </span>
@@ -210,13 +211,13 @@ class UserList extends Component {
                 render={(text, record) => (
                   <span>
                     <Button
-                      icon="ellipsis"
+                      icon={<EllipsisOutlined />}
                       size="small"
                       onClick={() => this.openEditWindow(record)}
                       style={{ marginRight: 5 }}
                     />
                     <Button
-                      icon="key"
+                      icon={<KeyOutlined />}
                       size="small"
                       onClick={() => this.openChangePasswordWindow(record)}
                       style={{ marginRight: 5 }}
@@ -228,7 +229,7 @@ class UserList extends Component {
                     >
                       <Button
                         type="danger"
-                        icon="delete"
+                        icon={<DeleteOutlined />}
                         size="small"
                       />
                     </Popconfirm>
@@ -245,7 +246,6 @@ class UserList extends Component {
           onCancel={this.closeEditWindow}
           onClose={this.closeEditWindow}
           user={this.state.user}
-          ref={userWindow => (this.userWindow = userWindow)}
         />
 
         <ChangePasswordWindow

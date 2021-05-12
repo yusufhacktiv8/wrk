@@ -16,13 +16,11 @@ class UserWindow extends Component {
     saving: false,
   };
 
-  onSave = () => {
+  formRef = React.createRef();
+
+  onSave = (values) => {
     const { user, onSaveSuccess, form } = this.props;
-    form.validateFields({ force: true }, (err, values) => {
-      if (err) {
-        return;
-      }
-      this.setState(
+    this.setState(
         {
           saving: true,
         },
@@ -48,13 +46,12 @@ class UserWindow extends Component {
             });
         }
       );
-    });
   };
 
   retypePasswordValidator = (rule, value, callback) => {
-    const { form } = this.props;
+    const form = this.formRef.current;
     const passwordFieldError = form.getFieldError("password");
-    if (!passwordFieldError) {
+    if (passwordFieldError.length == 0) {
       const passwordFieldValue = form.getFieldValue("password");
       if (value !== passwordFieldValue) {
         callback("Password is not same");
@@ -65,93 +62,87 @@ class UserWindow extends Component {
 
   render() {
     const { saving } = this.state;
-    const { visible, onCancel, form, user } = this.props;
-    const { getFieldDecorator } = form;
+    const { visible, onCancel, user } = this.props;
+    const { username, name, email, password } = user;
     return (
       <Modal
         wrapClassName="vertical-center-modal"
+        destroyOnClose
         visible={visible}
         title="User"
         okText="Save"
-        footer={[
-          <Button key="cancel" onClick={onCancel}>
-            Cancel
-          </Button>,
-          <Button
-            key="save"
-            type="primary"
-            loading={saving}
-            onClick={this.onSave}
-          >
-            Save
-          </Button>,
-        ]}
+        cancelButtonProps={{onClick: onCancel}}
+        okButtonProps={{form:'user-form', text: 'Save', key: 'save', htmlType: 'submit', loading: saving}}
       >
-        <Form layout="vertical">
-          <FormItem label="Username">
-            {getFieldDecorator("username", {
-              initialValue: user.username,
-              rules: [
+        <Form
+          id='user-form'
+          layout="vertical" onFinish={this.onSave} ref={this.formRef}
+          initialValues={
+            {
+              username,
+              name,
+              role: user.Role ? user.Role.id : undefined,
+              email,
+              password
+            }
+          }
+        >
+          <FormItem name="username" label="Username" rules={
+            [
                 { required: true, message: "Please input username" },
                 { min: 3, message: "Username minimum length is 3 characters" },
-              ],
-            })(<Input maxLength="50" />)}
+              ]
+          }>
+            <Input maxLength="50" />
           </FormItem>
-          <FormItem label="Name">
-            {getFieldDecorator("name", {
-              initialValue: user.name,
-              rules: [
+          <FormItem name="name" label="Name" rules={
+            [
                 { required: true, message: "Please input name" },
                 { min: 3, message: "Name minimum length is 3 characters" },
-              ],
-            })(<Input maxLength="100" />)}
+              ]
+          }>
+            <Input maxLength="100" />
           </FormItem>
           <Row>
             <Col span={12}>
-              <FormItem label="Role">
-                {getFieldDecorator("role", {
-                  initialValue: user.Role ? user.Role.id : undefined,
-                  rules: [{ required: true, message: "Please input role" }],
-                })(<RoleSelect />)}
+              <FormItem name="role" label="Role" rules={
+                [{ required: true, message: "Please input role" }]
+              }>
+                <RoleSelect />
               </FormItem>
             </Col>
           </Row>
           <Row>
             <Col span={12}>
-              <FormItem label="Email">
-                {getFieldDecorator("email", {
-                  initialValue: user.email,
-                  rules: [
-                    { type: "email", message: "The is not valid E-mail" },
-                  ],
-                })(<Input maxLength="100" />)}
+              <FormItem name="email" label="Email" rules={
+                [[{ type: "email", message: "The is not valid E-mail" }]]
+              }>
+                <Input maxLength="100" />
               </FormItem>
             </Col>
           </Row>
           {visible === false || user.id !== undefined ? null : (
-            <FormItem label="Password" style={{ whiteSpace: "normal" }}>
-              {getFieldDecorator("password", {
-                initialValue: "",
-                rules: [
+            <FormItem name="password" label="Password" style={{ whiteSpace: "normal" }} rules={
+              [
                   { required: true, message: "Please input password" },
                   {
                     pattern: strongRegex,
                     message:
                       "Password must contain lowercase, uppercase, numeric and special character. \n Must have minimum 8 characters length.",
                   },
-                ],
-              })(<Input type="password" maxLength="30" />)}
+                ]
+            }>
+              <Input type="password" maxLength="30" />
             </FormItem>
           )}
           {visible === false || user.id !== undefined ? null : (
-            <FormItem label="Retype Password">
-              {getFieldDecorator("retypePassword", {
-                initialValue: "",
-                rules: [
+            <FormItem name="retypePassword" label="Retype Password" rules={
+              [
                   { required: true, message: "Please input retype password" },
                   { validator: this.retypePasswordValidator },
-                ],
-              })(<Input type="password" maxLength="30" />)}
+                ]
+            }>
+              <Input type="password" maxLength="30" />
             </FormItem>
           )}
         </Form>

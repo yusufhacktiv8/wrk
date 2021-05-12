@@ -15,13 +15,9 @@ class ChangePasswordWindow extends Component {
     saving: false,
   };
 
-  onSave = () => {
+  onSave = (values) => {
     const { user, onSaveSuccess, form } = this.props;
-    form.validateFields({ force: true }, (err, values) => {
-      if (err) {
-        return;
-      }
-      this.setState(
+    this.setState(
         {
           saving: true,
         },
@@ -51,7 +47,6 @@ class ChangePasswordWindow extends Component {
             });
         }
       );
-    });
   };
 
   retypePasswordValidator = (rule, value, callback) => {
@@ -68,50 +63,40 @@ class ChangePasswordWindow extends Component {
 
   render() {
     const { saving } = this.state;
-    const { visible, onCancel, user, form } = this.props;
-    const { getFieldDecorator } = form;
+    const { visible, onCancel, user } = this.props;
     return (
       <Modal
         wrapClassName="vertical-center-modal"
+        destroyOnClose
         visible={visible}
         title={`Change Password - ${user.username}`}
         okText="Save"
-        footer={[
-          <Button key="cancel" onClick={onCancel}>
-            Cancel
-          </Button>,
-          <Button
-            key="save"
-            type="primary"
-            loading={saving}
-            onClick={this.onSave}
-          >
-            Save
-          </Button>,
-        ]}
+        cancelButtonProps={{onClick: onCancel}}
+        okButtonProps={{form:'category-editor-form', key: 'save', htmlType: 'submit', loading: saving}}
       >
-        <Form layout="vertical">
-          <FormItem label="New Password" style={{ whiteSpace: "normal" }}>
-            {getFieldDecorator("newPassword", {
-              initialValue: "",
-              rules: [
+        <Form layout="vertical" onFinish={this.onSave}>
+          <FormItem name="newPassword"
+            label="New Password" style={{ whiteSpace: "normal" }}
+            rules={
+              [
                 { required: true, message: "Please input new password" },
                 {
                   pattern: strongRegex,
                   message:
                     "Password must contain lowercase, uppercase, numeric and special character. \n Must have minimum 8 characters length.",
                 },
-              ],
-            })(<Input type="password" maxLength="30" />)}
+              ]
+            }
+          >
+            <Input type="password" maxLength="30" />
           </FormItem>
-          <FormItem label="Retype Password">
-            {getFieldDecorator("retypePassword", {
-              initialValue: "",
-              rules: [
+          <FormItem name="retypePassword" label="Retype Password" rules={
+            [
                 { required: true, message: "Please input retype password" },
                 { validator: this.retypePasswordValidator },
-              ],
-            })(<Input type="password" maxLength="30" />)}
+              ]
+          }>
+            <Input type="password" maxLength="30" />
           </FormItem>
         </Form>
       </Modal>
