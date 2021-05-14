@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Table, Button, Input, Row, Col, message, Popconfirm } from 'antd';
+import { SearchOutlined, PlusOutlined, EllipsisOutlined, DeleteOutlined } from '@ant-design/icons';
 import showError from '../utils/ShowError';
 import ProjectWindow from './ProjectWindow';
 
@@ -85,7 +86,7 @@ class ProjectList extends Component {
       project: record,
       projectWindowVisible: true,
     }, () => {
-      this.projectWindow.resetFields();
+      // this.projectWindow.resetFields();
     });
   }
 
@@ -118,14 +119,14 @@ class ProjectList extends Component {
             <span>
               <Button
                 shape="circle"
-                icon="search"
+                icon={<SearchOutlined/>}
                 onClick={this.filterProjects}
                 style={{ marginRight: 15 }}
               />
               <Button
                 type="primary"
                 shape="circle"
-                icon="plus"
+                icon={<PlusOutlined/>}
                 onClick={() => this.openEditWindow({})}
               />
             </span>
@@ -184,7 +185,7 @@ class ProjectList extends Component {
                 render={(text, record) => (
                   <span>
                     <Button
-                      icon="ellipsis"
+                      icon={<EllipsisOutlined/>}
                       size="small"
                       onClick={() => this.openEditWindow(record)}
                       style={{ marginRight: 5 }}
@@ -196,7 +197,7 @@ class ProjectList extends Component {
                     >
                       <Button
                         type="danger"
-                        icon="delete"
+                        icon={<DeleteOutlined/>}
                         size="small"
                       />
                     </Popconfirm>
