@@ -1,12 +1,21 @@
 import React from "react";
 import { Form, InputNumber, Row, Col } from "antd";
 
-const FormItem = Form.Item;
-
 const ContractForm = ({ form, obj = {} }) => {
-  const { getFieldDecorator } = form;
+  const {
+    rkap1, ra1, ri1, prognosa1,
+    rkap2, ra2, ri2, prognosa2,
+    rkap3, ra3, ri3, prognosa3
+  } = obj;
+  
   return (
-    <Form layout="vertical">
+    <Form layout="vertical"
+      initialValues={{
+        rkap1, ra1, ri1, prognosa1,
+        rkap2, ra2, ri2, prognosa2,
+        rkap3, ra3, ri3, prognosa3
+      }}
+    >
       <Row>
         <Col>
           <span className="hu-header2">Extern</span>
@@ -14,64 +23,48 @@ const ContractForm = ({ form, obj = {} }) => {
       </Row>
       <Row gutter={20}>
         <Col span={6}>
-          <FormItem label="RKAP">
-            {getFieldDecorator("rkap1", {
-              initialValue: obj.rkap1,
-            })(
-              <InputNumber
+          <Form.Item name="rkap1" label="RKAP">
+            <InputNumber
                 min={-1000000000}
                 max={1000000000}
                 step={0.1}
                 precision={2}
                 style={{ width: "100%" }}
               />
-            )}
-          </FormItem>
+          </Form.Item>
         </Col>
         <Col span={6}>
-          <FormItem label="Ra s/d saat ini">
-            {getFieldDecorator("ra1", {
-              initialValue: obj.ra1,
-            })(
-              <InputNumber
+          <Form.Item name="ra1" label="Ra s/d saat ini">
+            <InputNumber
                 min={-1000000000}
                 max={1000000000}
                 step={0.1}
                 precision={2}
                 style={{ width: "100%" }}
               />
-            )}
-          </FormItem>
+          </Form.Item>
         </Col>
         <Col span={6}>
-          <FormItem label="Ri s/d saat ini">
-            {getFieldDecorator("ri1", {
-              initialValue: obj.ri1,
-            })(
-              <InputNumber
+          <Form.Item name="ri1" label="Ri s/d saat ini">
+            <InputNumber
                 min={-1000000000}
                 max={1000000000}
                 step={0.1}
                 precision={2}
                 style={{ width: "100%" }}
               />
-            )}
-          </FormItem>
+          </Form.Item>
         </Col>
         <Col span={6}>
-          <FormItem label="Prognosa">
-            {getFieldDecorator("prognosa1", {
-              initialValue: obj.prognosa1,
-            })(
-              <InputNumber
+          <Form.Item name="prognosa1" label="Prognosa">
+            <InputNumber
                 min={-1000000000}
                 max={1000000000}
                 step={0.1}
                 precision={2}
                 style={{ width: "100%" }}
               />
-            )}
-          </FormItem>
+          </Form.Item>
         </Col>
       </Row>
 
@@ -82,64 +75,48 @@ const ContractForm = ({ form, obj = {} }) => {
       </Row>
       <Row gutter={20}>
         <Col span={6}>
-          <FormItem label="RKAP">
-            {getFieldDecorator("rkap2", {
-              initialValue: obj.rkap2,
-            })(
-              <InputNumber
+          <Form.Item name="rkap2" label="RKAP">
+            <InputNumber
                 min={-1000000000}
                 max={1000000000}
                 step={0.1}
                 precision={2}
                 style={{ width: "100%" }}
               />
-            )}
-          </FormItem>
+          </Form.Item>
         </Col>
         <Col span={6}>
-          <FormItem label="Ra s/d saat ini">
-            {getFieldDecorator("ra2", {
-              initialValue: obj.ra2,
-            })(
-              <InputNumber
+          <Form.Item name="ra2" label="Ra s/d saat ini">
+            <InputNumber
                 min={-1000000000}
                 max={1000000000}
                 step={0.1}
                 precision={2}
                 style={{ width: "100%" }}
               />
-            )}
-          </FormItem>
+          </Form.Item>
         </Col>
         <Col span={6}>
-          <FormItem label="Ri s/d saat ini">
-            {getFieldDecorator("ri2", {
-              initialValue: obj.ri2,
-            })(
-              <InputNumber
+          <Form.Item name="ri2" label="Ri s/d saat ini">
+            <InputNumber
                 min={-1000000000}
                 max={1000000000}
                 step={0.1}
                 precision={2}
                 style={{ width: "100%" }}
               />
-            )}
-          </FormItem>
+          </Form.Item>
         </Col>
         <Col span={6}>
-          <FormItem label="Prognosa">
-            {getFieldDecorator("prognosa2", {
-              initialValue: obj.prognosa2,
-            })(
-              <InputNumber
+          <Form.Item name="prognosa2" label="Prognosa">
+            <InputNumber
                 min={-1000000000}
                 max={1000000000}
                 step={0.1}
                 precision={2}
                 style={{ width: "100%" }}
               />
-            )}
-          </FormItem>
+          </Form.Item>
         </Col>
       </Row>
 
@@ -150,69 +127,52 @@ const ContractForm = ({ form, obj = {} }) => {
       </Row>
       <Row gutter={20}>
         <Col span={6}>
-          <FormItem label="RKAP">
-            {getFieldDecorator("rkap3", {
-              initialValue: obj.rkap3,
-            })(
-              <InputNumber
+          <Form.Item name="rkap3" label="RKAP">
+            <InputNumber
                 min={-1000000000}
                 max={1000000000}
                 step={0.1}
                 precision={2}
                 style={{ width: "100%" }}
               />
-            )}
-          </FormItem>
+          </Form.Item>
         </Col>
         <Col span={6}>
-          <FormItem label="Ra s/d saat ini">
-            {getFieldDecorator("ra3", {
-              initialValue: obj.ra3,
-            })(
-              <InputNumber
+          <Form.Item name="ra3" label="Ra s/d saat ini">
+            <InputNumber
                 min={-1000000000}
                 max={1000000000}
                 step={0.1}
                 precision={2}
                 style={{ width: "100%" }}
               />
-            )}
-          </FormItem>
+          </Form.Item>
         </Col>
         <Col span={6}>
-          <FormItem label="Ri s/d saat ini">
-            {getFieldDecorator("ri3", {
-              initialValue: obj.ri3,
-            })(
-              <InputNumber
+          <Form.Item name="ri3" label="Ri s/d saat ini">
+            <InputNumber
                 min={-1000000000}
                 max={1000000000}
                 step={0.1}
                 precision={2}
                 style={{ width: "100%" }}
               />
-            )}
-          </FormItem>
+          </Form.Item>
         </Col>
         <Col span={6}>
-          <FormItem label="Prognosa">
-            {getFieldDecorator("prognosa3", {
-              initialValue: obj.prognosa3,
-            })(
-              <InputNumber
+          <Form.Item name="prognosa3" label="Prognosa">
+            <InputNumber
                 min={-1000000000}
                 max={1000000000}
                 step={0.1}
                 precision={2}
                 style={{ width: "100%" }}
               />
-            )}
-          </FormItem>
+          </Form.Item>
         </Col>
       </Row>
     </Form>
   );
 };
 
-// export default (ContractForm);
 export default ContractForm;

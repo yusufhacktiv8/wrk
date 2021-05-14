@@ -79,16 +79,16 @@ class RevenueWindow extends Component {
 
   resetFields() {
     if (!this.contractForm1) return;
-    this.monthYearForm.resetFields();
-    this.contractForm1.resetFields();
-    this.contractForm2.resetFields();
-    this.contractForm3.resetFields();
-    this.contractForm4.resetFields();
-    this.contractForm5.resetFields();
-    this.contractForm6.resetFields();
-    this.simpleForm1.resetFields();
-    this.simpleForm2.resetFields();
-    this.simpleForm3.resetFields();
+    // this.monthYearForm.resetFields();
+    // this.contractForm1.resetFields();
+    // this.contractForm2.resetFields();
+    // this.contractForm3.resetFields();
+    // this.contractForm4.resetFields();
+    // this.contractForm5.resetFields();
+    // this.contractForm6.resetFields();
+    // this.simpleForm1.resetFields();
+    // this.simpleForm2.resetFields();
+    // this.simpleForm3.resetFields();
   }
 
   render() {
@@ -101,6 +101,7 @@ class RevenueWindow extends Component {
         wrapClassName="vertical-center-modal"
         width={900}
         visible={visible}
+        destroyOnClose
         title="Hasil Usaha"
         okText="Save"
         footer={[
