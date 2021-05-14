@@ -51,9 +51,11 @@ class ProjectUserWindow extends Component {
         destroyOnClose
         title="User"
         okText="Save"
-        okButtonProps={{form:'category-editor-form', key: 'save', htmlType: 'submit', loading: saving}}
+        cancelButtonProps={{onClick: onCancel}}
+        okButtonProps={{form:'project-user-form', key: 'save', htmlType: 'submit', loading: saving}}
       >
         <Form layout="vertical"
+          id="project-user-form"
           initialValues={{
             user: user.User ? user.User.id : undefined,
             project: user.Project ? user.Project.id : undefined

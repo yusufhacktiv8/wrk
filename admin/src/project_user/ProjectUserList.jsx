@@ -87,7 +87,7 @@ class UserList extends Component {
       user: record,
       userWindowVisible: true,
     }, () => {
-      this.userWindow.resetFields();
+      // this.userWindow.resetFields();
     });
   }
 
