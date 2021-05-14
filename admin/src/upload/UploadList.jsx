@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Table, Button, Input, Row, Col, message, Popconfirm, Upload, notification } from 'antd';
+import { SearchOutlined, PlusOutlined, EllipsisOutlined, DeleteOutlined, UploadOutlined } from '@ant-design/icons';
 import showError from '../utils/ShowError';
 // import UploadWindow from './UploadWindow';
 
@@ -140,14 +141,14 @@ class UploadList extends Component {
             <span>
               <Button
                 shape="circle"
-                icon="search"
+                icon={<SearchOutlined/>}
                 onClick={this.filterUploads}
                 style={{ marginRight: 5 }}
               />
               <Upload {...uploadProps}>
                 <Button
                   shape="circle"
-                  icon="upload"
+                  icon={<UploadOutlined/>}
                   style={{ marginLeft: 10 }}
                 />
               </Upload>

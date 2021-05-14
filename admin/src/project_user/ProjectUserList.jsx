@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Table, Button, Input, Row, Col, message, Popconfirm } from 'antd';
+import { SearchOutlined, PlusOutlined, EllipsisOutlined, DeleteOutlined } from '@ant-design/icons';
 import showError from '../utils/ShowError';
 import ProjectUserWindow from './ProjectUserWindow';
 
@@ -119,14 +120,14 @@ class UserList extends Component {
             <span>
               <Button
                 shape="circle"
-                icon="search"
+                icon={<SearchOutlined/>}
                 onClick={this.filterUsers}
                 style={{ marginRight: 15 }}
               />
               <Button
                 type="primary"
                 shape="circle"
-                icon="plus"
+                icon={<PlusOutlined/>}
                 onClick={() => this.openEditWindow({})}
               />
             </span>
@@ -165,7 +166,7 @@ class UserList extends Component {
                 render={(text, record) => (
                   <span>
                     <Button
-                      icon="ellipsis"
+                      icon={<EllipsisOutlined/>}
                       size="small"
                       onClick={() => this.openEditWindow(record)}
                       style={{ marginRight: 5 }}
@@ -177,7 +178,7 @@ class UserList extends Component {
                     >
                       <Button
                         type="danger"
-                        icon="delete"
+                        icon={<DeleteOutlined/>}
                         size="small"
                       />
                     </Popconfirm>

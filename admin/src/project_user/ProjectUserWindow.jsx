@@ -6,21 +6,14 @@ import ProjectSelect from "../project/ProjectSelect";
 import UserByRoleSelect from "./UserByRoleSelect";
 
 const PROJECT_USERS_URL = `${process.env.REACT_APP_SERVER_URL}/api/projectusers`;
-
-const FormItem = Form.Item;
-
 class ProjectUserWindow extends Component {
   state = {
     saving: false,
   };
 
-  onSave = () => {
-    const { user, onSaveSuccess, form } = this.props;
-    form.validateFields({ force: true }, (err, values) => {
-      if (err) {
-        return;
-      }
-      this.setState(
+  onSave = (values) => {
+    const { user, onSaveSuccess } = this.props;
+    this.setState(
         {
           saving: true,
         },
@@ -46,51 +39,37 @@ class ProjectUserWindow extends Component {
             });
         }
       );
-    });
   };
 
   render() {
     const { saving } = this.state;
-    const { visible, onCancel, form, user } = this.props;
-    const { getFieldDecorator } = form;
+    const { visible, onCancel, user } = this.props;
     return (
       <Modal
         wrapClassName="vertical-center-modal"
         visible={visible}
+        destroyOnClose
         title="User"
         okText="Save"
-        footer={[
-          <Button key="cancel" onClick={onCancel}>
-            Cancel
-          </Button>,
-          <Button
-            key="save"
-            type="primary"
-            loading={saving}
-            onClick={this.onSave}
-          >
-            Save
-          </Button>,
-        ]}
+        okButtonProps={{form:'category-editor-form', key: 'save', htmlType: 'submit', loading: saving}}
       >
-        <Form layout="vertical">
-          <FormItem label="User">
-            {getFieldDecorator("user", {
-              initialValue: user.User ? user.User.id : undefined,
-              rules: [{ required: true, message: "Please input user" }],
-            })(<UserByRoleSelect roleCode="PROJECT" />)}
-          </FormItem>
-          <FormItem label="Project">
-            {getFieldDecorator("project", {
-              initialValue: user.Project ? user.Project.id : undefined,
-              rules: [{ required: true, message: "Please input project" }],
-            })(<ProjectSelect />)}
-          </FormItem>
+        <Form layout="vertical"
+          initialValues={{
+            user: user.User ? user.User.id : undefined,
+            project: user.Project ? user.Project.id : undefined
+          }}
+          onFinish={this.onSave}
+        >
+          <Form.Item name="user" label="User" rules={[{ required: true, message: "Please input user" }]}>
+            <UserByRoleSelect roleCode="PROJECT" />
+          </Form.Item>
+          <Form.Item name="project" label="Project" rules={[{ required: true, message: "Please input project" }]}>
+            <ProjectSelect />
+          </Form.Item>
         </Form>
       </Modal>
     );
   }
 }
 
-// export default (ProjectUserWindow);
 export default ProjectUserWindow;
