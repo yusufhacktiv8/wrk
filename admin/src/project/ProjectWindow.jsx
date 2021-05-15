@@ -25,13 +25,9 @@ class ProjectWindow extends Component {
     saving: false,
   };
 
-  onSave = () => {
-    const { project, onSaveSuccess, form } = this.props;
-    form.validateFields((err, values) => {
-      if (err) {
-        return;
-      }
-      this.setState(
+  onSave = (values) => {
+    const { project, onSaveSuccess } = this.props;
+    this.setState(
         {
           saving: true,
         },
@@ -70,7 +66,6 @@ class ProjectWindow extends Component {
             });
         }
       );
-    });
   };
 
   render() {
@@ -113,6 +108,7 @@ class ProjectWindow extends Component {
             pelut,
             eng
           }}
+          onFinish={this.onSave}
         >
           <Row gutter={10}>
             <Col span={6}>

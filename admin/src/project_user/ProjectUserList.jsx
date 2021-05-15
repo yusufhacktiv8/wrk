@@ -150,15 +150,15 @@ class UserList extends Component {
             >
               <Column
                 title="Username"
-                dataIndex="User.username"
+                dataIndex={['User', 'username']}
               />
               <Column
                 title="Name"
-                dataIndex="User.name"
+                dataIndex={['User', 'name']}
               />
               <Column
                 title="Project"
-                dataIndex="Project.name"
+                dataIndex={['Project', 'name']}
               />
               <Column
                 title="Action"
