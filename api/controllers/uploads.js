@@ -489,17 +489,21 @@ const insertRevenue = (year, month, workbook) =>
       });
   });
 
-// exports.processUpload = (req, res) => {
-//   const token = req.headers.token;
-
-//   jwt.verify(token, process.env.TOKEN_PASSWORD, function(err, decoded) {
-//     if (decoded) {
-//       processFileUpload(req, res, decoded);
-//     } else {
-//       res.send('Unauthorized', 403);
-//     }
-//   });
-// }
+exports.processUpload = (req, res) => {
+  const authorizationHeader = req.headers.authorization;
+  if (authorizationHeader) {
+    const token = authorizationHeader.replace("Bearer ", "");
+    jwt.verify(token, process.env.TOKEN_PASSWORD, (err, decoded) => {
+      if (decoded) {
+        processFileUpload(req, res, decoded);
+      } else {
+        res.send("Unauthorized", 403);
+      }
+    });
+  } else {
+    res.send("Unauthorized", 403);
+  }
+};
 
 const processFileUpload = (req, res, decoded) => {
   if (!req.files) {

@@ -7,7 +7,7 @@ const router = express.Router();
 router.post(
   "/",
   isAuthorizedAsIn(["ADMIN", "PROJECT"]),
-  UploadController.processFileUpload
+  UploadController.processUpload
 );
 
 module.exports = router;
