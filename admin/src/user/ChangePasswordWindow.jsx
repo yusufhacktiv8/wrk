@@ -15,8 +15,10 @@ class ChangePasswordWindow extends Component {
     saving: false,
   };
 
+  formRef = React.createRef();
+
   onSave = (values) => {
-    const { user, onSaveSuccess, form } = this.props;
+    const { user, onSaveSuccess } = this.props;
     this.setState(
         {
           saving: true,
@@ -50,9 +52,9 @@ class ChangePasswordWindow extends Component {
   };
 
   retypePasswordValidator = (rule, value, callback) => {
-    const { form } = this.props;
+    const form = this.formRef.current;
     const newPasswordFieldError = form.getFieldError("newPassword");
-    if (!newPasswordFieldError) {
+    if (newPasswordFieldError.length == 0) {
       const newPasswordFieldValue = form.getFieldValue("newPassword");
       if (value !== newPasswordFieldValue) {
         callback("Password is not same");
@@ -72,9 +74,9 @@ class ChangePasswordWindow extends Component {
         title={`Change Password - ${user.username}`}
         okText="Save"
         cancelButtonProps={{onClick: onCancel}}
-        okButtonProps={{form:'category-editor-form', key: 'save', htmlType: 'submit', loading: saving}}
+        okButtonProps={{form:'change-password-form', key: 'save', htmlType: 'submit', loading: saving}}
       >
-        <Form layout="vertical" onFinish={this.onSave}>
+        <Form id='change-password-form' layout="vertical" onFinish={this.onSave} ref={this.formRef}>
           <FormItem name="newPassword"
             label="New Password" style={{ whiteSpace: "normal" }}
             rules={
@@ -104,5 +106,4 @@ class ChangePasswordWindow extends Component {
   }
 }
 
-// export default (ChangePasswordWindow);
 export default ChangePasswordWindow;
