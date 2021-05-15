@@ -179,7 +179,7 @@ const findOmSum = (year, month) =>
       models.ProjectProgress.findAll({
         where: {
           year: year || MINIMUM_YEAR,
-          ProjectId: { $in: projectIds },
+          ProjectId: { [Op.in]: projectIds },
         },
         attributes: [
           "month",
