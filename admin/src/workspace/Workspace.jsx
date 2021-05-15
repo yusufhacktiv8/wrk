@@ -121,7 +121,7 @@ class Workspace extends Component {
                     }}
                   ><Icon type="pie-chart" />Dashboard</Link>
                 </Menu.Item>
-                <Menu.Item key="revenues">
+                {/* <Menu.Item key="revenues">
                   <Link
                     to="/revenues"
                     onClick={() => {
@@ -130,8 +130,8 @@ class Workspace extends Component {
                       });
                     }}
                   ><Icon type="profile" />Hasil Usaha</Link>
-                </Menu.Item>
-                <Menu.Item key="credits">
+                </Menu.Item> */}
+                {/* <Menu.Item key="credits">
                   <Link
                     to="/credits"
                     onClick={() => {
@@ -140,23 +140,23 @@ class Workspace extends Component {
                       });
                     }}
                   ><Icon type="profile" />Piutang</Link>
-                </Menu.Item>
+                </Menu.Item> */}
                 <SubMenu title={<span><Icon type="profile" />Projects</span>}>
                   <Menu.Item key="projects">
                     <Link to="/projects">Projects</Link>
                   </Menu.Item>
-                  <Menu.Item key="progress">
+                  {/* <Menu.Item key="progress">
                     <Link to="/progress">Project Progress</Link>
-                  </Menu.Item>
+                  </Menu.Item> */}
                 </SubMenu>
-                <SubMenu title={<span><Icon type="profile" />SMWG</span>}>
+                {/* <SubMenu title={<span><Icon type="profile" />SMWG</span>}>
                   <Menu.Item key="smwgtemplates">
                     <Link to="/smwgtemplates">Templates</Link>
                   </Menu.Item>
                   <Menu.Item key="smwgs">
                     <Link to="/smwgs">SMWG</Link>
                   </Menu.Item>
-                </SubMenu>
+                </SubMenu> */}
                 <Menu.Item key="uploads">
                   <Link
                     to="/uploads"

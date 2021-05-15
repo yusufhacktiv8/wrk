@@ -202,7 +202,7 @@ class UploadList extends Component {
                     >
                       <Button
                         type="danger"
-                        icon="delete"
+                        icon={<DeleteOutlined/>}
                         size="small"
                       />
                     </Popconfirm>
