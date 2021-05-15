@@ -1,8 +1,13 @@
-const express = require('express');
-const UploadController = require('../controllers/uploads.js');
+const express = require("express");
+const UploadController = require("../controllers/uploads.js");
+const { isAuthorizedAsIn } = require("../helpers/AuthUtils");
 
 const router = express.Router();
 
-router.post('/', UploadController.processUpload);
+router.post(
+  "/",
+  isAuthorizedAsIn(["ADMIN", "PROJECT"]),
+  UploadController.processFileUpload
+);
 
 module.exports = router;
