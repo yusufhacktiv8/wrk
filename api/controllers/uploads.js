@@ -523,8 +523,10 @@ const processFileUpload = (req, res, decoded) => {
   workbook.xlsx
     .read(stream)
     .then(() => {
-      const worksheet = workbook.getWorksheet(INIT_WORKSHEET_LABEL);
-      // const worksheet = workbook.getWorksheet('COVER');
+      var worksheet = workbook.getWorksheet(INIT_WORKSHEET_LABEL);
+      if (!worksheet) {
+        worksheet = workbook.getWorksheet(INIT_WORKSHEET_LABEL.toUpperCase());
+      }
       const sheetType = worksheet.getCell(SHEET_TYPE_CELL).value;
       const month = worksheet.getCell(MONTH_CELL).value;
       const year = worksheet.getCell(YEAR_CELL).value;
